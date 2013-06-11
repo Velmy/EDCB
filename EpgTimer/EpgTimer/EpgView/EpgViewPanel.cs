@@ -88,6 +88,12 @@ namespace EpgTimer.EpgView
 
                 foreach (ProgramViewItem info in Items)
                 {
+                    // 非表示の番組は変更しない
+                    if (info.Hidden)
+                    {
+                        continue;
+                    }
+
                     // 最低表示dot数よりも小さければ
                     if (info.Height < minimum)
                     {
@@ -211,6 +217,11 @@ namespace EpgTimer.EpgView
                 {
                     List<TextDrawItem> textDrawList = new List<TextDrawItem>();
                     textDrawDict[info] = textDrawList;
+                    if (info.Hidden)
+                    {
+                        info.TitleDrawErr = true;
+                        continue;
+                    }
                     if (info.Height > 2)
                     {
                         if (info.Height < sizeTitle + 3)

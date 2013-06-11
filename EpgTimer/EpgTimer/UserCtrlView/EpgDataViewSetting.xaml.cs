@@ -76,6 +76,8 @@ namespace EpgTimer
                 radioButton_rate.IsChecked = true;
                 radioButton_week.IsChecked = false;
                 radioButton_list.IsChecked = false;
+
+                textBox_filterDuration.Text = "0";
             }
             catch (Exception ex)
             {
@@ -165,6 +167,7 @@ namespace EpgTimer
                     listBox_jyanruView.Items.Add(CommonManager.Instance.ContentKindDictionary[id]);
                 }
             }
+            textBox_filterDuration.Text = setInfo.FilterDuration.ToString();
         }
 
         /// <summary>
@@ -215,6 +218,14 @@ namespace EpgTimer
             else
             {
                 info.SearchMode = false;
+            }
+
+            try
+            {
+                info.FilterDuration = Convert.ToUInt32(textBox_filterDuration.Text);
+            } catch(Exception)
+            {
+                info.FilterDuration = 0;
             }
 
             info.SearchKey.aimaiFlag = searchKey.aimaiFlag;

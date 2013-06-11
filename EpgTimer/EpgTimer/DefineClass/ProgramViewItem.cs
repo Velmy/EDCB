@@ -19,11 +19,13 @@ namespace EpgTimer
             prevItem = null;
             TitleDrawErr = false;
             prevTop = 0;
+            Hidden = false;
         }
         public ProgramViewItem(EpgEventInfo info)
         {
             EventInfo = info;
             TitleDrawErr = false;
+            Hidden = false;
         }
 
         public ProgramViewItem prevItem
@@ -66,6 +68,12 @@ namespace EpgTimer
         }
 
         public bool TitleDrawErr
+        {
+            get;
+            set;
+        }
+
+        public bool Hidden
         {
             get;
             set;

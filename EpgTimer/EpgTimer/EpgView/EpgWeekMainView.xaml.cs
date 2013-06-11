@@ -1736,6 +1736,11 @@ namespace EpgTimer
                     ProgramViewItem viewItem = new ProgramViewItem(eventInfo);
                     viewItem.Height = (eventInfo.durationSec * Settings.Instance.MinHeight) / 60;
                     viewItem.Width = Settings.Instance.ServiceWidth;
+                    if (eventInfo.durationSec / 60 <= setViewInfo.FilterDuration)
+                    {
+                        //指定よりも短い番組を表示しない
+                        viewItem.Hidden = true;
+                    }
                     programList.Add(viewItem);
 
                     //日付列の決定

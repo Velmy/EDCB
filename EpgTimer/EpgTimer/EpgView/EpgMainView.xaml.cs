@@ -1707,6 +1707,11 @@ namespace EpgTimer
                         viewItem.Width = Settings.Instance.ServiceWidth * widthSpan;
                         viewItem.LeftPos = Settings.Instance.ServiceWidth * i;
                         //viewItem.TopPos = (eventInfo.start_time - startTime).TotalMinutes * Settings.Instance.MinHeight;
+                        if (eventInfo.durationSec / 60 <= setViewInfo.FilterDuration)
+                        {
+                            //指定よりも短い番組を表示しない
+                            viewItem.Hidden = true;
+                        }
                         programList.Add(viewItem);
 
                         //日付チェック
@@ -1956,6 +1961,11 @@ namespace EpgTimer
                         viewItem.Width = Settings.Instance.ServiceWidth * widthSpan;
                         viewItem.LeftPos = Settings.Instance.ServiceWidth * i;
                         //viewItem.TopPos = (eventInfo.start_time - startTime).TotalMinutes * Settings.Instance.MinHeight;
+                        if (eventInfo.durationSec / 60 <= setViewInfo.FilterDuration)
+                        {
+                            //指定よりも短い番組を表示しない
+                            viewItem.Hidden = true;
+                        }
                         programList.Add(viewItem);
 
                         //日付チェック

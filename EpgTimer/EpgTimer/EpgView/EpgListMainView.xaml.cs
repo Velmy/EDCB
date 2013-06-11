@@ -471,6 +471,11 @@ namespace EpgTimer
                                     //開始未定は除外
                                     continue;
                                 }
+                                if (eventInfo.durationSec / 60 <= setViewInfo.FilterDuration)
+                                {
+                                    //指定よりも短い番組を除外
+                                    continue;
+                                }
                                 //ジャンル絞り込み
                                 if (this.viewCustContentKindList.Count > 0)
                                 {

@@ -20,6 +20,7 @@ namespace EpgTimer
             StartTimeWeek = 4;
             SearchMode = false;
             SearchKey = new EpgSearchKeyInfo();
+            FilterDuration = 0;
         }
         public String TabName
         {
@@ -66,6 +67,11 @@ namespace EpgTimer
             get;
             set;
         }
+        public UInt32 FilterDuration
+        {
+            get;
+            set;
+        }
 
         public void CopyTo(ref CustomEpgTabInfo dest)
         {
@@ -77,6 +83,7 @@ namespace EpgTimer
             dest.ViewServiceList = ViewServiceList.ToList();
             dest.ViewContentKindList = ViewContentKindList.ToList();
             dest.SearchMode = SearchMode;
+            dest.FilterDuration = FilterDuration;
 
             dest.SearchKey.aimaiFlag = SearchKey.aimaiFlag;
             dest.SearchKey.andKey = SearchKey.andKey;
