@@ -875,7 +875,7 @@ namespace EpgTimer
 
                 if (program.ShortInfo != null)
                 {
-                    key.andKey = program.ShortInfo.event_name;
+                    key.andKey = program.ShortInfo.event_name.Replace("[新]", "").Trim();
                 }
                 Int64 sidKey = ((Int64)program.original_network_id) << 32 | ((Int64)program.transport_stream_id) << 16 | ((Int64)program.service_id);
                 key.serviceList.Add(sidKey);
