@@ -56,44 +56,14 @@ namespace EpgTimer
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, ref uint procId);
-
-        // コールバックメソッドのデリゲート
-        private delegate int EnumerateWindowsCallback(IntPtr hWnd, int lParam);
-
-        [DllImport("user32", EntryPoint = "EnumWindows")]
-        private static extern int EnumWindows(EnumerateWindowsCallback lpEnumFunc, int lParam);
-
         // ShowWindowAsync関数のパラメータに渡す定義値
         private const int SW_RESTORE = 9;  // 画面を元の大きさに戻す
-
-        private static Process target_proc = null;
-        private static IntPtr target_hwnd = IntPtr.Zero;
-
-        // ウィンドウを列挙するためのコールバックメソッド
-        public static int EnumerateWindows(IntPtr hWnd, int lParam)
-        {
-            uint procId = 0;
-            uint result = GetWindowThreadProcessId(hWnd, ref procId);
-            if (procId == target_proc.Id)
-            {
-                // 同じIDで複数のウィンドウが見つかる場合がある
-                // とりあえず最初のウィンドウが見つかった時点で終了する
-                target_hwnd = hWnd;
-                return 0;
-            }
-
-            // 列挙を継続するには0以外を返す必要がある
-            return 1;
-        }
 
         // 外部プロセスのウィンドウを最前面に表示する
         public static void WakeupWindow(Process target)
         {
-            target_proc = target;
-            EnumWindows(new EnumerateWindowsCallback(EnumerateWindows), 0);
-            if (target_hwnd == IntPtr.Zero)
+            IntPtr target_hwnd = target.MainWindowHandle;
+            if (target_hwnd.Equals(IntPtr.Zero))
             {
                 return;
             }
@@ -122,8 +92,11 @@ namespace EpgTimer
                         checkProcess.MainModule.FileName,
                         curProcess.MainModule.FileName, true) == 0)
                     {
-                        // 同じフルパス名のプロセスを取得
-                        return checkProcess;
+                        if (!checkProcess.MainWindowHandle.Equals(IntPtr.Zero))
+                        {
+                            // 同じフルパス名のプロセスを取得
+                            return checkProcess;
+                        }
                     }
                 }
             }
@@ -160,7 +133,9 @@ namespace EpgTimer
                 mutex.Close();
                 mutex = null;
 
-                WakeupWindow(GetPreviousProcess());
+                Process process = GetPreviousProcess();
+                process.WaitForInputIdle();
+                WakeupWindow(process);
 
                 closeFlag = true;
                 Close();
@@ -245,11 +220,6 @@ namespace EpgTimer
 
             try
             {
-                if (Settings.Instance.WakeMin == true)
-                {
-                    this.Visibility = System.Windows.Visibility.Hidden;
-                }
-
                 //ウインドウ位置の復元
                 if (Settings.Instance.MainWndTop != -100)
                 {
@@ -811,13 +781,8 @@ namespace EpgTimer
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized)
-            {
-                this.Visibility = System.Windows.Visibility.Hidden;
-            }
             if (this.WindowState == WindowState.Normal || this.WindowState == WindowState.Maximized)
             {
-                this.Visibility = System.Windows.Visibility.Visible;
                 taskTray.LastViewState = this.WindowState;
                 Settings.Instance.LastWindowState = this.WindowState;
             }
@@ -1145,7 +1110,6 @@ namespace EpgTimer
                 case CtrlCmd.CMD_TIMER_GUI_SHOW_DLG:
                     {
                         pResParam.uiParam = (uint)ErrCode.CMD_SUCCESS;
-                        this.Visibility = System.Windows.Visibility.Visible;
                     }
                     break;
                 case CtrlCmd.CMD_TIMER_GUI_UPDATE_RESERVE:
