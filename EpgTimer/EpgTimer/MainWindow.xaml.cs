@@ -326,9 +326,9 @@ namespace EpgTimer
                 ReserveData item = new ReserveData();
                 if (CommonManager.Instance.DB.GetNextReserve(ref item) == true)
                 {
-                    String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                    String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                     DateTime endTime = item.StartTime + TimeSpan.FromSeconds(item.DurationSecond);
-                    timeView += endTime.ToString("HH:mm:ss");
+                    timeView += endTime.ToString("HH:mm");
                     taskTray.Text = "次の予約：" + item.StationName + " " + timeView + " " + item.Title;
                 }
                 else
@@ -946,9 +946,9 @@ namespace EpgTimer
                             ReserveData item = new ReserveData();
                             if (CommonManager.Instance.DB.GetNextReserve(ref item) == true)
                             {
-                                String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                                String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                                 DateTime endTime = item.StartTime + TimeSpan.FromSeconds(item.DurationSecond);
-                                timeView += endTime.ToString("HH:mm:ss");
+                                timeView += endTime.ToString("HH:mm");
                                 taskTray.Text = "次の予約：" + item.StationName + " " + timeView + " " + item.Title;
                             }
                             else
@@ -974,9 +974,9 @@ namespace EpgTimer
                                 ReserveData item = new ReserveData();
                                 if (CommonManager.Instance.DB.GetNextReserve(ref item) == true)
                                 {
-                                    String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                                    String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                                     DateTime endTime = item.StartTime + TimeSpan.FromSeconds(item.DurationSecond);
-                                    timeView += endTime.ToString("HH:mm:ss");
+                                    timeView += endTime.ToString("HH:mm");
                                     taskTray.Text = "次の予約：" + item.StationName + " " + timeView + " " + item.Title;
                                 }
                                 else
@@ -1470,9 +1470,9 @@ namespace EpgTimer
 
             if (CommonManager.Instance.DB.GetNextReserve(ref item) == true)
             {
-                String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                String timeView = item.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                 DateTime endTime = item.StartTime + TimeSpan.FromSeconds(item.DurationSecond);
-                timeView += endTime.ToString("HH:mm:ss");
+                timeView += endTime.ToString("HH:mm");
                 taskTray.Text = "次の予約：" + item.StationName + " " + timeView + " " + item.Title;
             }
             else

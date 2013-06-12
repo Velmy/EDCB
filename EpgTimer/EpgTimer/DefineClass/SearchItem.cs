@@ -88,7 +88,7 @@ namespace EpgTimer
                 String view = "未定";
                 if (eventInfo != null)
                 {
-                    view = eventInfo.start_time.ToString("yyyy/MM/dd(ddd) HH:mm:ss");
+                    view = eventInfo.start_time.ToString("yyyy/MM/dd(ddd) HH:mm");
                 }
                 return view;
             }

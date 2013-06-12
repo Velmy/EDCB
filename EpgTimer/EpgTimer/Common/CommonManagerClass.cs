@@ -595,9 +595,9 @@ namespace EpgTimer
         public String ConvertReserveText(ReserveData reserveInfo)
         {
             String view = "";
-            view = reserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+            view = reserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
             DateTime endTime = reserveInfo.StartTime + TimeSpan.FromSeconds(reserveInfo.DurationSecond);
-            view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss") + "\r\n";
+            view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm") + "\r\n";
 
             String recMode = "";
             switch (reserveInfo.RecSetting.RecMode)
@@ -799,7 +799,7 @@ namespace EpgTimer
 
                 if (eventInfo.StartTimeFlag == 1)
                 {
-                    basicInfo += eventInfo.start_time.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                    basicInfo += eventInfo.start_time.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                 }
                 else
                 {
@@ -808,7 +808,7 @@ namespace EpgTimer
                 if (eventInfo.DurationFlag == 1)
                 {
                     DateTime endTime = eventInfo.start_time + TimeSpan.FromSeconds(eventInfo.durationSec);
-                    basicInfo += endTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss") + "\r\n";
+                    basicInfo += endTime.ToString("yyyy/MM/dd(ddd) HH:mm") + "\r\n";
                 }
                 else
                 {

@@ -81,9 +81,9 @@ namespace EpgTimer
                 String view = "";
                 if (RecInfo != null)
                 {
-                    view = RecInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                    view = RecInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                     DateTime endTime = RecInfo.StartTime + TimeSpan.FromSeconds(RecInfo.DurationSecond);
-                    view += endTime.ToString("HH:mm:ss");
+                    view += endTime.ToString("HH:mm");
                 }
                 return view;
             }
@@ -198,9 +198,9 @@ namespace EpgTimer
                 String view = "";
                 if (RecInfo != null)
                 {
-                    view = RecInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                    view = RecInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                     DateTime endTime = RecInfo.StartTime + TimeSpan.FromSeconds(RecInfo.DurationSecond);
-                    view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss") + "\r\n";
+                    view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm") + "\r\n";
 
                     view += ServiceName;
                     if (0x7880 <= RecInfo.OriginalNetworkID && RecInfo.OriginalNetworkID <= 0x7FE8)

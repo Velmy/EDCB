@@ -91,9 +91,9 @@ namespace EpgTimer
                 String view = "";
                 if (ReserveInfo != null)
                 {
-                    view = ReserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                    view = ReserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                     DateTime endTime = ReserveInfo.StartTime + TimeSpan.FromSeconds(ReserveInfo.DurationSecond);
-                    view += endTime.ToString("HH:mm:ss");
+                    view += endTime.ToString("HH:mm");
                 }
                 return view;
             }
@@ -241,9 +241,9 @@ namespace EpgTimer
                 if (ReserveInfo != null)
                 {
                     view = CommonManager.Instance.ConvertReserveText(ReserveInfo);
-                    /*                    view = ReserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss ～ ");
+                    /*                    view = ReserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
                                         DateTime endTime = ReserveInfo.StartTime + TimeSpan.FromSeconds(ReserveInfo.DurationSecond);
-                                        view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm:ss") + "\r\n";
+                                        view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm") + "\r\n";
 
                                         view += ServiceName;
                                         if (0x7880 <= ReserveInfo.OriginalNetworkID && ReserveInfo.OriginalNetworkID <= 0x7FE8)
