@@ -12,7 +12,7 @@ class CParseChText4
 {
 public:
 	//チャンネル情報のmultimap
-	//キーはONID<<32 | TSID<<16 | SID
+	//キーはONID<<32 | SID<<16 | TSID
 	//Readのみで追加などの操作はメンバ関数使用すること
 	multimap<LONGLONG, CH_DATA4> chList;
 

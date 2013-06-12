@@ -906,7 +906,7 @@ namespace EpgTimer
                 {
                     key.andKey = program.ShortInfo.event_name;
                 }
-                Int64 sidKey = ((Int64)program.original_network_id) << 32 | ((Int64)program.transport_stream_id) << 16 | ((Int64)program.service_id);
+                UInt64 sidKey = CommonManager.Create64Key(program.original_network_id, program.transport_stream_id, program.service_id);
                 key.serviceList.Add(sidKey);
 
                 dlg.SetSearchDefKey(key);

@@ -58,6 +58,13 @@ namespace EpgTimer
 
                 foreach (ChSet5Item info in ChSet5.Instance.ChList.Values)
                 {
+                    if (info.ServiceType != 0x01)
+                    {
+                        if (info.PartialFlag != 1 ||
+                            info.ONID < 0x7880 || 0x7FE8 < info.ONID)
+                            continue;
+                    }
+
                     ServiceItem item = new ServiceItem();
 
                     item.ServiceInfo = CommonManager.ConvertChSet5To(info);
@@ -154,7 +161,7 @@ namespace EpgTimer
                 {
                     if (info.IsSelected == true)
                     {
-                        key.serviceList.Add((Int64)info.ID);
+                        key.serviceList.Add((UInt64)info.ID);
                     }
                 }
 

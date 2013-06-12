@@ -165,7 +165,7 @@ public:
 	//戻り値：
 	// エラーコード
 	//引数：
-	// service			[IN]ONID<<32 | TSID<<16 | SIDとしたサービスID
+	// service			[IN]ONID<<32 | SID<<16 | TSIDとしたサービスID
 	// val				[OUT]番組情報一覧
 	DWORD SendEnumPgInfo(
 		ULONGLONG service,
@@ -176,7 +176,7 @@ public:
 	//戻り値：
 	// エラーコード
 	//引数：
-	// pgID				[IN]ONID<<48 | TSID<<32 | SID<<16 | EventIDとしたID
+	// pgID				[IN]ONID<<48 | SID<<32 | TSID<<16 | EventIDとしたID
 	// val				[OUT]番組情報
 	DWORD SendGetPgInfo(
 		ULONGLONG pgID,
@@ -314,7 +314,7 @@ public:
 	//戻り値：
 	// エラーコード
 	//引数：
-	// val			[IN]ONID<<32 | TSID<<16 | SIDとしたサービスID
+	// val			[IN]ONID<<32 | SID<<16 | TSIDとしたサービスID
 	// resVal		[OUT]チャンネル情報
 	DWORD SendGetChgChTVTest(
 		ULONGLONG val,

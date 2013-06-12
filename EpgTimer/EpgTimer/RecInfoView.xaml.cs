@@ -395,7 +395,7 @@ namespace EpgTimer
                 RecInfoItem item = listView_recinfo.SelectedItem as RecInfoItem;
 
                 key.andKey = item.RecInfo.Title;
-                Int64 sidKey = ((Int64)item.RecInfo.OriginalNetworkID) << 32 | ((Int64)item.RecInfo.TransportStreamID) << 16 | ((Int64)item.RecInfo.ServiceID);
+                UInt64 sidKey = CommonManager.Create64Key(item.RecInfo.OriginalNetworkID, item.RecInfo.TransportStreamID, item.RecInfo.ServiceID);
                 key.serviceList.Add(sidKey);
 
                 dlg.SetSearchDefKey(key);

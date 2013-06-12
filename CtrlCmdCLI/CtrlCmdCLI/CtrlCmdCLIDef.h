@@ -837,7 +837,7 @@ namespace Def {
 		/// <summary>
 		/// 検索対象のサービス一覧
 		/// </summary>
-		property List<Int64>^ serviceList;
+		property List<UInt64>^ serviceList;
 		/// <summary>
 		/// 映像絞り込み
 		/// </summary>
@@ -878,7 +878,7 @@ namespace Def {
 			regExpFlag = 0;
 			contentList = gcnew List<EpgContentData^>();
 			dateList = gcnew List<EpgSearchDateInfo^>();
-			serviceList = gcnew List<Int64>();
+			serviceList = gcnew List<UInt64>();
 			videoList = gcnew List<UInt16>();
 			audioList = gcnew List<UInt16>();
 			aimaiFlag = 0;

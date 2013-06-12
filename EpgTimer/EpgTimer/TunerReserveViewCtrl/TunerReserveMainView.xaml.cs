@@ -488,7 +488,7 @@ namespace EpgTimer
                 {
                     key.andKey = reserve.Title;
                 }
-                Int64 sidKey = ((Int64)reserve.OriginalNetworkID) << 32 | ((Int64)reserve.TransportStreamID) << 16 | ((Int64)reserve.ServiceID);
+                UInt64 sidKey = CommonManager.Create64Key(reserve.OriginalNetworkID, reserve.TransportStreamID, reserve.ServiceID);
                 key.serviceList.Add(sidKey);
 
                 dlg.SetSearchDefKey(key);

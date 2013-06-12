@@ -741,7 +741,7 @@ namespace EpgTimer
                 {
                     if (info.ServiceName.Equals(item.ServiceName))
                     {
-                        defKey.serviceList.Add((long)info.ID);
+                        defKey.serviceList.Add(info.ID);
                     }
                 }
                 searchKeyView.SetSearchKey(defKey);

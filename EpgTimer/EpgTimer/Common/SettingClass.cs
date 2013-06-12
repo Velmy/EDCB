@@ -1531,7 +1531,7 @@ namespace EpgTimer
             {
                 defKey.dateList.Add(info.DateInfo);
             }
-            foreach (Int64 info in Settings.Instance.SearchKeyServiceList)
+            foreach (UInt64 info in Settings.Instance.SearchKeyServiceList)
             {
                 defKey.serviceList.Add(info);
             }

@@ -456,13 +456,13 @@ namespace EpgTimer
 
         public static UInt64 Create64Key(UInt16 ONID, UInt16 TSID, UInt16 SID)
         {
-            UInt64 key = ((UInt64)ONID) << 32 | ((UInt64)TSID) << 16 | (UInt64)SID;
+            UInt64 key = ((UInt64)ONID) << 32 | ((UInt64)SID) << 16 | (UInt64)TSID;
             return key;
         }
 
         public static UInt64 Create64PgKey(UInt16 ONID, UInt16 TSID, UInt16 SID, UInt16 EventID)
         {
-            UInt64 key = ((UInt64)ONID) << 48 | ((UInt64)TSID) << 32 | ((UInt64)SID) << 16 | (UInt64)EventID;
+            UInt64 key = ((UInt64)ONID) << 48 | ((UInt64)SID) << 32 | ((UInt64)TSID) << 16 | (UInt64)EventID;
             return key;
         }
 
@@ -789,9 +789,9 @@ namespace EpgTimer
             string extInfo = "";
             if (eventInfo != null)
             {
-                UInt64 key = ((UInt64)eventInfo.original_network_id) << 32 |
-                    ((UInt64)eventInfo.transport_stream_id) << 16 |
-                    ((UInt64)eventInfo.service_id);
+                UInt64 key = CommonManager.Create64Key(eventInfo.original_network_id,
+                    eventInfo.transport_stream_id,
+                    eventInfo.service_id);
                 if (ChSet5.Instance.ChList.ContainsKey(key) == true)
                 {
                     basicInfo += ChSet5.Instance.ChList[key].ServiceName + "(" + ChSet5.Instance.ChList[key].NetworkName + ")" + "\r\n";
@@ -966,9 +966,9 @@ namespace EpgTimer
                         extInfo += "イベントリレーあり：\r\n";
                         foreach (EpgEventData info in eventInfo.EventRelayInfo.eventDataList)
                         {
-                            key = ((UInt64)info.original_network_id) << 32 |
-                                ((UInt64)info.transport_stream_id) << 16 |
-                                ((UInt64)info.service_id);
+                            key = CommonManager.Create64Key(info.original_network_id,
+                                info.transport_stream_id,
+                                info.service_id);
                             if (ChSet5.Instance.ChList.ContainsKey(key) == true)
                             {
                                 extInfo += ChSet5.Instance.ChList[key].ServiceName + "(" + ChSet5.Instance.ChList[key].NetworkName + ")" + " ";

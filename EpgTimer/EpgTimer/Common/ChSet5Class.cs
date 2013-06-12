@@ -69,7 +69,7 @@ namespace EpgTimer
                         }
                         finally
                         {
-                            UInt64 key = ((UInt64)item.ONID) << 32 | ((UInt64)item.TSID) << 16 | ((UInt64)item.SID);
+                            UInt64 key = CommonManager.Create64Key(item.ONID, item.TSID, item.SID);
                             Instance.ChList.Add(key, item);
                         }
                     }
@@ -125,7 +125,8 @@ namespace EpgTimer
         {
             get
             {
-                UInt64 key = ((UInt64)ONID)<<32 | ((UInt64)TSID)<<16 | (UInt64)SID;
+                UInt64 key = CommonManager.Create64Key(ONID, TSID, SID);
+                
                 return key;
             }
         }

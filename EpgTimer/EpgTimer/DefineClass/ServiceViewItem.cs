@@ -20,7 +20,7 @@ namespace EpgTimer
         {
             get
             {
-                UInt64 key = ((UInt64)ServiceInfo.ONID) << 32 | ((UInt64)ServiceInfo.TSID) << 16 | (UInt64)ServiceInfo.SID;
+                UInt64 key = CommonManager.Create64Key(ServiceInfo.ONID, ServiceInfo.TSID, ServiceInfo.SID);
                 return key;
             }
         }

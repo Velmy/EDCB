@@ -13,8 +13,8 @@ LONGLONG _Create64Key( WORD OriginalNetworkID, WORD TransportStreamID, WORD Serv
 {
 	LONGLONG Key = 
 		(((LONGLONG)(OriginalNetworkID&0x0000FFFF))<<32) |
-		(((LONGLONG)(TransportStreamID&0x0000FFFF))<<16) |
-		((LONGLONG)(ServiceID&0x0000FFFF));
+		(((LONGLONG)(ServiceID&0x0000FFFF))<<16) |
+		((LONGLONG)(TransportStreamID&0x0000FFFF));
 	return Key;
 }
 
@@ -22,8 +22,8 @@ LONGLONG _Create64Key2( WORD OriginalNetworkID, WORD TransportStreamID, WORD Ser
 {
 	LONGLONG Key = 
 		(((LONGLONG)(OriginalNetworkID & 0x0000FFFF))<<48) |
-		(((LONGLONG)(TransportStreamID & 0x0000FFFF))<<32) |
-		(((LONGLONG)(ServiceID & 0x0000FFFF))<<16) |
+		(((LONGLONG)(ServiceID & 0x0000FFFF))<<32) |
+		(((LONGLONG)(TransportStreamID & 0x0000FFFF))<<16) |
 		((LONGLONG)(EventID & 0x0000FFFF));
 	return Key;
 }

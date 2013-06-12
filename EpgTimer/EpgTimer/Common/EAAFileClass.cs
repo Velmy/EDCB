@@ -80,14 +80,14 @@ namespace EpgTimer
                                 }
                             }
                             //対象サービス
-                            searchKey.serviceList = new List<long>();
+                            searchKey.serviceList = new List<UInt64>();
                             if (list[6].Length > 0)
                             {
                                 valBuff = list[6].Split(',');
                                 foreach (string val in valBuff)
                                 {
-                                    Int64 addItem = 0;
-                                    addItem = Convert.ToInt64(val, 16);
+                                    UInt64 addItem = 0;
+                                    addItem = Convert.ToUInt64(val, 16);
 
                                     searchKey.serviceList.Add(addItem);
                                 }
