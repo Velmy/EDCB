@@ -939,6 +939,7 @@ namespace EpgTimer
                             reserveView.UpdateReserveData();
                             epgView.UpdateReserveData();
                             tunerReserveView.UpdateReserveData();
+                            UpdateReserveData();
                             autoAddView.UpdateAutoAddInfo();
                             recInfoView.UpdateInfo();
 
@@ -967,6 +968,7 @@ namespace EpgTimer
                                 reserveView.UpdateReserveData();
                                 epgView.UpdateReserveData();
                                 tunerReserveView.UpdateReserveData();
+                                UpdateReserveData();
                                 autoAddView.UpdateAutoAddInfo();
                                 recInfoView.UpdateInfo();
 
@@ -1296,6 +1298,7 @@ namespace EpgTimer
                         reserveView.UpdateReserveData();
                         epgView.UpdateReserveData();
                         tunerReserveView.UpdateReserveData();
+                        UpdateReserveData();
                     }
                     break;
                 case UpdateNotifyItem.RecInfo:
@@ -1504,5 +1507,33 @@ namespace EpgTimer
             return button1;
         }
 
+        /// <summary>
+        /// 予約情報の更新通知
+        /// </summary>
+        public void UpdateReserveData()
+        {
+            bool ReserveError = false;
+            bool ReserveWarning = false;
+            foreach (ReserveData info in CommonManager.Instance.DB.ReserveList.Values)
+            {
+                if (info.OverlapMode == 1) ReserveWarning = true;
+                if (info.OverlapMode == 2) ReserveError = true;
+            }
+            icon_Error.Visibility = System.Windows.Visibility.Collapsed;
+            icon_Warning.Visibility = System.Windows.Visibility.Collapsed;
+            if (ReserveError)
+            {
+                icon_Error.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (ReserveWarning)
+            {
+                icon_Warning.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            UpdateReserveData();
+        }
     }
 }
