@@ -94,6 +94,9 @@
     <Compile Include="..\..\EpgTimer\EpgTimer\Common\GridViewSorter.cs">
       <Link>Common\GridViewSorter.cs</Link>
     </Compile>
+    <Compile Include="..\..\EpgTimer\EpgTimer\Common\NumericSortClass.cs">
+      <Link>Common\NumericSortClass.cs</Link>
+    </Compile>
     <Compile Include="..\..\EpgTimer\EpgTimer\Common\NWConnectClass.cs">
       <Link>Common\NWConnectClass.cs</Link>
     </Compile>

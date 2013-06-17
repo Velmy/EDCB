@@ -122,12 +122,7 @@ namespace EpgTimer {
                 PropertyInfo pi1 = typeof(T).GetProperty(this.sortBy);
                 string val1 = pi1.GetValue(x1, null).ToString();
                 string val2 = pi1.GetValue(x2, null).ToString();
-                double d1, d2;
-                if (double.TryParse(val1, out d1) && double.TryParse(val2, out d2)) {   // 数値？
-                    cmprResult1 = d1.CompareTo(d2);
-                } else {
-                    cmprResult1 = val1.CompareTo(val2);
-                }
+                cmprResult1 = NumericSortClass<T>.NumericCompare(val1, val2);
                 // 降順
                 if (this.direction == ListSortDirection.Descending) {
                     cmprResult1 *= -1;

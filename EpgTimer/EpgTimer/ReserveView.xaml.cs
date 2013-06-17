@@ -278,21 +278,46 @@ namespace EpgTimer
         {
             try
             {
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_reserve.DataContext);
+                ListCollectionView dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(listView_reserve.DataContext);
 
-                dataView.SortDescriptions.Clear();
+                Func<String, Func<ReserveItem, Object>> h2d = header =>
+                {
+                    switch (header)
+                    {
+                        case "StartTime":
+                            return x => x.StartTime;
+                        case "NetworkName":
+                            return x => x.NetworkName;
+                        case "ServiceName":
+                            return x => x.ServiceName;
+                        case "EventName":
+                            return x => x.EventName;
+                        case "RecMode":
+                            return x => x.RecMode;
+                        case "Priority":
+                            return x => x.Priority;
+                        case "Tuijyu":
+                            return x => x.Tuijyu;
+                        case "Comment":
+                            return x => x.Comment;
+                        case "RecFileName":
+                            return x => x.RecFileName;
+                        case "Pittari":
+                            return x => x.Pittari;
+                    }
+                    return x => x.EventName;
+                };
 
-                SortDescription sd = new SortDescription(sortBy, direction);
-                dataView.SortDescriptions.Add(sd);
+                var sortby = new List<NumericSortClass<ReserveItem>.SortDesc>();
+                sortby.Add(new NumericSortClass<ReserveItem>.SortDesc(h2d(sortBy), direction));
                 if (_lastHeaderClicked2 != null)
                 {
                     if (String.Compare(sortBy, _lastHeaderClicked2) != 0)
                     {
-                        SortDescription sd2 = new SortDescription(_lastHeaderClicked2, _lastDirection2);
-                        dataView.SortDescriptions.Add(sd2);
+                        sortby.Add(new NumericSortClass<ReserveItem>.SortDesc(h2d(_lastHeaderClicked2), _lastDirection2));
                     }
                 }
-                dataView.Refresh();
+                dataView.CustomSort = new NumericSortClass<ReserveItem>(sortby);
 
                 Settings.Instance.ResColumnHead = sortBy;
                 Settings.Instance.ResSortDirection = direction;

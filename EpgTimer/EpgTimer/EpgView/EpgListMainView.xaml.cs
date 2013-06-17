@@ -1229,21 +1229,36 @@ namespace EpgTimer
         {
             try
             {
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_event.ItemsSource);
+                ListCollectionView dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(listView_event.ItemsSource);
 
-                dataView.SortDescriptions.Clear();
+                Func<String, Func<SearchItem, Object>> h2d = header =>
+                {
+                    switch (header)
+                    {
+                        case "StartTime":
+                            return x => x.StartTime;
+                        case "NetworkName":
+                            return x => x.NetworkName;
+                        case "ServiceName":
+                            return x => x.ServiceName;
+                        case "EventName":
+                            return x => x.EventName;
+                        case "Reserved":
+                            return x => x.Reserved;
+                    }
+                    return x => x.EventName;
+                };
 
-                SortDescription sd = new SortDescription(sortBy, direction);
-                dataView.SortDescriptions.Add(sd);
+                var sortby = new List<NumericSortClass<SearchItem>.SortDesc>();
+                sortby.Add(new NumericSortClass<SearchItem>.SortDesc(h2d(sortBy), direction));
                 if (_lastHeaderClicked2 != null)
                 {
                     if (String.Compare(sortBy, _lastHeaderClicked2) != 0)
                     {
-                        SortDescription sd2 = new SortDescription(_lastHeaderClicked2, _lastDirection2);
-                        dataView.SortDescriptions.Add(sd2);
+                        sortby.Add(new NumericSortClass<SearchItem>.SortDesc(h2d(_lastHeaderClicked2), _lastDirection2));
                     }
                 }
-                dataView.Refresh();
+                dataView.CustomSort = new NumericSortClass<SearchItem>(sortby);
 
                 //Settings.Instance.ResColumnHead = sortBy;
                 //Settings.Instance.ResSortDirection = direction;

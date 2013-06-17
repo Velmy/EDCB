@@ -156,25 +156,42 @@ namespace EpgTimer
         {
             try
             {
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_recinfo.DataContext);
+                ListCollectionView dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(listView_recinfo.DataContext);
 
-                dataView.SortDescriptions.Clear();
-
-                SortDescription sd = new SortDescription(sortBy, direction);
-                dataView.SortDescriptions.Add(sd);
-                if (_lastHeaderClicked2 != null)
+                Func<String, Func<RecInfoItem, Object>> h2d = header =>
                 {
-                    if (String.Compare(sortBy, _lastHeaderClicked2) != 0)
+                    switch (header)
                     {
-                        SortDescription sd2 = new SortDescription(_lastHeaderClicked2, _lastDirection2);
-                        dataView.SortDescriptions.Add(sd2);
+                        case "IsProtect":
+                            return x => x.IsProtect ? 1 : 0;
+                        case "StartTime":
+                            return x => x.StartTime;
+                        case "NetworkName":
+                            return x => x.NetworkName;
+                        case "ServiceName":
+                            return x => x.ServiceName;
+                        case "EventName":
+                            return x => x.EventName;
+                        case "Drops":
+                            return x => Int32.Parse(x.Drops);
+                        case "Scrambles":
+                            return x => Int32.Parse(x.Scrambles);
+                        case "Result":
+                            return x => x.Result;
+                        case "RecFilePath":
+                            return x => x.RecFilePath;
                     }
-                }
-                dataView.Refresh();
+                    return x => x.EventName;
+                };
+
+                var sortby = new List<NumericSortClass<RecInfoItem>.SortDesc>();
+                sortby.Add(new NumericSortClass<RecInfoItem>.SortDesc(h2d(sortBy), direction));
+                if (_lastHeaderClicked2 != null)
+                    sortby.Add(new NumericSortClass<RecInfoItem>.SortDesc(h2d(_lastHeaderClicked2), _lastDirection2));
+                dataView.CustomSort = new NumericSortClass<RecInfoItem>(sortby);
 
                 Settings.Instance.RecInfoColumnHead = sortBy;
                 Settings.Instance.RecInfoSortDirection = direction;
-
             }
             catch (Exception ex)
             {
@@ -303,7 +320,7 @@ namespace EpgTimer
                     MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
                 }), null);
                 return false;
-            } 
+            }
             return true;
         }
 

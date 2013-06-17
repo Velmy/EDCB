@@ -99,6 +99,7 @@
     <Compile Include="Common\GridViewSorter.cs" />
     <Compile Include="DefineClass\CoopServerInfo.cs" />
     <Compile Include="DefineClass\ListColumnInfo.cs" />
+    <Compile Include="Common\NumericSortClass.cs" />
     <Compile Include="PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
