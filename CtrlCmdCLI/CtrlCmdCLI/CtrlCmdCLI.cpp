@@ -1776,6 +1776,27 @@ UInt32 CtrlCmdUtil::SendNwTVMode(
 }
 
 /// <summary>
+/// 録画ファイルのネットワークパスを取得
+/// </summary>
+/// <param name="path">[IN]ファイルパス</param>
+/// <param name="resVal">[OUT]ネットワークパス</param>
+UInt32 CtrlCmdUtil::SendGetRecFileNetworkPath(
+	String^ val,
+	String^% resVal
+	)
+{
+	pin_ptr<const wchar_t> valPin = PtrToStringChars(val);
+	std::wstring _val(valPin);
+	wstring _resVal = L"";
+	DWORD ret = this->sendCmd->SendGetRecFileNetworkPath(_val, &_resVal);
+	if( ret == CMD_SUCCESS ){
+		resVal = gcnew String(_resVal.c_str());
+	}
+
+	return ret;
+}
+
+/// <summary>
 /// BonDriverの切り替え
 /// </summary>
 /// <param name="val">[IN]BonDriverファイル名</param>

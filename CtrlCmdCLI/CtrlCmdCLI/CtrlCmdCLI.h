@@ -395,6 +395,16 @@ namespace CtrlCmdCLI {
 			Def::NWPlayTimeShiftInfo^% resVal
 			);
 
+		/// <summary>
+		/// 録画ファイルのネットワークパスを取得
+		/// </summary>
+        /// <param name="path">[IN]ファイルパス</param>
+        /// <param name="resVal">[OUT]ネットワークパス</param>
+		UInt32 SendGetRecFileNetworkPath(
+			String^ path,
+			String^% resVal
+			);
+
 //View（TVTest）用
 
 		/// <summary>

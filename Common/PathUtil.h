@@ -35,4 +35,6 @@ void CheckFileName(wstring& fileName, BOOL noChkYen = FALSE);
 
 void CheckFileName(string& fileName, BOOL noChkYen = FALSE);
 
+BOOL GetNetworkPath(const wstring strPath, wstring& strNetPath);
+
 #endif

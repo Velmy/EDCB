@@ -32,7 +32,7 @@
                     <Label Content="(追っかけ再生はNetworkモードでの動作になります。使用する場合はUDPかTCPにチェックを入れておいてください。)" Height="28" HorizontalAlignment="Left" Margin="44,321,0,0" Name="label9" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
-            <TabItem Header="ファイル再生" Name="tabItem_play" IsEnabled="False">
+            <TabItem Header="ファイル再生" Name="tabItem_play">
                 <Grid>
                     <Label Content="再生アプリのexeパス" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="label6" VerticalAlignment="Top" />
                     <TextBox Height="24" HorizontalAlignment="Left" Margin="138,8,0,0" Name="textBox_playExe" VerticalAlignment="Top" Width="456" />

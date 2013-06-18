@@ -2035,6 +2035,28 @@ int CALLBACK CEpgTimerSrvMain::CtrlCmdCallback(void* param, CMD_STREAM* cmdParam
 			}
 		}
 		break;
+	case CMD2_EPG_SRV_GET_NETWORK_PATH:
+		{
+			OutputDebugString(L"CMD2_EPG_SRV_GET_NETWORK_PATH");
+			wstring val, resVal;
+			if( ReadVALUE(&val, cmdParam->data, cmdParam->dataSize, NULL ) == TRUE ){
+				if (GetNetworkPath(val, resVal))
+				{
+					resParam->param = CMD_SUCCESS;
+					resParam->dataSize = GetVALUESize(resVal);
+					resParam->data = new BYTE[resParam->dataSize];
+					if( WriteVALUE(resVal, resParam->data, resParam->dataSize, NULL) == FALSE ){
+						resParam->dataSize = 0;
+						resParam->param = CMD_ERR;
+					}
+				}
+				else
+				{
+					resParam->param = ERR_NOT_FIND;
+				}
+			}
+		}
+		break;
 
 	////////////////////////////////////////////////////////////
 	//CMD_VER‘Î‰žƒRƒ}ƒ“ƒh

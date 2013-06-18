@@ -2,6 +2,10 @@
 #include "PathUtil.h"
 #include "StringUtil.h"
 #include <shlobj.h>
+#include <shlwapi.h>
+#include <Lm.h>
+
+#pragma comment(lib, "Netapi32.lib")
 
 void GetDefSettingPath(wstring& strPath)
 {
@@ -252,3 +256,55 @@ void CheckFileName(string& fileName, BOOL noChkYen)
 	Replace(fileName, "|","Åb");
 }
 
+BOOL GetNetworkPath(const wstring strPath, wstring& strNetPath)
+{
+	TCHAR relative[MAX_PATH] = _T("");
+	TCHAR netname[MAX_PATH] = _T("");
+
+	NET_API_STATUS res;
+	do
+	{
+		PSHARE_INFO_502 BufPtr,p;
+		DWORD er=0, tr=0, resume=0;
+		res = NetShareEnum(NULL, 502, (LPBYTE *)&BufPtr, -1, &er, &tr, &resume);
+		if (res == ERROR_SUCCESS || res == ERROR_MORE_DATA)
+		{
+			p = BufPtr;
+			for (DWORD i = 1; i <= er; i++)
+			{
+				// ã§óLñºÇ™$Ç≈èIÇÌÇÈÇÃÇÕâBÇµã§óL
+				if (p->shi502_netname[lstrlen(p->shi502_netname)-1] != _T('$'))
+				{
+					if (PathIsDirectory(p->shi502_path))
+					{
+						TCHAR tmp[MAX_PATH];
+						if (PathRelativePathTo(tmp, p->shi502_path, FILE_ATTRIBUTE_DIRECTORY, strPath.c_str(), 0))
+						{
+							if (lstrlen(relative) == 0 || lstrlen(relative) > lstrlen(tmp))
+							{
+								lstrcpy(relative, tmp);
+								lstrcpy(netname, p->shi502_netname);
+							}
+						}
+					}
+				}
+				p++;
+			}
+			NetApiBufferFree(BufPtr);
+		}
+	} while (res==ERROR_MORE_DATA);
+
+	if (lstrlen(relative) == 0) return FALSE;
+
+	TCHAR name[MAX_COMPUTERNAME_LENGTH+1];
+	DWORD len = MAX_COMPUTERNAME_LENGTH + 1;
+	if (!GetComputerName(name, &len)) return FALSE;
+
+	TCHAR result[MAX_PATH];
+	wsprintf(result, _T("\\\\%s\\%s"), name, netname);
+	lstrcat(result, &relative[1]);
+
+	strNetPath = result;
+
+	return TRUE;
+}

@@ -103,6 +103,9 @@
 #define CMD2_EPG_SRV_NWPLAY_SET_IP			1086 //ストリーム配信で送信先を設定する
 #define CMD2_EPG_SRV_NWPLAY_TF_OPEN			1087 //ストリーム配信用ファイルをタイムシフトモードで開く
 
+//外部アプリ再生用
+#define CMD2_EPG_SRV_GET_NETWORK_PATH		1299 //録画ファイルのネットワークパスを取得
+
 //タイマーGUI（EpgTimer_Bon.exe）用
 #define CMD2_TIMER_GUI_SHOW_DLG				101 //ダイアログを前面に表示
 #define CMD2_TIMER_GUI_UPDATE_RESERVE		102 //予約一覧の情報が更新された

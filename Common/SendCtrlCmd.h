@@ -820,6 +820,18 @@ public:
 		TVTEST_STREAMING_INFO* val
 		);
 
+//外部アプリ再生用
+	//録画ファイルのネットワークパスを取得
+	//戻り値：
+	// エラーコード
+	//引数：
+	// path					[IN]ファイルパス
+	// val					[OUT]ネットワークパス
+	DWORD SendGetRecFileNetworkPath(
+		wstring path,
+		wstring* resVal
+		);
+
 protected:
 	HANDLE lockEvent;
 

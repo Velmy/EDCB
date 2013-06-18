@@ -3558,3 +3558,44 @@ DWORD CSendCtrlCmd::SendViewSetStreamingInfo(
 	return ret;
 }
 
+//録画ファイルのネットワークパスを取得
+//戻り値：
+// エラーコード
+//引数：
+// path					[IN]ファイルパス
+// resVal				[OUT]ネットワークパス
+DWORD CSendCtrlCmd::SendGetRecFileNetworkPath(
+		wstring path,
+		wstring* resVal
+		)
+{
+	if( Lock() == FALSE ) return CMD_ERR_TIMEOUT;
+	DWORD ret = CMD_ERR;
+	CMD_STREAM send;
+	CMD_STREAM res;
+
+	send.param = CMD2_EPG_SRV_GET_NETWORK_PATH;
+	send.dataSize = 0;
+
+	send.dataSize = GetVALUESize(path);
+	send.data = new BYTE[send.dataSize];
+	if( WriteVALUE(path, send.data, send.dataSize, NULL) == FALSE ){
+		return CMD_ERR;
+	}
+
+	if( this->tcpFlag == FALSE ){
+		ret = SendPipe(this->pipeName.c_str(), this->eventName.c_str(), this->connectTimeOut, &send, &res);
+	}else{
+		ret = SendTCP(this->ip.c_str(), this->port, this->connectTimeOut, &send, &res);
+	}
+
+	if( ret == CMD_SUCCESS ){
+		if( ReadVALUE(resVal, res.data, res.dataSize, NULL) == FALSE ){
+			UnLock();
+			return CMD_ERR;
+		}
+	}
+
+	UnLock();
+	return ret;
+}

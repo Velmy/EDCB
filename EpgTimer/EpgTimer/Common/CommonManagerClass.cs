@@ -1039,7 +1039,27 @@ namespace EpgTimer
                 }
                 else
                 {
-                    TVTestCtrl.StartStreamingPlay(filePath, NW.ConnectedIP, NW.ConnectedPort);
+                    if (Settings.Instance.FilePlayExe.Length > 0)
+                    {
+                        System.Diagnostics.Process process;
+                        CtrlCmdUtil cmd = CommonManager.Instance.CtrlCmd;
+                        String nPath = "";
+                        UInt32 err = cmd.SendGetRecFileNetworkPath(filePath, ref nPath);
+                        if (err == 1)
+                        {
+                            String cmdLine = Settings.Instance.FilePlayCmd;
+                            cmdLine = cmdLine.Replace("$FilePath$", nPath);
+                            process = System.Diagnostics.Process.Start(Settings.Instance.FilePlayExe, cmdLine);
+                        }
+                        else
+                        {
+                            MessageBox.Show("ファイルが開けません。録画フォルダが共有されているか確認してください。");
+                        }
+                    }
+                    else
+                    {
+                        TVTestCtrl.StartStreamingPlay(filePath, NW.ConnectedIP, NW.ConnectedPort);
+                    }
                 }
             }
             catch (Exception ex)
