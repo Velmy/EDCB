@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="EpgTimer.ReserveInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EpgTimer"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <TabControl Name="tabControl_main" Grid.Row="1">
+            <TabItem Name="tabItem_reserve">
+                <TabItem.Header>
+                    <Grid>
+                        <Grid.ToolTip>Ctrl + 1</Grid.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Name="icon_Error" Source="Resources/109_AllAnnotations_Error_16x16_72.png" Width="16" Height="16" Visibility="Collapsed"/>
+                            <Image Name="icon_Warning" Source="Resources/109_AllAnnotations_Warning_16x16_72.png" Width="16" Height="16" Visibility="Collapsed"/>
+                            <TextBlock Name="tabItem_reserve_Title" Text="予約一覧" />
+                        </StackPanel>
+                    </Grid>
+                </TabItem.Header>
+                <Grid>
+                    <local:ReserveView x:Name="reserveView" />
+                </Grid>
+            </TabItem>
+            <!--<TabItem Header="予約一覧" Name="tabItem_reserve">
+                <Grid>
+                    <local:ReserveView x:Name="reserveView" />
+                </Grid>
+            </TabItem>-->
+            <TabItem Header="使用予定チューナー" Name="tabItem_tunerReserve">
+                <Grid>
+                    <local:TunerReserveMainView x:Name="tunerReserveView" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="自動予約登録" Name="tabItem_epgAutoAdd">
+                <Grid>
+                    <local:AutoAddView x:Name="autoAddView" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</UserControl>

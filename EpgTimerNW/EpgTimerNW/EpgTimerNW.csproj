@@ -107,6 +107,10 @@
       <Link>PopupWindow.xaml.cs</Link>
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="..\..\EpgTimer\EpgTimer\ReserveInfo.xaml.cs">
+      <Link>ReserveInfo.xaml.cs</Link>
+      <DependentUpon>ReserveInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConnectWindow.xaml.cs">
       <DependentUpon>ConnectWindow.xaml</DependentUpon>
     </Compile>
@@ -234,6 +238,11 @@
     </Page>
     <Page Include="..\..\EpgTimer\EpgTimer\RecInfoView.xaml">
       <Link>RecInfoView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\EpgTimer\EpgTimer\ReserveInfo.xaml">
+      <Link>ReserveInfo.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

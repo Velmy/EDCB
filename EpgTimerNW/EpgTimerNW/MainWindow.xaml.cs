@@ -644,11 +644,10 @@ namespace EpgTimer
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddManualInfo);
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.EpgData);
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.PlugInFile);
-                        reserveView.UpdateReserveData();
+                        reserveInfo.UpdateReserveData();
                         epgView.UpdateReserveData();
-                        tunerReserveView.UpdateReserveData();
                         UpdateReserveData();
-                        autoAddView.UpdateAutoAddInfo();
+                        reserveInfo.UpdateAutoAddInfo();
                         recInfoView.UpdateInfo();
                         epgView.UpdateEpgData();
                     }
@@ -715,7 +714,7 @@ namespace EpgTimer
                 {
                     if (initExe == true)
                     {
-                        reserveView.SaveSize();
+                        reserveInfo.SaveSize();
                         recInfoView.SaveSize();
 
                         cmd.SetConnectTimeOut(3000);
@@ -736,7 +735,7 @@ namespace EpgTimer
                 }
                 else
                 {
-                    reserveView.SaveSize();
+                    reserveInfo.SaveSize();
                     recInfoView.SaveSize();
                     if (CommonManager.Instance.NW.IsConnected == true && needUnRegist == true)
                     {
@@ -1122,11 +1121,10 @@ namespace EpgTimer
                             CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.RecInfo);
                             CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddEpgInfo);
                             CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddManualInfo);
-                            reserveView.UpdateReserveData();
+                            reserveInfo.UpdateReserveData();
                             epgView.UpdateReserveData();
-                            tunerReserveView.UpdateReserveData();
                             UpdateReserveData();
-                            autoAddView.UpdateAutoAddInfo();
+                            reserveInfo.UpdateAutoAddInfo();
                             recInfoView.UpdateInfo();
 
                             CommonManager.Instance.DB.ReloadReserveInfo();
@@ -1151,11 +1149,10 @@ namespace EpgTimer
                                 CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.RecInfo);
                                 CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddEpgInfo);
                                 CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddManualInfo);
-                                reserveView.UpdateReserveData();
+                                reserveInfo.UpdateReserveData();
                                 epgView.UpdateReserveData();
-                                tunerReserveView.UpdateReserveData();
                                 UpdateReserveData();
-                                autoAddView.UpdateAutoAddInfo();
+                                reserveInfo.UpdateAutoAddInfo();
                                 recInfoView.UpdateInfo();
 
                                 CommonManager.Instance.DB.ReloadReserveInfo();
@@ -1425,9 +1422,8 @@ namespace EpgTimer
                 case UpdateNotifyItem.ReserveInfo:
                     {
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.ReserveInfo);
-                        reserveView.UpdateReserveData();
+                        reserveInfo.UpdateReserveData();
                         epgView.UpdateReserveData();
-                        tunerReserveView.UpdateReserveData();
                         UpdateReserveData();
 
                     }
@@ -1441,13 +1437,13 @@ namespace EpgTimer
                 case UpdateNotifyItem.AutoAddEpgInfo:
                     {
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddEpgInfo);
-                        autoAddView.UpdateAutoAddInfo();
+                        reserveInfo.UpdateAutoAddInfo();
                     }
                     break;
                 case UpdateNotifyItem.AutoAddManualInfo:
                     {
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddManualInfo);
-                        autoAddView.UpdateAutoAddInfo();
+                        reserveInfo.UpdateAutoAddInfo();
                     }
                     break;
                 case UpdateNotifyItem.SrvStatus:
@@ -1551,18 +1547,10 @@ namespace EpgTimer
                         this.tabItem_reserve.IsSelected = true;
                         break;
                     case Key.D2:
-                        new BlackoutWindow(this).showWindow(this.tabItem_tunerReserve_Title.Text);
-                        this.tabItem_tunerReserve.IsSelected = true;
-                        break;
-                    case Key.D3:
                         new BlackoutWindow(this).showWindow(this.tabItem_recinfo_Title.Text);
                         this.tabItem_recinfo.IsSelected = true;
                         break;
-                    case Key.D4:
-                        new BlackoutWindow(this).showWindow(this.tabItem_epgAutoAdd_Title.Text);
-                        this.tabItem_epgAutoAdd.IsSelected = true;
-                        break;
-                    case Key.D5:
+                    case Key.D3:
                         this.moveTo_tabItem_epg();
                         break;
                 }

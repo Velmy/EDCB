@@ -27,12 +27,12 @@ TextOptions.TextFormattingMode="Display"
                         <StackPanel Orientation="Horizontal">
                             <Image Name="icon_Error" Source="Resources/109_AllAnnotations_Error_16x16_72.png" Width="16" Height="16" Visibility="Collapsed"/>
                             <Image Name="icon_Warning" Source="Resources/109_AllAnnotations_Warning_16x16_72.png" Width="16" Height="16" Visibility="Collapsed"/>
-                            <TextBlock Name="tabItem_reserve_Title" Text="予約一覧" />
+                            <TextBlock Name="tabItem_reserve_Title" Text="予約情報" />
                         </StackPanel>
                     </Grid>
                 </TabItem.Header>
                 <Grid>
-                    <local:ReserveView x:Name="reserveView" />
+                    <local:ReserveInfo x:Name="reserveInfo" />
                 </Grid>
             </TabItem>
             <!--<TabItem Header="予約一覧" Name="tabItem_reserve">
@@ -40,19 +40,9 @@ TextOptions.TextFormattingMode="Display"
                     <local:ReserveView x:Name="reserveView" />
                 </Grid>
             </TabItem>-->
-            <TabItem Header="使用予定チューナー" Name="tabItem_tunerReserve">
-                <Grid>
-                    <local:TunerReserveMainView x:Name="tunerReserveView" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="録画済み一覧" Name="tabItem_recinfo">
+            <TabItem Header="録画一覧" Name="tabItem_recinfo">
                 <Grid>
                     <local:RecInfoView x:Name="recInfoView" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="自動予約登録" Name="tabItem_epgAutoAdd">
-                <Grid>
-                    <local:AutoAddView x:Name="autoAddView" />
                 </Grid>
             </TabItem>
             <TabItem Header="番組表" Name="tabItem_epg">

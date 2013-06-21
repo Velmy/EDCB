@@ -504,9 +504,8 @@ namespace EpgTimer
                 {
                     if (initExe == true)
                     {
-                        reserveView.SaveSize();
+                        reserveInfo.SaveSize();
                         recInfoView.SaveSize();
-                        autoAddView.SaveSize();
 
                         cmd.SetConnectTimeOut(3000);
                         cmd.SendUnRegistGUI((uint)System.Diagnostics.Process.GetCurrentProcess().Id);
@@ -526,9 +525,8 @@ namespace EpgTimer
                 }
                 else
                 {
-                    reserveView.SaveSize();
+                    reserveInfo.SaveSize();
                     recInfoView.SaveSize();
-                    autoAddView.SaveSize();
 
                     if (CommonManager.Instance.NW.IsConnected == true && needUnRegist == true)
                     {
@@ -936,11 +934,10 @@ namespace EpgTimer
                             CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.RecInfo);
                             CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddEpgInfo);
                             CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddManualInfo);
-                            reserveView.UpdateReserveData();
+                            reserveInfo.UpdateReserveData();
                             epgView.UpdateReserveData();
-                            tunerReserveView.UpdateReserveData();
                             UpdateReserveData();
-                            autoAddView.UpdateAutoAddInfo();
+                            reserveInfo.UpdateAutoAddInfo();
                             recInfoView.UpdateInfo();
 
                             CommonManager.Instance.DB.ReloadReserveInfo();
@@ -965,11 +962,10 @@ namespace EpgTimer
                                 CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.RecInfo);
                                 CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddEpgInfo);
                                 CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.AutoAddManualInfo);
-                                reserveView.UpdateReserveData();
+                                reserveInfo.UpdateReserveData();
                                 epgView.UpdateReserveData();
-                                tunerReserveView.UpdateReserveData();
                                 UpdateReserveData();
-                                autoAddView.UpdateAutoAddInfo();
+                                reserveInfo.UpdateAutoAddInfo();
                                 recInfoView.UpdateInfo();
 
                                 CommonManager.Instance.DB.ReloadReserveInfo();
@@ -1295,9 +1291,8 @@ namespace EpgTimer
                     {
                         CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.ReserveInfo);
                         CommonManager.Instance.DB.ReloadReserveInfo();
-                        reserveView.UpdateReserveData();
+                        reserveInfo.UpdateReserveData();
                         epgView.UpdateReserveData();
-                        tunerReserveView.UpdateReserveData();
                         UpdateReserveData();
                     }
                     break;
@@ -1318,7 +1313,7 @@ namespace EpgTimer
                         {
                             CommonManager.Instance.DB.ReloadEpgAutoAddInfo();
                         }
-                        autoAddView.UpdateAutoAddInfo();
+                        reserveInfo.UpdateAutoAddInfo();
                     }
                     break;
                 case UpdateNotifyItem.AutoAddManualInfo:
@@ -1328,7 +1323,7 @@ namespace EpgTimer
                         {
                             CommonManager.Instance.DB.ReloadManualAutoAddInfo();
                         }
-                        autoAddView.UpdateAutoAddInfo();
+                        reserveInfo.UpdateAutoAddInfo();
                     }
                     break;
                 case UpdateNotifyItem.SrvStatus:

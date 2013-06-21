@@ -103,6 +103,9 @@
     <Compile Include="PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReserveInfo.xaml.cs">
+      <DependentUpon>ReserveInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SetCoopSrvWindow.xaml.cs">
       <DependentUpon>SetCoopSrvWindow.xaml</DependentUpon>
     </Compile>
@@ -266,6 +269,10 @@
     <Page Include="PopupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ReserveInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SetCoopSrvWindow.xaml">
       <SubType>Designer</SubType>
