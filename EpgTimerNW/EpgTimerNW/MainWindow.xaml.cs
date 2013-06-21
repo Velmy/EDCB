@@ -431,7 +431,6 @@ namespace EpgTimer
                         using (System.IO.BinaryWriter w = new System.IO.BinaryWriter(System.IO.File.Create(filePath)))
                         {
                             w.Write(binData);
-                            w.Close();
                         }
                         ChSet5.LoadFile();
                     }
@@ -634,7 +633,6 @@ namespace EpgTimer
                             using (System.IO.BinaryWriter w = new System.IO.BinaryWriter(System.IO.File.Create(filePath)))
                             {
                                 w.Write(binData);
-                                w.Close();
                             }
                             ChSet5.LoadFile();
                         }
@@ -675,7 +673,6 @@ namespace EpgTimer
                             using (System.IO.BinaryWriter w = new System.IO.BinaryWriter(System.IO.File.Create(filePath)))
                             {
                                 w.Write(binData);
-                                w.Close();
                             }
                             ChSet5.LoadFile();
                         }
