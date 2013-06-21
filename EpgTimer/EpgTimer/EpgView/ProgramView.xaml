@@ -43,6 +43,11 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <Line x:Name="nowLine" Canvas.ZIndex="30" StrokeThickness="3" Opacity="0.5" IsHitTestVisible="False" Visibility="Hidden" Stroke="Red">
+                    <Line.Effect>
+                        <DropShadowEffect BlurRadius="10"/>
+                    </Line.Effect>
+                </Line>
             </Canvas>
         </ScrollViewer>            
     </Grid>
