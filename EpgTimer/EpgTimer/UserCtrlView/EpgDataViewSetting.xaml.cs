@@ -51,7 +51,7 @@ namespace EpgTimer
 
                 foreach (ChSet5Item info in ChSet5.Instance.ChList.Values)
                 {
-                    if (info.ServiceType == 0x01)
+                    if (info.ServiceType == 0x01 || info.ServiceType == 0xa5)
                     {
                         if (info.ONID == 0x0004)
                         {
@@ -65,9 +65,14 @@ namespace EpgTimer
                         {
                             listBox_serviceTere.Items.Add(info);
                         }
+                        else
+                        {
+                            listBox_serviceOther.Items.Add(info);
+                        }
                     }
                     else if (0x7880 <= info.ONID && info.ONID <= 0x7FE8)
                     {
+                        // ワンセグ
                         listBox_serviceOther.Items.Add(info);
                     }
                 }
