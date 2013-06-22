@@ -445,7 +445,7 @@ namespace EpgTimer
 
         private void openFolder_Click(object sender, RoutedEventArgs e)
         {
-            if (listView_recinfo.SelectedItem != null && CommonManager.Instance.NWMode == false)
+            if (listView_recinfo.SelectedItem != null)
             {
                 RecInfoItem info = listView_recinfo.SelectedItem as RecInfoItem;
                 if (info.RecFilePath.Length == 0)
@@ -454,17 +454,37 @@ namespace EpgTimer
                 }
                 else
                 {
-                    if (System.IO.File.Exists(info.RecFilePath) == true)
+                    if (CommonManager.Instance.NWMode == false)
                     {
-                        String cmd = "/select,";
-                        cmd += "\"" + info.RecFilePath + "\"";
+                        if (System.IO.File.Exists(info.RecFilePath) == true)
+                        {
+                            String cmd = "/select,";
+                            cmd += "\"" + info.RecFilePath + "\"";
 
-                        System.Diagnostics.Process.Start("EXPLORER.EXE", cmd);
+                            System.Diagnostics.Process.Start("EXPLORER.EXE", cmd);
+                        }
+                        else
+                        {
+                            String folderPath = System.IO.Path.GetDirectoryName(info.RecFilePath);
+                            System.Diagnostics.Process.Start("EXPLORER.EXE", folderPath);
+                        }
                     }
                     else
                     {
-                        String folderPath = System.IO.Path.GetDirectoryName(info.RecFilePath);
-                        System.Diagnostics.Process.Start("EXPLORER.EXE", folderPath);
+                        CtrlCmdUtil cmd = CommonManager.Instance.CtrlCmd;
+                        String nPath = "";
+                        UInt32 err = cmd.SendGetRecFileNetworkPath(info.RecFilePath, ref nPath);
+                        if (err == 1)
+                        {
+                            String cmdline = "/select,";
+                            cmdline += "\"" + nPath + "\"";
+
+                            System.Diagnostics.Process.Start("EXPLORER.EXE", cmdline);
+                        }
+                        else
+                        {
+                            MessageBox.Show("フォルダが開けません。録画フォルダが共有されているか確認してください。");
+                        }
                     }
                 }
             }
