@@ -43,6 +43,8 @@ namespace EpgTimer
         private bool updateEpgData = true;
         private bool updateReserveData = true;
 
+        private bool needUpdateVisual = true;
+
         public EpgMainView()
         {
             InitializeComponent();
@@ -1294,11 +1296,7 @@ namespace EpgTimer
                 if (setViewInfo != null)
                 {
                     updateEpgData = false;
-                    if (setViewInfo.SearchMode == true)
-                    {
-                        ReloadProgramViewItemForSearch();
-                    }
-                    else
+                    if (!setViewInfo.SearchMode)
                     {
                         if (CommonManager.Instance.NWMode == true)
                         {
@@ -1353,10 +1351,9 @@ namespace EpgTimer
                             return false;
                         }
 
-                        ReloadProgramViewItem();
-
                     }
-                    MoveNowTime();
+                    needUpdateVisual = true;
+                    updateVisual();
                 }
             }
             catch (Exception ex)
@@ -2092,7 +2089,9 @@ namespace EpgTimer
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (this.IsVisible == false) { return; }
-            //
+
+            updateVisual();
+
             if (BlackoutWindow.selectedReserveItem != null)
             {
                 foreach (ReserveViewItem reserveViewItem1 in this.reserveList)
@@ -2122,6 +2121,23 @@ namespace EpgTimer
                 }
                 BlackoutWindow.selectedSearchItem = null;
             }
+        }
+
+        private void updateVisual()
+        {
+            if (!IsVisible || !needUpdateVisual) return;
+
+            if (setViewInfo.SearchMode == true)
+            {
+                ReloadProgramViewItemForSearch();
+            }
+            else
+            {
+                ReloadProgramViewItem();
+            }
+            MoveNowTime();
+
+            needUpdateVisual = false;
         }
     }
 }

@@ -49,6 +49,8 @@ namespace EpgTimer
         private bool updateEpgData = true;
         private bool updateReserveData = true;
 
+        private bool needUpdateVisual = true;
+
         private Dictionary<UInt64, UInt64> lastChkSID = null;
 
         public EpgListMainView()
@@ -187,11 +189,7 @@ namespace EpgTimer
                     serviceEventList.Clear();
 
                     updateEpgData = false;
-                    if (setViewInfo.SearchMode == true)
-                    {
-                        ReloadProgramViewItemForSearch();
-                    }
-                    else
+                    if (!setViewInfo.SearchMode)
                     {
                         if (CommonManager.Instance.NWMode == true)
                         {
@@ -245,9 +243,9 @@ namespace EpgTimer
                             }
                             return false; 
                         }
-
-                        ReloadProgramViewItem();
                     }
+                    needUpdateVisual = true;
+                    updateVisual();
                 }
             }
             catch (Exception ex)
@@ -285,14 +283,8 @@ namespace EpgTimer
                     return false;
                 }
 
-                if (setViewInfo.SearchMode == true)
-                {
-                    ReloadProgramViewItemForSearch();
-                }
-                else
-                {
-                    ReloadProgramViewItem();
-                }
+                needUpdateVisual = true;
+                updateVisual();
             }
             catch (Exception ex)
             {
@@ -1416,6 +1408,27 @@ namespace EpgTimer
             {
                 MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
             }
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            updateVisual();
+        }
+
+        private void updateVisual()
+        {
+            if (!IsVisible || !needUpdateVisual) return;
+
+            if (setViewInfo.SearchMode == true)
+            {
+                ReloadProgramViewItemForSearch();
+            }
+            else
+            {
+                ReloadProgramViewItem();
+            }
+
+            needUpdateVisual = false;
         }
     }
 }

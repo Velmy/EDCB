@@ -45,6 +45,8 @@ namespace EpgTimer
         private bool updateEpgData = true;
         private bool updateReserveData = true;
 
+        private bool needUpdateVisual = true;
+
         public EpgWeekMainView()
         {
             InitializeComponent();
@@ -1291,11 +1293,7 @@ namespace EpgTimer
             {
                 if (setViewInfo != null)
                 {
-                    if (setViewInfo.SearchMode == true)
-                    {
-                        ReloadProgramViewItemForSearch();
-                    }
-                    else
+                    if (!setViewInfo.SearchMode)
                     {
                         if (CommonManager.Instance.NWMode == true)
                         {
@@ -1350,10 +1348,9 @@ namespace EpgTimer
                             }
                             return false;
                         }
-
-                        ReloadProgramViewItem();
                     }
-                    MoveNowTime();
+                    needUpdateVisual = true;
+                    updateVisual();
                 }
             }
             catch (Exception ex)
@@ -1884,6 +1881,8 @@ namespace EpgTimer
         private void UserControl_IsVisibleChanged_1(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (this.IsVisible == false) { return; }
+            updateVisual();
+
             // サービス選択
             UInt64 serviceKey_Target1 = 0;
             if (BlackoutWindow.selectedReserveItem != null)
@@ -1943,6 +1942,23 @@ namespace EpgTimer
             setViewInfo.CopyTo(ref setInfo);
             setInfo.ViewMode = 0;
             ViewSettingClick(this, setInfo);
+        }
+
+        private void updateVisual()
+        {
+            if (!IsVisible || !needUpdateVisual) return;
+
+            if (setViewInfo.SearchMode == true)
+            {
+                ReloadProgramViewItemForSearch();
+            }
+            else
+            {
+                ReloadProgramViewItem();
+            }
+            MoveNowTime();
+
+            needUpdateVisual = false;
         }
     }
 }
