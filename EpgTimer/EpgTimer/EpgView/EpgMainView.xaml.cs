@@ -1353,7 +1353,7 @@ namespace EpgTimer
 
                     }
                     needUpdateVisual = true;
-                    updateVisual();
+                    UpdateVisual();
                 }
             }
             catch (Exception ex)
@@ -2090,7 +2090,7 @@ namespace EpgTimer
         {
             if (this.IsVisible == false) { return; }
 
-            updateVisual();
+            UpdateVisual();
 
             if (BlackoutWindow.selectedReserveItem != null)
             {
@@ -2123,7 +2123,7 @@ namespace EpgTimer
             }
         }
 
-        private void updateVisual()
+        private void UpdateVisual()
         {
             if (!IsVisible || !needUpdateVisual) return;
 

@@ -245,7 +245,7 @@ namespace EpgTimer
                         }
                     }
                     needUpdateVisual = true;
-                    updateVisual();
+                    UpdateVisual();
                 }
             }
             catch (Exception ex)
@@ -284,7 +284,7 @@ namespace EpgTimer
                 }
 
                 needUpdateVisual = true;
-                updateVisual();
+                UpdateVisual();
             }
             catch (Exception ex)
             {
@@ -1412,10 +1412,10 @@ namespace EpgTimer
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            updateVisual();
+            UpdateVisual();
         }
 
-        private void updateVisual()
+        private void UpdateVisual()
         {
             if (!IsVisible || !needUpdateVisual) return;
 
