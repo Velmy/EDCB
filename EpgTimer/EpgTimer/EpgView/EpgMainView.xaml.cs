@@ -1395,7 +1395,7 @@ namespace EpgTimer
                     return false;
                 }
 
-                ReloadReserveViewItem();
+                if (IsVisible) ReloadReserveViewItem();
             }
             catch (Exception ex)
             {
@@ -2135,6 +2135,7 @@ namespace EpgTimer
             {
                 ReloadProgramViewItem();
             }
+            ReloadReserveViewItem();
             MoveNowTime();
 
             needUpdateVisual = false;
