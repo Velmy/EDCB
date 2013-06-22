@@ -39,7 +39,6 @@ namespace EpgTimer
         private Point clickPos;
         private CtrlCmdUtil cmd = CommonManager.Instance.CtrlCmd;
         private DispatcherTimer nowViewTimer;
-        private Line nowLine = null;
         private Dictionary<UInt64, EpgServiceEventInfo> searchEventList = new Dictionary<UInt64, EpgServiceEventInfo>();
 
         private bool updateEpgData = true;
@@ -74,11 +73,7 @@ namespace EpgTimer
         public bool ClearInfo()
         {
             nowViewTimer.Stop();
-            if (nowLine != null)
-            {
-                epgProgramView.canvas.Children.Remove(nowLine);
-            }
-            nowLine = null;
+            epgProgramView.nowLine.Visibility = System.Windows.Visibility.Hidden;
 
             epgProgramView.ClearInfo();
             timeView.ClearInfo();
@@ -113,16 +108,6 @@ namespace EpgTimer
                 nowViewTimer.Stop();
                 DateTime nowTime = new DateTime(2001, 1, 1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
-                if (nowLine == null)
-                {
-                    nowLine = new Line();
-                    Canvas.SetZIndex(nowLine, 20);
-                    nowLine.Stroke = new SolidColorBrush(Colors.Red);
-                    nowLine.StrokeThickness = Settings.Instance.MinHeight * 2;
-                    nowLine.Opacity = 0.5;
-                    epgProgramView.canvas.Children.Add(nowLine);
-                }
-
                 double posY = 0;
                 DateTime chkNowTime = new DateTime(2001, 1, 1, nowTime.Hour, 0, 0);
                 foreach (TimePosInfo time in timeList.Values)
@@ -142,18 +127,15 @@ namespace EpgTimer
 
                 if (posY > epgProgramView.canvas.Height)
                 {
-                    if (nowLine != null)
-                    {
-                        epgProgramView.canvas.Children.Remove(nowLine);
-                    }
-                    nowLine = null;
+                    epgProgramView.nowLine.Visibility = System.Windows.Visibility.Hidden;
                     return;
                 }
 
-                nowLine.X1 = 0;
-                nowLine.Y1 = posY;
-                nowLine.X2 = epgProgramView.canvas.Width;
-                nowLine.Y2 = posY;
+                epgProgramView.nowLine.X1 = 0;
+                epgProgramView.nowLine.Y1 = posY;
+                epgProgramView.nowLine.X2 = epgProgramView.canvas.Width;
+                epgProgramView.nowLine.Y2 = posY;
+                epgProgramView.nowLine.Visibility = System.Windows.Visibility.Visible;
 
                 nowViewTimer.Interval = TimeSpan.FromSeconds(60 - nowTime.Second);
                 nowViewTimer.Start();
