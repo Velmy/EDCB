@@ -246,6 +246,9 @@ BOOL CParseRecInfoText::Parse1Line(string parseLine, REC_FILE_INFO* item )
 	Separate( parseLine, "\t", strBuff, parseLine);
 	item->protectFlag = atoi(strBuff.c_str());
 
+	//視聴済み
+	Separate( parseLine, "\t", strBuff, parseLine);
+	item->viewedFlag = atoi(strBuff.c_str());
 
 	if( item->recFilePath.size() > 0 ){
 		wstring iniCommonPath = L"";
@@ -430,6 +433,9 @@ BOOL CParseRecInfoText::SaveRecInfoText(LPCWSTR filePath)
 		//プロテクト
 		Format(strBuff,"%d",itr->second->protectFlag);
 		strWrite+=strBuff +"\t";
+		//視聴済み
+		Format(strBuff,"%d",itr->second->viewedFlag);
+		strWrite+=strBuff +"\t";
 
 		strWrite+="\r\n";
 		WriteFile(hFile, strWrite.c_str(), (DWORD)strWrite.length(), &dwWrite, NULL);
@@ -608,6 +614,19 @@ BOOL CParseRecInfoText::ChgProtectRecInfo(DWORD id, BYTE flag)
 					DelPtotectFileList(itr->second->recFilePath);
 				}
 			}
+			break;
+		}
+	}
+
+	return TRUE;
+}
+
+BOOL CParseRecInfoText::ChgViewedRecInfo(DWORD id, BYTE flag)
+{
+	multimap<wstring, REC_FILE_INFO*>::iterator itr;
+	for( itr = this->recInfoMap.begin(); itr != this->recInfoMap.end(); itr++ ){
+		if( itr->second->id == id ){
+			itr->second->viewedFlag = flag;
 			break;
 		}
 	}

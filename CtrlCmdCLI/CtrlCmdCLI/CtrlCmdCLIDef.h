@@ -357,6 +357,11 @@ namespace Def {
 		/// </summary>
 		property bool ProtectFlag;
 
+		/// <summary>
+		/// éãíÆçœÇ›ÉtÉâÉO
+		/// </summary>
+		property bool ViewedFlag;
+
 	public:
 		RecFileInfo(void){
 			ID = 0;
@@ -375,6 +380,7 @@ namespace Def {
 			ProgramInfo = gcnew String("");
 			ErrInfo = gcnew String("");
 			ProtectFlag = false;
+			ViewedFlag = false;
 		};
 	};
 

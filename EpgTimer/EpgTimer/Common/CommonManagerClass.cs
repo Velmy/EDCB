@@ -1018,7 +1018,7 @@ namespace EpgTimer
             return retText;
         }
 
-        public void FilePlay(String filePath)
+        public bool FilePlay(String filePath)
         {
             try
             {
@@ -1034,8 +1034,8 @@ namespace EpgTimer
                         String cmdLine = Settings.Instance.FilePlayCmd;
                         cmdLine = cmdLine.Replace("$FilePath$", filePath);
                         process = System.Diagnostics.Process.Start(Settings.Instance.FilePlayExe, cmdLine);
-
                     }
+                    if (process == null) return false;
                 }
                 else
                 {
@@ -1050,22 +1050,27 @@ namespace EpgTimer
                             String cmdLine = Settings.Instance.FilePlayCmd;
                             cmdLine = cmdLine.Replace("$FilePath$", nPath);
                             process = System.Diagnostics.Process.Start(Settings.Instance.FilePlayExe, cmdLine);
+                            if (process == null) return false;
                         }
                         else
                         {
                             MessageBox.Show("ファイルが開けません。録画フォルダが共有されているか確認してください。");
+                            return false;
                         }
                     }
                     else
                     {
-                        TVTestCtrl.StartStreamingPlay(filePath, NW.ConnectedIP, NW.ConnectedPort);
+                        if (!TVTestCtrl.StartStreamingPlay(filePath, NW.ConnectedIP, NW.ConnectedPort))
+                            return false;
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+                return false;
             }
+            return true;
         }
 
         public void ReloadCustContentColorList()

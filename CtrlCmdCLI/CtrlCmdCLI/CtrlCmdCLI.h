@@ -188,6 +188,14 @@ namespace CtrlCmdCLI {
 			);
 
 		/// <summary>
+		/// 録画済み情報のプロテクトを変更する
+		/// </summary>
+        /// <param name="val">[IN]録画済み情報一覧</param>
+		UInt32 SendChgViewedRecInfo(
+			List<Def::RecFileInfo^>^ val
+			);
+
+		/// <summary>
 		/// サービス一覧を取得する
 		/// </summary>
         /// <param name="val">[OUT]サービス一覧</param>

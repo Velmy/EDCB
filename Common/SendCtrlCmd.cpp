@@ -2520,6 +2520,41 @@ DWORD CSendCtrlCmd::SendChgProtectRecInfo2(vector<REC_FILE_INFO>* val)
 	return ret;
 }
 
+DWORD CSendCtrlCmd::SendChgViewedRecInfo2(vector<REC_FILE_INFO>* val)
+{
+	if( Lock() == FALSE ) return CMD_ERR_TIMEOUT;
+	DWORD ret = CMD_ERR;
+
+	CMD_STREAM send;
+	CMD_STREAM res;
+
+	WORD ver = (WORD)CMD_VER;
+	DWORD writeSize = 0;
+
+	send.param = CMD2_EPG_SRV_CHG_VIEWED_RECINFO2;
+	send.dataSize = 0;
+
+	send.dataSize = GetVALUESize2(ver, val)+GetVALUESize2(ver, ver);
+	send.data = new BYTE[send.dataSize];
+	if( WriteVALUE2(ver, ver, send.data, send.dataSize, &writeSize) == FALSE ){
+		UnLock();
+		return CMD_ERR;
+	}
+	if( WriteVALUE2(ver, val, send.data+writeSize, send.dataSize-writeSize, NULL) == FALSE ){
+		UnLock();
+		return CMD_ERR;
+	}
+
+	if( this->tcpFlag == FALSE ){
+		ret = SendPipe(this->pipeName.c_str(), this->eventName.c_str(), this->connectTimeOut, &send, &res);
+	}else{
+		ret = SendTCP(this->ip.c_str(), this->port, this->connectTimeOut, &send, &res);
+	}
+
+	UnLock();
+	return ret;
+}
+
 //ダイアログを前面に表示
 //戻り値：
 // エラーコード

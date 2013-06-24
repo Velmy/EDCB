@@ -56,8 +56,14 @@ public:
 	//戻り値：
 	// TRUE（成功）、FALSE（失敗）
 	BOOL ChgProtectRecInfo(DWORD id, BYTE flag);
-
 	void GetProtectFiles(map<wstring, wstring>* fileMap);
+	//視聴済み情報を変更する
+	//引数：
+	// id	変更する録画済み情報のID
+	// flag	視聴済みフラグ
+	//戻り値：
+	// TRUE（成功）、FALSE（失敗）
+	BOOL ChgViewedRecInfo(DWORD id, BYTE flag);
 
 	//一覧の自動削除を行うかの設定
 	//引数：

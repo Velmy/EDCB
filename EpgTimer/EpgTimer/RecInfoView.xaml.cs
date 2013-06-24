@@ -164,6 +164,8 @@ namespace EpgTimer
                     {
                         case "IsProtect":
                             return x => x.IsProtect ? 1 : 0;
+                        case "IsViewed":
+                            return x => x.IsViewed ? 1 : 0;
                         case "StartTime":
                             return x => x.StartTime;
                         case "NetworkName":
@@ -389,7 +391,10 @@ namespace EpgTimer
                 {
                     try
                     {
-                        CommonManager.Instance.FilePlay(info.RecInfo.RecFilePath);
+                        if (CommonManager.Instance.FilePlay(info.RecInfo.RecFilePath))
+                        {
+                            info.IsViewed = true;
+                        }
                     }
                     catch (Exception ex)
                     {

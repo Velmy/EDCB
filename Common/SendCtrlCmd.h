@@ -548,12 +548,21 @@ public:
 		vector<REC_FILE_INFO>* val
 		);
 
-	//録画済み情報一覧取得
+	//録画済み情報のプロテクト変更
 	//戻り値：
 	// エラーコード
 	//引数：
-	// val			[OUT]録画済み情報一覧
+	// val			[IN]変更する録画済み情報一覧
 	DWORD SendChgProtectRecInfo2(
+		vector<REC_FILE_INFO>* val
+		);
+
+	//録画済み情報の視聴済み変更
+	//戻り値：
+	// エラーコード
+	//引数：
+	// val			[IN]変更する録画済み情報一覧
+	DWORD SendChgViewedRecInfo2(
 		vector<REC_FILE_INFO>* val
 		);
 

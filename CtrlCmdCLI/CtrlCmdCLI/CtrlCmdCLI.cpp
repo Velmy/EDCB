@@ -865,6 +865,7 @@ void CtrlCmdUtil::CopyData(Def::RecFileInfo^ src, REC_FILE_INFO* dest)
 	dest->programInfo = programInfoPin;
 	dest->errInfo = errInfoPin;
 	dest->protectFlag = src->ProtectFlag;
+	dest->viewedFlag = src->ViewedFlag;
 }
 
 void CtrlCmdUtil::CopyData(REC_FILE_INFO* src, Def::RecFileInfo^% dest)
@@ -890,6 +891,11 @@ void CtrlCmdUtil::CopyData(REC_FILE_INFO* src, Def::RecFileInfo^% dest)
 		dest->ProtectFlag = true;
 	}else{
 		dest->ProtectFlag = false;
+	}
+	if( src->viewedFlag == 1 ){
+		dest->ViewedFlag = true;
+	}else{
+		dest->ViewedFlag = false;
 	}
 }
 
@@ -1347,9 +1353,9 @@ UInt32 CtrlCmdUtil::SendDelRecInfo(
 }
 
 /// <summary>
-/// 予約を変更する
+/// 録画済み情報のプロテクト変更
 /// </summary>
-/// <param name="val">[IN]変更する予約一覧</param>
+/// <param name="val">[IN]変更する録画済み情報一覧</param>
 UInt32 CtrlCmdUtil::SendChgProtectRecInfo(
 	List<Def::RecFileInfo^>^ val
 	)
@@ -1361,6 +1367,25 @@ UInt32 CtrlCmdUtil::SendChgProtectRecInfo(
 		list.push_back(item);
 	}
 	DWORD ret = this->sendCmd->SendChgProtectRecInfo2(&list);
+
+	return ret;
+}
+
+/// <summary>
+/// 録画済み情報の視聴済み変更
+/// </summary>
+/// <param name="val">[IN]変更する録画済み情報一覧</param>
+UInt32 CtrlCmdUtil::SendChgViewedRecInfo(
+	List<Def::RecFileInfo^>^ val
+	)
+{
+	vector<REC_FILE_INFO> list;
+	for( int i=0; i<val->Count; i++ ){
+		REC_FILE_INFO item;
+		CopyData(val[i], &item);
+		list.push_back(item);
+	}
+	DWORD ret = this->sendCmd->SendChgViewedRecInfo2(&list);
 
 	return ret;
 }

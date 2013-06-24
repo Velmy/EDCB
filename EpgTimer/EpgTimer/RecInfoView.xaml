@@ -36,6 +36,7 @@
         </Style>
         <ContextMenu x:Key="itemHeader" x:Name="HeaderSelect" x:Shared="True" >
             <MenuItem Header="プロテクト" Name="IsProtect" IsCheckable="True" Click="headerSelect_Click" />
+            <MenuItem Header="視聴済み" Name="IsViewed" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="日時" Name="StartTime" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="ネットワーク" Name="NetworkName" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="サービス名" Name="ServiceName" IsCheckable="True" Click="headerSelect_Click" />
@@ -80,6 +81,16 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding Path=IsProtect}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="30">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="視聴" Tag="IsViewed"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Viewed}" Foreground="MediumSlateBlue" FontWeight="Bold" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -27,7 +27,8 @@
 //#define CMD_VER 2	//バージョン情報追加対応　録画設定への部分受信録画フォルダ指定追加
 //#define CMD_VER 3	//検索条件に同一録画チェック追加
 //#define CMD_VER 4	//録画済み情報にプロテクト追加
-#define CMD_VER 5 //予定ファイル名追加
+//#define CMD_VER 5 //予定ファイル名追加
+#define CMD_VER 6 //録画済み情報に視聴済みフラグ追加
 
 //コマンド
 #define CMD2_EPG_SRV_ADDLOAD_RESERVE		1 //Program.txtの追加読み込み
@@ -64,6 +65,8 @@
 #define CMD2_EPG_SRV_ENUM_MANU_ADD2			2141 //プログラム予約自動登録の条件一覧取得
 #define CMD2_EPG_SRV_ADD_MANU_ADD2			2142 //プログラム予約自動登録の条件追加
 #define CMD2_EPG_SRV_CHG_MANU_ADD2			2144 //プログラム予約自動登録の条件変更
+
+#define CMD2_EPG_SRV_CHG_VIEWED_RECINFO2	2020 //録画済み情報の視聴済み情報変更
 
 #define CMD2_EPG_SRV_ENUM_SERVICE			1021 //読み込まれたEPGデータのサービスの一覧取得
 #define CMD2_EPG_SRV_ENUM_PG_INFO			1022 //サービス指定で番組情報一覧を取得する

@@ -5012,6 +5012,36 @@ BOOL CReserveManager::ChgProtectRecFileInfo(
 	return ret;
 }
 
+//録画済み情報の視聴済み情報を変更する
+//戻り値：
+// TRUE（成功）、FALSE（失敗）
+//引数：
+// idList			[IN]IDリスト
+BOOL CReserveManager::ChgViewedRecFileInfo(
+	vector<REC_FILE_INFO>* infoList
+	)
+{
+	if( Lock(L"DelRecFileInfo") == FALSE ) return FALSE;
+	BOOL ret = TRUE;
+
+	for( size_t i=0 ;i<infoList->size(); i++){
+		this->recInfoText.ChgViewedRecInfo((*infoList)[i].id, (*infoList)[i].viewedFlag);
+	}
+
+	wstring filePath = L"";
+	GetSettingPath(filePath);
+	filePath += L"\\";
+	filePath += REC_INFO_TEXT_NAME;
+
+	this->recInfoText.SaveRecInfoText(filePath.c_str());
+	this->chgRecInfo = TRUE;
+
+	_SendNotifyUpdate(NOTIFY_UPDATE_REC_INFO);
+
+	UnLock();
+	return ret;
+}
+
 BOOL CReserveManager::StartEpgCap()
 {
 	if( Lock(L"StartEpgCap") == FALSE ) return FALSE;

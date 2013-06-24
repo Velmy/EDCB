@@ -50,6 +50,41 @@ namespace EpgTimer
                 return chk;
             }
         }
+        public bool IsViewed
+        {
+            set
+            {
+                if (RecInfo != null)
+                {
+                    RecInfo.ViewedFlag = value;
+                    List<RecFileInfo> list = new List<RecFileInfo>();
+                    list.Add(RecInfo);
+                    CtrlCmdUtil cmd = CommonManager.Instance.CtrlCmd;
+                    cmd.SendChgViewedRecInfo(list);
+                }
+            }
+            get
+            {
+                bool chk = false;
+                if (RecInfo != null)
+                {
+                    chk = RecInfo.ViewedFlag;
+                }
+                return chk;
+            }
+        }
+        public String Viewed
+        {
+            get
+            {
+                String view = "";
+                if (IsViewed == true)
+                {
+                    view = "済";
+                }
+                return view;
+            }
+        }
         public String EventName
         {
             get

@@ -2934,9 +2934,10 @@ DWORD GetVALUESize2(WORD ver, REC_FILE_INFO* val )
 		goto CMD_END;
 	}
 	size += GetVALUESize2(ver, val->protectFlag);
-	if( ver>=4 ){
+	if( ver<=5 ){
 		goto CMD_END;
 	}
+	size += GetVALUESize2(ver, val->viewedFlag);
 
 CMD_END:
 	return size;
@@ -3035,9 +3036,14 @@ BOOL WriteVALUE2(WORD ver, REC_FILE_INFO* val, BYTE* buff, DWORD buffSize, DWORD
 		}
 		pos += size;
 
-		if( ver>=4 ){
+		if( ver<=5 ){
 			goto CMD_END;
 		}
+
+		if( WriteVALUE2(ver, val->viewedFlag, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
 	}
 
 CMD_END:
@@ -3142,9 +3148,14 @@ BOOL ReadVALUE2(WORD ver, REC_FILE_INFO* val, BYTE* buff, DWORD buffSize, DWORD*
 		}
 		pos += size;
 
-		if( ver>=4 ){
+		if( ver<=5 ){
 			goto CMD_END;
 		}
+
+		if( ReadVALUE2(ver, &val->viewedFlag, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
 	}
 
 CMD_END:

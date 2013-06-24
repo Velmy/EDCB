@@ -135,6 +135,15 @@ public:
 		vector<REC_FILE_INFO>* infoList
 		);
 
+	//録画済み情報の視聴済み情報を変更する
+	//戻り値：
+	// TRUE（成功）、FALSE（失敗）
+	//引数：
+	// idList			[IN]IDリスト
+	BOOL ChgViewedRecFileInfo(
+		vector<REC_FILE_INFO>* infoList
+		);
+
 
 	BOOL IsEnableSuspend(
 		BYTE* suspendMode,
