@@ -210,11 +210,11 @@ namespace EpgTimer
                 SolidColorBrush color = CommonManager.Instance.RecEndDefBackColor;
                 if (RecInfo != null)
                 {
-                    if (RecInfo.Scrambles > 0)
+                    if (RecInfo.Scrambles > Settings.Instance.RecInfoWarningThreshold)
                     {
                         color = CommonManager.Instance.RecEndWarBackColor;
                     }
-                    if (RecInfo.Drops > 0)
+                    if (RecInfo.Drops > Settings.Instance.RecInfoErrorThreshold)
                     {
                         color = CommonManager.Instance.RecEndErrBackColor;
                     }

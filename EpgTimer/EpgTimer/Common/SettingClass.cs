@@ -183,6 +183,8 @@ namespace EpgTimer
         private double recInfoColumnWidth6;
         private string recInfoColumnHead;
         private ListSortDirection recInfoSortDirection;
+        private UInt32 recInfoWarningThreshold;
+        private UInt32 recInfoErrorThreshold;
         private string tvTestExe;
         private string tvTestCmd;
         private bool nwTvMode;
@@ -639,6 +641,16 @@ namespace EpgTimer
         {
             get { return recInfoSortDirection; }
             set { recInfoSortDirection = value; }
+        }
+        public UInt32 RecInfoWarningThreshold
+        {
+            get { return recInfoWarningThreshold; }
+            set { recInfoWarningThreshold = value; }
+        }
+        public UInt32 RecInfoErrorThreshold
+        {
+            get { return recInfoErrorThreshold; }
+            set { recInfoErrorThreshold = value; }
         }
         public string TvTestExe
         {
