@@ -6,6 +6,7 @@
 #include <Lm.h>
 
 #pragma comment(lib, "Netapi32.lib")
+#pragma comment(lib, "shlwapi.lib")
 
 void GetDefSettingPath(wstring& strPath)
 {

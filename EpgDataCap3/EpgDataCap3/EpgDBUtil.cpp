@@ -1758,8 +1758,8 @@ DWORD CEpgDBUtil::GetServiceListEpgDB(
 	map<ULONGLONG, SERVICE_EVENT_INFO*>::iterator itr;
 	for(itr = this->serviceEventMap.begin(); itr != this->serviceEventMap.end(); itr++ ){
 		this->serviceDBList[count].original_network_id = (WORD)(itr->first>>32);
-		this->serviceDBList[count].transport_stream_id = (WORD)((itr->first&0xFFFF0000)>>16);
-		this->serviceDBList[count].service_id = (WORD)(itr->first&0xFFFF);
+		this->serviceDBList[count].transport_stream_id = (WORD)(itr->first&0xFFFF);
+		this->serviceDBList[count].service_id = (WORD)((itr->first&0xFFFF0000)>>16);
 
 		DWORD infoKey = ((DWORD)this->serviceDBList[count].original_network_id) << 16 | this->serviceDBList[count].transport_stream_id;
 		map<DWORD, DB_TS_INFO*>::iterator itrInfo;
