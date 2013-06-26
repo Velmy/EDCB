@@ -1150,7 +1150,7 @@ BOOL CARIB8CharDecode::ESC( const BYTE* pbSrc, DWORD* pdwReadSize )
 		//未サポート
 		dwReadSize = 1;
 		*pdwReadSize = dwReadSize;
-		return FALSE;
+		return TRUE;	// 未知のエスケープはとりあえず無視
 	}
 
 	*pdwReadSize = dwReadSize;
