@@ -450,3 +450,30 @@ void EscapeXmlString(wstring& src)
 	Replace(src, L"\"", L"&quot;");
 	Replace(src, L"'", L"&apos;");
 }
+
+void ZtoH(wstring &src)
+{
+	const static wstring from(L"@I”“•fij–{C|D^FGƒ„H—mnOQeobp");
+	const static wstring to(L" !#$%&'()*+,-./:;<=>?@[\\]^_`{|}");
+
+	for(wstring::iterator it = src.begin(); it != src.end(); it++)
+	{
+		if (*it >= L'‚O' && *it <= L'‚X')
+		{
+			*it -= (L'‚O' - L'0');
+		}
+		else if (*it >= L'‚' && *it <= L'‚š')
+		{
+			*it -= (L'‚' - L'a');
+		}
+		else if (*it >= L'‚`' && *it <= L'‚y')
+		{
+			*it -= (L'‚`' - L'A');
+		}
+		else
+		{
+			int i = from.find(*it);
+			if (i != wstring::npos) *it = to[i];
+		}
+	}
+}

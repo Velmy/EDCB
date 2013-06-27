@@ -872,6 +872,7 @@ DWORD CDecodeUtil::GetServiceListActual(
 					string network_name = "";
 					arib.PSISI((const BYTE*)networkName->char_name, networkName->char_nameLength, &network_name);
 					AtoW(network_name, network_nameW);
+					ZtoH(network_nameW);
 				}
 			}
 		}
@@ -884,6 +885,7 @@ DWORD CDecodeUtil::GetServiceListActual(
 						string ts_name = "";
 						arib.PSISI((const BYTE*)TSInfo->ts_name_char, TSInfo->length_of_ts_name, &ts_name);
 						AtoW(ts_name, ts_nameW);
+						ZtoH(ts_nameW);
 					}
 					remote_control_key_id = TSInfo->remote_control_key_id;
 				}
@@ -917,7 +919,9 @@ DWORD CDecodeUtil::GetServiceListActual(
 					wstring service_provider_nameW = L"";
 					wstring service_nameW = L"";
 					AtoW(service_provider_name, service_provider_nameW);
+					ZtoH(service_provider_nameW);
 					AtoW(service_name, service_nameW);
+					ZtoH(service_nameW);
 
 					this->serviceList[count].extInfo->service_type = service->service_type;
 					if( service_provider_nameW.size() > 0 ){
@@ -1018,7 +1022,9 @@ DWORD CDecodeUtil::GetServiceListSIT(
 				wstring service_provider_nameW = L"";
 				wstring service_nameW = L"";
 				AtoW(service_provider_name, service_provider_nameW);
+				ZtoH(service_provider_nameW);
 				AtoW(service_name, service_nameW);
+				ZtoH(service_nameW);
 
 				this->serviceList[i].extInfo->service_type = service->service_type;
 				if( service_provider_nameW.size() > 0 ){

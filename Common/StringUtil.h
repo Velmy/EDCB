@@ -49,4 +49,6 @@ wstring Tolower(wstring src);
 
 void EscapeXmlString(wstring& src);
 
+void ZtoH(wstring &src);
+
 #endif

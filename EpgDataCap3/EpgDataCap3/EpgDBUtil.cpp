@@ -588,7 +588,9 @@ BOOL CEpgDBUtil::AddShortEvent(CEITTable* eit, EVENT_INFO* eventInfo, CShortEven
 		arib.PSISI((const BYTE*)shortEvent->text_char, shortEvent->text_length, &text_char);
 
 		AtoW(event_name, eventInfo->shortInfo->event_name);
+		ZtoH(eventInfo->shortInfo->event_name);
 		AtoW(text_char, eventInfo->shortInfo->text_char);
+		ZtoH(eventInfo->shortInfo->text_char);
 	}
 
 	return updateFlag;
@@ -615,7 +617,9 @@ BOOL CEpgDBUtil::AddShortEvent_SD(CEITTable_SD* eit, EVENT_INFO* eventInfo, CSho
 		arib.PSISI((const BYTE*)shortEvent->text_char, shortEvent->text_length, &text_char);
 
 		AtoW(event_name, eventInfo->shortInfo->event_name);
+		ZtoH(eventInfo->shortInfo->event_name);
 		AtoW(text_char, eventInfo->shortInfo->text_char);
+		ZtoH(eventInfo->shortInfo->text_char);
 	}
 
 	return updateFlag;
@@ -730,6 +734,7 @@ BOOL CEpgDBUtil::AddExtEvent(CEITTable* eit, EVENT_INFO* eventInfo, vector<DESCR
 		//}
 
 		AtoW(extendText, eventInfo->extInfo->text_char);
+		ZtoH(eventInfo->extInfo->text_char);
 	}
 
 	return updateFlag;
@@ -844,6 +849,7 @@ BOOL CEpgDBUtil::AddExtEvent_SD(CEITTable_SD* eit, EVENT_INFO* eventInfo, vector
 		//}
 
 		AtoW(extendText, eventInfo->extInfo->text_char);
+		ZtoH(eventInfo->extInfo->text_char);
 	}
 
 	return updateFlag;
@@ -913,6 +919,7 @@ BOOL CEpgDBUtil::AddComponent(CEITTable* eit, EVENT_INFO* eventInfo, CComponentD
 			arib.PSISI((const BYTE*)component->text_char, component->text_charLength, &text_char);
 
 			AtoW(text_char, eventInfo->componentInfo->text_char);
+			ZtoH(eventInfo->componentInfo->text_char);
 		}
 
 	}
@@ -944,6 +951,7 @@ BOOL CEpgDBUtil::AddComponent_SD(CEITTable_SD* eit, EVENT_INFO* eventInfo, CComp
 			arib.PSISI((const BYTE*)component->text_char, component->text_charLength, &text_char);
 
 			AtoW(text_char, eventInfo->componentInfo->text_char);
+			ZtoH(eventInfo->componentInfo->text_char);
 		}
 
 	}
@@ -989,6 +997,7 @@ BOOL CEpgDBUtil::AddAudioComponent(CEITTable* eit, EVENT_INFO* eventInfo, vector
 					arib.PSISI((const BYTE*)audioComponent->text_char, audioComponent->text_charLength, &text_char);
 
 					AtoW(text_char, item.text_char);
+					ZtoH(item.text_char);
 				}
 
 				eventInfo->audioInfo->componentList.push_back(item);
@@ -1038,6 +1047,7 @@ BOOL CEpgDBUtil::AddAudioComponent_SD(CEITTable_SD* eit, EVENT_INFO* eventInfo, 
 					arib.PSISI((const BYTE*)audioComponent->text_char, audioComponent->text_charLength, &text_char);
 
 					AtoW(text_char, item.text_char);
+					ZtoH(item.text_char);
 				}
 
 				eventInfo->audioInfo->componentList.push_back(item);
@@ -1352,6 +1362,7 @@ BOOL CEpgDBUtil::AddServiceList(CNITTable* nit)
 				string network_name = "";
 				arib.PSISI((const BYTE*)networkName->char_name, networkName->char_nameLength, &network_name);
 				AtoW(network_name, network_nameW);
+				ZtoH(network_nameW);
 			}
 		}
 	}
@@ -1386,6 +1397,7 @@ BOOL CEpgDBUtil::AddServiceList(CNITTable* nit)
 					string ts_name = "";
 					arib.PSISI((const BYTE*)desc->TSInfo->ts_name_char, desc->TSInfo->length_of_ts_name, &ts_name);
 					AtoW(ts_name, itrFind->second->ts_name);
+					ZtoH(itrFind->second->ts_name);
 				}
 				itrFind->second->remote_control_key_id = desc->TSInfo->remote_control_key_id;
 			}
@@ -1448,7 +1460,9 @@ BOOL CEpgDBUtil::AddServiceList(WORD TSID, CSITTable* sit)
 						arib.PSISI((const BYTE*)service->char_service_name, service->service_name_length, &service_name);
 					}
 					AtoW(service_provider_name, item->service_provider_name);
+					ZtoH(item->service_provider_name);
 					AtoW(service_name, item->service_name);
+					ZtoH(item->service_name);
 
 					item->service_type = service->service_type;
 				}
@@ -1494,7 +1508,9 @@ BOOL CEpgDBUtil::AddSDT(CSDTTable* sdt)
 						arib.PSISI((const BYTE*)service->char_service_name, service->service_name_length, &service_name);
 					}
 					AtoW(service_provider_name, item->service_provider_name);
+					ZtoH(item->service_provider_name);
 					AtoW(service_name, item->service_name);
+					ZtoH(item->service_name);
 
 					item->service_type = service->service_type;
 				}
@@ -1525,7 +1541,9 @@ BOOL CEpgDBUtil::AddSDT(CSDTTable* sdt)
 							arib.PSISI((const BYTE*)service->char_service_name, service->service_name_length, &service_name);
 						}
 						AtoW(service_provider_name, item->service_provider_name);
+						ZtoH(item->service_provider_name);
 						AtoW(service_name, item->service_name);
+						ZtoH(item->service_name);
 
 						item->service_type = service->service_type;
 					}
