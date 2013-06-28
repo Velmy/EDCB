@@ -887,7 +887,7 @@ namespace EpgTimer
 
                 if (program.ShortInfo != null)
                 {
-                    key.andKey = program.ShortInfo.event_name;
+                    key.andKey = program.ShortInfo.event_name.Replace("[新]", "").Trim();
                 }
                 UInt64 sidKey = CommonManager.Create64Key(program.original_network_id, program.transport_stream_id, program.service_id);
                 key.serviceList.Add(sidKey);
