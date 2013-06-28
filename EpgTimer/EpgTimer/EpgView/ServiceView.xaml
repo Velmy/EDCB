@@ -11,8 +11,11 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
-            <StackPanel Name="stackPanel_service" Background="Silver" Orientation="Horizontal"/>
+        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" MouseLeave="scrollViewer_MouseLeave">
+            <Canvas x:Name="canvas_service" Background="Silver" HorizontalAlignment="Left">
+                <Canvas x:Name="services" HorizontalAlignment="Left"/>
+                <StackPanel x:Name="popupService" Background="Silver" Orientation="Horizontal" Visibility="Hidden" Canvas.ZIndex="10" Height="40"/>
+            </Canvas>
         </ScrollViewer>
     </Grid>
 </UserControl>

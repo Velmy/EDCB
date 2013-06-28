@@ -100,6 +100,9 @@
     <Compile Include="..\..\EpgTimer\EpgTimer\Common\NWConnectClass.cs">
       <Link>Common\NWConnectClass.cs</Link>
     </Compile>
+    <Compile Include="..\..\EpgTimer\EpgTimer\DefineClass\EpgServiceItem.cs">
+      <Link>DefineClass\EpgServiceItem.cs</Link>
+    </Compile>
     <Compile Include="..\..\EpgTimer\EpgTimer\DefineClass\ListColumnInfo.cs">
       <Link>DefineClass\ListColumnInfo.cs</Link>
     </Compile>

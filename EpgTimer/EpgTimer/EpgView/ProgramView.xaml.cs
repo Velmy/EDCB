@@ -30,6 +30,7 @@ namespace EpgTimer.EpgView
         public event ProgramViewClickHandler LeftDoubleClick = null;
         public event ProgramViewClickHandler RightClick = null;
         private List<Rectangle> reserveBorder = new List<Rectangle>();
+        private Dictionary<UInt64, EpgServiceItem> serviceList = new Dictionary<UInt64, EpgServiceItem>();
 
         private Point lastDownMousePos;
         private double lastDownHOffset;
@@ -42,13 +43,13 @@ namespace EpgTimer.EpgView
         private Rectangle popupReserve = null;
         private double popupReserveWidth = 0;
         private double popupReserveHeight = 0;
+        private double popupReserveLeftPos = 0;
 
         public ProgramView()
         {
             InitializeComponent();
 
         }
-
 
         protected void PopupItem()
         {
@@ -87,6 +88,7 @@ namespace EpgTimer.EpgView
             {
                 popupReserve.Width = popupReserveWidth;
                 popupReserve.Height = popupReserveHeight;
+                Canvas.SetLeft(popupReserve, popupReserveLeftPos);
                 Canvas.SetZIndex(popupReserve, 10);
                 popupReserve = null;
             }
@@ -97,6 +99,8 @@ namespace EpgTimer.EpgView
                 lastPopupInfo = null;
                 return;
             }
+
+            UInt64 sidKey = CommonManager.Create64Key(info.EventInfo.original_network_id, info.EventInfo.transport_stream_id, info.EventInfo.service_id);
 
             double sizeNormal = Settings.Instance.FontSize;
             double sizeTitle = Settings.Instance.FontSizeTitle;
@@ -129,10 +133,18 @@ namespace EpgTimer.EpgView
             }
 
             popupItem.Background = info.ContentColor;
-            Canvas.SetLeft(popupItem, info.LeftPos);
             Canvas.SetTop(popupItem, info.TopPos);
-            popupItem.Width = info.Width;
             popupItem.MinHeight = info.Height;
+            if (serviceList.ContainsKey(sidKey))
+            {
+                Canvas.SetLeft(popupItem, serviceList[serviceList[sidKey].GroupID].LeftPos);
+                popupItem.Width = serviceList[serviceList[sidKey].GroupID].GroupWidth;
+            }
+            else
+            {
+                Canvas.SetLeft(popupItem, info.LeftPos);
+                popupItem.Width = info.Width;
+            }
 
             FontWeight titleWeight = Settings.Instance.FontBoldTitle ? FontWeights.Bold : FontWeights.Normal;
 
@@ -188,9 +200,14 @@ namespace EpgTimer.EpgView
                     popupReserve = rect;
                     popupReserveWidth = rect.Width;
                     popupReserveHeight = rect.Height;
+                    popupReserveLeftPos = Canvas.GetLeft(popupReserve);
                     popupItem.UpdateLayout();
                     rect.Width = popupItem.ActualWidth;
                     rect.Height = popupItem.ActualHeight;
+                    if (serviceList.ContainsKey(sidKey))
+                    {
+                        Canvas.SetLeft(rect, serviceList[serviceList[sidKey].GroupID].LeftPos);
+                    }
                     Canvas.SetZIndex(rect, 30);
                     break;
                 }
@@ -219,6 +236,10 @@ namespace EpgTimer.EpgView
             epgViewPanel.Width = 0;
             canvas.Height = 0;
             canvas.Width = 0;
+
+            serviceList.Clear();
+            serviceList = null;
+            serviceList = new Dictionary<ulong, EpgServiceItem>();
         }
 
         public void SetReserveList(List<ReserveViewItem> reserveList)
@@ -282,6 +303,11 @@ namespace EpgTimer.EpgView
             {
                 MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
             }
+        }
+
+        public void SetService(Dictionary<UInt64, EpgServiceItem> servicelist)
+        {
+            serviceList = servicelist;
         }
 
         public void SetProgramList(List<ProgramViewItem> programList, double width, double height)
@@ -438,6 +464,7 @@ namespace EpgTimer.EpgView
             {
                 popupReserve.Width = popupReserveWidth;
                 popupReserve.Height = popupReserveHeight;
+                Canvas.SetLeft(popupReserve, popupReserveLeftPos);
                 Canvas.SetZIndex(popupReserve, 10);
                 popupReserve = null;
             }

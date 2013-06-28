@@ -114,6 +114,11 @@ namespace EpgTimer
             get;
             set;
         }
+        public Brush CustServiceHighlightColor
+        {
+            get;
+            set;
+        }
 
         private static CommonManager _instance;
         public static CommonManager Instance
@@ -1248,6 +1253,23 @@ namespace EpgTimer
                 else
                 {
                     CustServiceColor = ColorDef.GradientBrush(ColorDef.ColorFromName(Settings.Instance.ServiceColor), 1.0, 2.0);
+                }
+                if (String.Compare(Settings.Instance.ServiceHighlightColor, "カスタム") == 0)
+                {
+                    UInt32 argb = Settings.Instance.ServiceHighlightCustColor;
+
+                    byte r = (byte)((argb & 0x00FF0000) >> 16);
+                    byte g = (byte)((argb & 0x0000FF00) >> 8);
+                    byte b = (byte)(argb & 0x000000FF);
+
+                    Color item = Color.FromArgb(0xFF, r, g, b);
+                    Brush backColor = ColorDef.GradientBrush(item, 1.0, 2.0);
+
+                    CustServiceHighlightColor = backColor;
+                }
+                else
+                {
+                    CustServiceHighlightColor = ColorDef.GradientBrush(ColorDef.ColorFromName(Settings.Instance.ServiceHighlightColor), 1.0, 2.0);
                 }
             }
             catch (Exception ex)

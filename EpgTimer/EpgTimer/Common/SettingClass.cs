@@ -133,6 +133,8 @@ namespace EpgTimer
         private UInt32 titleCustColor2;
         private string serviceColor;
         private UInt32 serviceCustColor;
+        private string serviceHighlightColor;
+        private UInt32 serviceHighlightCustColor;
         private bool reserveRectBackground;
         private bool epgTitleIndent;
         private double resColumnWidth0;
@@ -396,6 +398,16 @@ namespace EpgTimer
         {
             get { return serviceCustColor; }
             set { serviceCustColor = value; }
+        }
+        public string ServiceHighlightColor
+        {
+            get { return serviceHighlightColor; }
+            set { serviceHighlightColor = value; }
+        }
+        public UInt32 ServiceHighlightCustColor
+        {
+            get { return serviceHighlightCustColor; }
+            set { serviceHighlightCustColor = value; }
         }
         public bool EpgTitleIndent
         {
@@ -989,6 +1001,8 @@ namespace EpgTimer
             titleCustColor2 = 0xFFFFFFFF;
             serviceColor = "LightSlateGray";
             serviceCustColor = 0xFFFFFFFF;
+            serviceHighlightColor = "LightSeaGreen";
+            serviceHighlightCustColor = 0xFFFFFFFF;
             reserveRectBackground = false;
             epgTitleIndent = true;
             resColumnHead = "";
