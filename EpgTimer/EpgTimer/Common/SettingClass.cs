@@ -977,6 +977,8 @@ namespace EpgTimer
             dragScroll = 1.5;
             contentColorList = new List<string>();
             contentCustColorList = new List<uint>();
+            timeColorList = new List<string>();
+            timeCustColorList = new List<uint>();
             reserveRectColorNormal = "Lime";
             reserveRectColorNo = "Black";
             reserveRectColorNoTuner = "Red";
