@@ -59,7 +59,7 @@
                         </Rectangle.Effect>
                     </Rectangle>
                 </Canvas>
-                <Line x:Name="nowLine" Canvas.ZIndex="30" StrokeThickness="3" Opacity="0.5" Visibility="Hidden" Stroke="Red">
+                <Line x:Name="nowLine" Canvas.ZIndex="30" StrokeThickness="3" Opacity="0.5" Visibility="Hidden" Stroke="Red" IsHitTestVisible="False">
                     <Line.Effect>
                         <DropShadowEffect BlurRadius="10"/>
                     </Line.Effect>
