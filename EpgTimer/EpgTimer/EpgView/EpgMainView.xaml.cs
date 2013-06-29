@@ -1574,6 +1574,7 @@ namespace EpgTimer
             if (ONID == 4 && TSID == 17520) return true;  // スターチャンネル2・3
             if (ONID == 4 && TSID == 17168) return true;  // 難視聴対策 NHK総合、Eテレ、フジテレビ
             if (ONID == 4 && TSID == 17169) return true;  // 難視聴対策 日テレ、テレビ朝日、TBS、テレビ東京
+            if (ONID == 0x06 || ONID == 0x07) return true;  // CS
             return false;
         }
 
