@@ -8,6 +8,15 @@ namespace EpgTimer
 {
     public class EpgServiceItem : EpgServiceInfo
     {
+        public EpgServiceItem() : base()
+        {
+            GroupID = 0;
+            GroupNext = 0;
+            LeftPos = 0;
+            Width = 0;
+            GroupWidth = 0;
+        }
+
         public EpgServiceItem(EpgServiceInfo info)
         {
             network_name = info.network_name;

@@ -1599,21 +1599,21 @@ namespace EpgTimer
                 //必要サービスの抽出
                 serviceList.Clear();
 
-                UInt64 prevId = 0;
+                EpgServiceItem prevItem = new EpgServiceItem();
                 foreach (UInt64 id in viewCustServiceList)
                 {
                     if (CommonManager.Instance.DB.ServiceEventList.ContainsKey(id) == true)
                     {
                         EpgServiceItem item = new EpgServiceItem(CommonManager.Instance.DB.ServiceEventList[id].serviceInfo);
-                        if (prevId != 0 && !IsSeparateCannel(item.ONID, item.TSID, item.SID) &&
-                            serviceList[prevId].ONID == item.ONID && serviceList[prevId].TSID == item.TSID && serviceList[prevId].service_type == item.service_type)
+                        if (!IsSeparateCannel(item.ONID, item.TSID, item.SID) &&
+                            prevItem.ONID == item.ONID && prevItem.TSID == item.TSID && prevItem.service_type == item.service_type)
                         {
-                            UInt64 groupId = serviceList[prevId].GroupID;
+                            UInt64 groupId = prevItem.GroupID;
                             item.GroupID = groupId;
-                            serviceList[prevId].GroupNext = id;
+                            prevItem.GroupNext = id;
                             item.Width = Settings.Instance.ServiceWidth / 2;
-                            serviceList[prevId].Width = Settings.Instance.ServiceWidth / 2;
-                            item.GroupWidth = serviceList[prevId].LeftPos - serviceList[groupId].LeftPos + item.Width * 2;
+                            prevItem.Width = Settings.Instance.ServiceWidth / 2;
+                            item.GroupWidth = prevItem.LeftPos - serviceList[groupId].LeftPos + item.Width * 2;
                             serviceList[groupId].GroupWidth = item.GroupWidth;
                         }
                         else
@@ -1622,10 +1622,9 @@ namespace EpgTimer
                             item.Width = Settings.Instance.ServiceWidth;
                             item.GroupWidth = item.Width;
                         }
-                        if (prevId != 0)
-                            item.LeftPos = serviceList[prevId].LeftPos + serviceList[prevId].Width;
+                        item.LeftPos = prevItem.LeftPos + prevItem.Width;
                         serviceList.Add(id, item);
-                        prevId = id;
+                        prevItem = item;
                     }
                 }
 
@@ -1876,19 +1875,21 @@ namespace EpgTimer
                     serviceInfo.eventList.Add(eventInfo);
                 }
 
-                UInt64 prevId = 0;
+                EpgServiceItem prevItem = new EpgServiceItem();
                 foreach (UInt64 id in viewCustServiceList)
                 {
                     if (serviceEventList.ContainsKey(id) == true)
                     {
                         EpgServiceItem item = new EpgServiceItem(serviceEventList[id].serviceInfo);
-                        if (prevId != 0 && serviceList[prevId].ONID == item.ONID && serviceList[prevId].TSID == item.TSID && serviceList[prevId].service_type == item.service_type)
+                        if (!IsSeparateCannel(item.ONID, item.TSID, item.SID) &&
+                            prevItem.ONID == item.ONID && prevItem.TSID == item.TSID && prevItem.service_type == item.service_type)
                         {
-                            UInt64 groupId = serviceList[prevId].GroupID;
+                            UInt64 groupId = prevItem.GroupID;
                             item.GroupID = groupId;
-                            serviceList[prevId].GroupNext = id;
+                            prevItem.GroupNext = id;
                             item.Width = Settings.Instance.ServiceWidth / 2;
-                            item.GroupWidth = serviceList[prevId].GroupWidth + item.Width;
+                            prevItem.Width = Settings.Instance.ServiceWidth / 2;
+                            item.GroupWidth = prevItem.LeftPos - serviceList[groupId].LeftPos + item.Width * 2;
                             serviceList[groupId].GroupWidth = item.GroupWidth;
                         }
                         else
@@ -1897,19 +1898,18 @@ namespace EpgTimer
                             item.Width = Settings.Instance.ServiceWidth;
                             item.GroupWidth = item.Width;
                         }
-                        if (prevId != 0)
-                            item.LeftPos = serviceList[prevId].LeftPos + serviceList[prevId].Width;
+                        item.LeftPos = prevItem.LeftPos + prevItem.Width;
                         serviceList.Add(id, item);
-                        prevId = id;
+                        prevItem = item;
                     }
                 }
 
 
                 //必要番組の抽出と時間チェック
-                for (int i = 0; i < serviceList.Count; i++)
+                foreach (var pair in serviceList)
                 {
-                    UInt64 id = serviceList.Keys.ElementAt(i);
-                    EpgServiceInfo serviceInfo = serviceList.Values.ElementAt(i);
+                    UInt64 id = pair.Key;
+                    EpgServiceInfo serviceInfo = pair.Value;
                     foreach (EpgEventInfo eventInfo in serviceEventList[id].eventList)
                     {
                         if (eventInfo.StartTimeFlag == 0)
@@ -2087,7 +2087,7 @@ namespace EpgTimer
                 }
                 epgProgramView.SetProgramList(
                     programList,
-                    serviceList.Count * Settings.Instance.ServiceWidth,
+                    totalWidth,
                     timeList.Count * 60 * Settings.Instance.MinHeight);
 
                 timeView.SetTime(timeList, viewCustNeedTimeOnly, false);
