@@ -30,7 +30,6 @@ namespace EpgTimer.EpgView
         public event ProgramViewClickHandler LeftDoubleClick = null;
         public event ProgramViewClickHandler RightClick = null;
         private List<Rectangle> reserveBorder = new List<Rectangle>();
-        private Dictionary<UInt64, EpgServiceItem> serviceList = new Dictionary<UInt64, EpgServiceItem>();
 
         private Point lastDownMousePos;
         private double lastDownHOffset;
@@ -91,8 +90,6 @@ namespace EpgTimer.EpgView
                 return;
             }
 
-            UInt64 sidKey = CommonManager.Create64Key(info.EventInfo.original_network_id, info.EventInfo.transport_stream_id, info.EventInfo.service_id);
-
             double sizeNormal = Settings.Instance.FontSize;
             double sizeTitle = Settings.Instance.FontSizeTitle;
 
@@ -126,16 +123,8 @@ namespace EpgTimer.EpgView
             popupItemContainer.Background = info.ContentColor;
             Canvas.SetTop(popupItem, info.TopPos);
             popupItemContainer.MinHeight = info.Height;
-            if (serviceList.ContainsKey(sidKey))
-            {
-                Canvas.SetLeft(popupItem, serviceList[serviceList[sidKey].GroupID].LeftPos);
-                popupItemContainer.Width = serviceList[serviceList[sidKey].GroupID].GroupWidth;
-            }
-            else
-            {
-                Canvas.SetLeft(popupItem, info.LeftPos);
-                popupItemContainer.Width = info.Width;
-            }
+            Canvas.SetLeft(popupItem, info.GroupLeftPos);
+            popupItemContainer.Width = info.GroupWidth;
 
             FontWeight titleWeight = Settings.Instance.FontBoldTitle ? FontWeights.Bold : FontWeights.Normal;
 
@@ -221,10 +210,6 @@ namespace EpgTimer.EpgView
             epgViewPanel.Width = 0;
             canvas.Height = 0;
             canvas.Width = 0;
-
-            serviceList.Clear();
-            serviceList = null;
-            serviceList = new Dictionary<ulong, EpgServiceItem>();
         }
 
         public void SetReserveList(List<ReserveViewItem> reserveList)
@@ -298,11 +283,6 @@ namespace EpgTimer.EpgView
             {
                 MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
             }
-        }
-
-        public void SetService(Dictionary<UInt64, EpgServiceItem> servicelist)
-        {
-            serviceList = servicelist;
         }
 
         public void SetProgramList(List<ProgramViewItem> programList, double width, double height)

@@ -1837,6 +1837,8 @@ namespace EpgTimer
                         int index = dayList.IndexOfKey(dayInfo);
                         item.LeftPos = index * Settings.Instance.ServiceWidth;
                     }
+                    item.GroupLeftPos = item.LeftPos;
+                    item.GroupWidth = item.Width;
                 }
                 epgProgramView.SetProgramList(
                     programList,

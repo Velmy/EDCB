@@ -1720,6 +1720,8 @@ namespace EpgTimer
                         viewItem.Width = serviceList[sidKey].Width * widthSpan;
                         viewItem.LeftPos = serviceList[sidKey].LeftPos;
                         //viewItem.TopPos = (eventInfo.start_time - startTime).TotalMinutes * Settings.Instance.MinHeight;
+                        viewItem.GroupLeftPos = serviceList[serviceList[sidKey].GroupID].LeftPos;
+                        viewItem.GroupWidth = serviceList[serviceList[sidKey].GroupID].GroupWidth;
                         if (eventInfo.durationSec / 60 <= setViewInfo.FilterDuration)
                         {
                             //指定よりも短い番組を表示しない
@@ -1802,8 +1804,6 @@ namespace EpgTimer
                     time.TopPos = topPos;
                     topPos += 60 * Settings.Instance.MinHeight;
                 }
-
-                epgProgramView.SetService(serviceList);
 
                 double totalWidth = 0;
                 foreach (var item in serviceList.Values)
@@ -1996,6 +1996,8 @@ namespace EpgTimer
                         viewItem.Height = (eventInfo.durationSec * Settings.Instance.MinHeight) / 60;
                         viewItem.Width = serviceList[sidKey].Width * widthSpan;
                         viewItem.LeftPos = serviceList[sidKey].LeftPos;
+                        viewItem.GroupLeftPos = serviceList[serviceList[sidKey].GroupID].LeftPos;
+                        viewItem.GroupWidth = serviceList[serviceList[sidKey].GroupID].GroupWidth;
                         //viewItem.TopPos = (eventInfo.start_time - startTime).TotalMinutes * Settings.Instance.MinHeight;
                         if (eventInfo.durationSec / 60 <= setViewInfo.FilterDuration)
                         {

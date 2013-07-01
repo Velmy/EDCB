@@ -120,5 +120,17 @@ namespace EpgTimer
                 return color;
             }
         }
+
+        public double GroupLeftPos
+        {
+            get;
+            set;
+        }
+
+        public double GroupWidth
+        {
+            get;
+            set;
+        }
     }
 }
