@@ -5305,8 +5305,8 @@ BOOL CReserveManager::GetTVTestChgCh(
 	BOOL ret = FALSE;
 	
 	WORD ONID = (WORD)((chID&0x0000FFFF00000000)>>32);
-	WORD TSID = (WORD)((chID&0x00000000FFFF0000)>>16);
-	WORD SID = (WORD)((chID&0x000000000000FFFF));
+	WORD SID = (WORD)((chID&0x00000000FFFF0000)>>16);
+	WORD TSID = (WORD)((chID&0x000000000000FFFF));
 
 	vector<DWORD> idList;
 	this->tunerManager.GetSupportServiceTuner(ONID, TSID, SID, &idList);

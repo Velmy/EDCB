@@ -1434,8 +1434,8 @@ int CALLBACK CEpgTimerSrvMain::CtrlCmdCallback(void* param, CMD_STREAM* cmdParam
 
 					if( ReadVALUE( &key, cmdParam->data, cmdParam->dataSize, NULL ) == TRUE ){
 						WORD ONID = (WORD)(key>>48);
-						WORD TSID = (WORD)((key&0x0000FFFF00000000)>>32);
-						WORD SID = (WORD)((key&0x00000000FFFF0000)>>16);
+						WORD SID = (WORD)((key&0x0000FFFF00000000)>>32);
+						WORD TSID = (WORD)((key&0x00000000FFFF0000)>>16);
 						WORD eventID = (WORD)(key&0x000000000000FFFF);
 						if( sys->epgDB.SearchEpg(ONID, TSID, SID, eventID, &val) == TRUE ){
 							resParam->param = CMD_SUCCESS;

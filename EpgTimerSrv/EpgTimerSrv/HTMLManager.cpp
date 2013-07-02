@@ -1732,8 +1732,8 @@ BOOL CHTMLManager::CreateCustEpgPage(CEpgDBManager* epgDB, vector<RESERVE_DATA*>
 			string service;
 			wstring serviceName;
 			WORD onid = (WORD)(viewServiceList[i]>>32);
-			WORD tsid = (WORD)((viewServiceList[i]>>16)&0x000000000000FFFF);
-			WORD sid = (WORD)(viewServiceList[i]&0x000000000000FFFF);
+			WORD sid = (WORD)((viewServiceList[i]>>16)&0x000000000000FFFF);
+			WORD tsid = (WORD)(viewServiceList[i]&0x000000000000FFFF);
 			epgDB->SearchServiceName(onid, tsid, sid, serviceName);
 			WtoA(serviceName, service);
 			if( page == i ){
@@ -1851,8 +1851,8 @@ BOOL CHTMLManager::CreateCustEpgPage(CEpgDBManager* epgDB, vector<RESERVE_DATA*>
 		string service;
 		wstring serviceName;
 		WORD onid = (WORD)(viewServiceList[i]>>32);
-		WORD tsid = (WORD)((viewServiceList[i]>>16)&0x000000000000FFFF);
-		WORD sid = (WORD)(viewServiceList[i]&0x000000000000FFFF);
+		WORD sid = (WORD)((viewServiceList[i]>>16)&0x000000000000FFFF);
+		WORD tsid = (WORD)(viewServiceList[i]&0x000000000000FFFF);
 		epgDB->SearchServiceName(onid, tsid, sid, serviceName);
 		WtoA(serviceName, service);
 		Format(buff, "<TD height=\"20px\" width=\"150px\" nowrap>%s</TD>\r\n", service.c_str());
@@ -2834,8 +2834,8 @@ BOOL CHTMLManager::CreateEpgMainTable(CEpgDBManager* epgDB, vector<LONGLONG>* vi
 		string service;
 		wstring serviceName;
 		WORD onid = (WORD)((*viewServiceList)[i]>>32);
-		WORD tsid = (WORD)(((*viewServiceList)[i]>>16)&0x000000000000FFFF);
-		WORD sid = (WORD)((*viewServiceList)[i]&0x000000000000FFFF);
+		WORD sid = (WORD)(((*viewServiceList)[i]>>16)&0x000000000000FFFF);
+		WORD tsid = (WORD)((*viewServiceList)[i]&0x000000000000FFFF);
 		epgDB->SearchServiceName(onid, tsid, sid, serviceName);
 		WtoA(serviceName, service);
 		Format(buff, "<TD height=\"20px\" width=\"150px\" nowrap><TABLE height=\"20px\" width=\"150px\" cellpadding=\"0\" cellspacing=\"0\" border=\"1\"><TR><TD>%s</TD></TR></TABLE></TD>\r\n", service.c_str());
@@ -2882,8 +2882,8 @@ BOOL CHTMLManager::CreateEpgMainTable(CEpgDBManager* epgDB, vector<LONGLONG>* vi
 		string service;
 		wstring serviceName;
 		WORD onid = (WORD)((*viewServiceList)[i]>>32);
-		WORD tsid = (WORD)(((*viewServiceList)[i]>>16)&0x000000000000FFFF);
-		WORD sid = (WORD)((*viewServiceList)[i]&0x000000000000FFFF);
+		WORD sid = (WORD)(((*viewServiceList)[i]>>16)&0x000000000000FFFF);
+		WORD tsid = (WORD)((*viewServiceList)[i]&0x000000000000FFFF);
 		epgDB->SearchServiceName(onid, tsid, sid, serviceName);
 		WtoA(serviceName, service);
 		Format(buff, "<TD height=\"20px\" width=\"150px\" nowrap><TABLE height=\"20px\" width=\"150px\" cellpadding=\"0\" cellspacing=\"0\" border=\"1\"><TR><TD>%s</TD></TR></TABLE></TD>\r\n", service.c_str());
