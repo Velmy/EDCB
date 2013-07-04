@@ -176,6 +176,15 @@ namespace EpgTimer
                 }
             }
             textBox_filterDuration.Text = setInfo.FilterDuration.ToString();
+
+            if (setInfo.FilterEnded == true)
+            {
+                checkBox_filterEnded.IsChecked = true;
+            }
+            else
+            {
+                checkBox_filterEnded.IsChecked = false;
+            }
         }
 
         /// <summary>
@@ -234,6 +243,15 @@ namespace EpgTimer
             } catch(Exception)
             {
                 info.FilterDuration = 0;
+            }
+
+            if (checkBox_filterEnded.IsChecked == true)
+            {
+                info.FilterEnded = true;
+            }
+            else
+            {
+                info.FilterEnded = false;
             }
 
             info.SearchKey.aimaiFlag = searchKey.aimaiFlag;

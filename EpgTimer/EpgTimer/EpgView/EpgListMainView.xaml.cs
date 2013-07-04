@@ -450,6 +450,7 @@ namespace EpgTimer
                     eventList = CommonManager.Instance.DB.ServiceEventList;
                 }
 
+                DateTime now = DateTime.Now;
                 foreach (ServiceItem info in serviceList)
                 {
                     if (info.IsSelected == true)
@@ -467,6 +468,11 @@ namespace EpgTimer
                                 {
                                     //指定よりも短い番組を除外
                                     continue;
+                                }
+                                if (setViewInfo.FilterEnded)
+                                {
+                                    if (eventInfo.start_time.AddSeconds(eventInfo.durationSec) < now)
+                                        continue;
                                 }
                                 //ジャンル絞り込み
                                 if (this.viewCustContentKindList.Count > 0)
