@@ -23,7 +23,7 @@ namespace EpgTimer {
 
         public void google(string keyword0) {
             //
-            // 前後の記号を取り除く
+            // 前後の記号、サブタイトル、番組説明を取り除く
             //
             // [二][字]NHKニュース7
             // ５．１[SS][字]NHK歌謡コンサート「人生の旅路に　この歌を」
@@ -37,10 +37,36 @@ namespace EpgTimer {
                     "|" +
                     "(［[^］]+］)+" +
                 ")";
-            foreach (string str1 in new string[] { "^((５．１)|" + markExp1 + ")+", markExp1 + "$" }) {
+            string[] exp = {
+                               "<[^>]+>",                           // NHK・フジテレビが使う補足
+                               "((#\\d)|(第\\d+話)).*",             // ドラマ等の話数から後ろ全て
+                               "\\(\\d+\\)\\s*「[^」]+」.*",        // ドラマ等の話数から後ろ全て その2
+                               "[◆▽].*",                          // タイトルに埋め込まれた番組説明
+                               "^((５．１)|" + markExp1 + ")+",     // 先頭の記号
+                               markExp1 + "$"                       // 末尾の記号
+                           };
+            foreach (string str1 in exp)
+            {
                 keyword0 = Regex.Replace(keyword0, str1, string.Empty).Trim();
             }
-            //
+
+            // 映画のタイトル抽出
+            // TODO:正規表現を設定ファイルで変更可能にする
+            string[] titleExp = {
+                                    "^「(?<Title>[^」]+)」",
+                                    "((サタ☆シネ)|(シネマズ?)|(シアター)|(プレミア)|(ロードショー)|(ロードSHOW!)|(午後ロード)|(木曜デラックス)|(映画天国))\\s*「(?<Title>[^」]+)」",
+                                    "((シネマ)|(キネマ)).*『(?<Title>[^』]+)』"
+                                };
+            foreach (string str1 in titleExp)
+            {
+                Match m = Regex.Match(keyword0, str1);
+                if (m.Success == true)
+                {
+                    keyword0 = m.Groups["Title"].Value;
+                    break;
+                }
+            }
+
             this.proc_Browser = Process.Start("https://www.google.co.jp/search?hl=ja&q=" + UrlEncode(keyword0, System.Text.Encoding.UTF8));
         }
 
