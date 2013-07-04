@@ -213,7 +213,8 @@ namespace EpgTimer
                     string header = headerClicked.Tag as string;
                     if (String.Compare(header, _lastHeaderClicked) != 0)
                     {
-                        direction = ListSortDirection.Ascending;
+                        if (header == "StartTime") direction = ListSortDirection.Descending;
+                        else direction = ListSortDirection.Ascending;
                         _lastHeaderClicked2 = _lastHeaderClicked;
                         _lastDirection2 = _lastDirection;
                     }
