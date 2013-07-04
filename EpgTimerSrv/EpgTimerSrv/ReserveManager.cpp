@@ -3359,7 +3359,11 @@ void CReserveManager::CheckEndReserve()
 				if( itrEnd->second->endType == REC_END_STATUS_NORMAL ){
 					if( ConvertI64Time(data.startTime) != ConvertI64Time(data.startTimeEpg) ){
 						item.recStatus = REC_END_STATUS_CHG_TIME;
-						item.comment = L"開始時間が変更されました";
+						if( data.recSetting.recMode == RECMODE_VIEW ){
+							item.comment = L"終了（開始時間が変更されました）";
+						}else{
+							item.comment = L"録画終了（開始時間が変更されました）";
+						}
 					}else{
 						item.recStatus = REC_END_STATUS_NORMAL;
 						if( data.recSetting.recMode == RECMODE_VIEW ){
@@ -3370,28 +3374,28 @@ void CReserveManager::CheckEndReserve()
 					}
 				}else if( itrEnd->second->endType == REC_END_STATUS_NOT_FIND_PF ){
 					item.recStatus = REC_END_STATUS_NOT_FIND_PF;
-					item.comment = L"録画中に番組情報を確認できませんでした";
+					item.comment = L"失敗（番組情報を確認できませんでした）";
 				}else if( itrEnd->second->endType == REC_END_STATUS_NEXT_START_END ){
 					item.recStatus = REC_END_STATUS_NEXT_START_END;
-					item.comment = L"次の予約開始のためにキャンセルされました";
+					item.comment = L"失敗（次の予約開始のためにキャンセルされました）";
 				}else if( itrEnd->second->endType == REC_END_STATUS_END_SUBREC ){
 					item.recStatus = REC_END_STATUS_END_SUBREC;
 					item.comment = L"録画終了（空き容量不足で別フォルダへの保存が発生）";
 				}else if( itrEnd->second->endType == REC_END_STATUS_ERR_RECSTART ){
 					item.recStatus = REC_END_STATUS_ERR_RECSTART;
-					item.comment = L"録画開始処理に失敗しました（空き容量不足の可能性あり）";
+					item.comment = L"失敗（空き容量不足の可能性あり）";
 				}else if( itrEnd->second->endType == REC_END_STATUS_NOT_START_HEAD ){
 					item.recStatus = REC_END_STATUS_NOT_START_HEAD;
-					item.comment = L"一部のみ録画が実行された可能性があります";
+					item.comment = L"失敗（一部のみ録画が実行された可能性があります）";
 				}else if( itrEnd->second->endType == REC_END_STATUS_ERR_CH_CHG ){
 					item.recStatus = REC_END_STATUS_ERR_CH_CHG;
-					item.comment = L"指定チャンネルのデータがBonDriverから出力されなかった可能性があります";
+					item.comment = L"失敗（指定チャンネルのデータがBonDriverから出力されなかった可能性があります）";
 				}else if( itrEnd->second->endType == REC_END_STATUS_ERR_END2 ){
 					item.recStatus = itrEnd->second->endType;
-					item.comment = L"ファイル保存で致命的なエラーが発生した可能性があります";
+					item.comment = L"失敗（ファイル保存で致命的なエラーが発生した可能性があります）";
 				}else{
 					item.recStatus = itrEnd->second->endType;
-					item.comment = L"録画中にキャンセルされた可能性があります";
+					item.comment = L"失敗（録画中にキャンセルされた可能性があります）";
 				}
 				this->recInfoText.AddRecInfo(&item);
 				BOOL tweet = TRUE;

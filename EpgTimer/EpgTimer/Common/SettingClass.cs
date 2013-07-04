@@ -225,6 +225,9 @@ namespace EpgTimer
         private byte recEndWarColorR;
         private byte recEndWarColorG;
         private byte recEndWarColorB;
+        private byte recEndAbortColorR;
+        private byte recEndAbortColorG;
+        private byte recEndAbortColorB;
         private byte epgTipsBackColorR;
         private byte epgTipsBackColorG;
         private byte epgTipsBackColorB;
@@ -854,6 +857,21 @@ namespace EpgTimer
             get { return recEndWarColorB; }
             set { recEndWarColorB = value; }
         }
+        public byte RecEndAbortColorR
+        {
+            get { return recEndAbortColorR; }
+            set { recEndAbortColorR = value; }
+        }
+        public byte RecEndAbortColorG
+        {
+            get { return recEndAbortColorG; }
+            set { recEndAbortColorG = value; }
+        }
+        public byte RecEndAbortColorB
+        {
+            get { return recEndAbortColorB; }
+            set { recEndAbortColorB = value; }
+        }
         public byte EpgTipsBackColorR
         {
             get { return epgTipsBackColorR; }
@@ -1076,6 +1094,9 @@ namespace EpgTimer
             recEndWarColorR = 0xFF;
             recEndWarColorG = 0xFF;
             recEndWarColorB = 0;
+            recEndAbortColorR = 0xA9;
+            recEndAbortColorG = 0xA9;
+            recEndAbortColorB = 0xA9;
             epgTipsBackColorR = 0xD3;
             epgTipsBackColorG = 0xD3;
             epgTipsBackColorB = 0xD3;

@@ -1387,6 +1387,22 @@ namespace EpgTimer
             }
         }
 
+        private SolidColorBrush recEndAbortBackColor = null;
+        public SolidColorBrush RecEndAbortBackColor
+        {
+            get
+            {
+                if (recEndAbortBackColor == null)
+                {
+                    Color item = Color.FromArgb(0xFF, Settings.Instance.RecEndAbortColorR, Settings.Instance.RecEndAbortColorG, Settings.Instance.RecEndAbortColorB);
+                    recEndAbortBackColor = new SolidColorBrush();
+                    recEndAbortBackColor.Color = item;
+                    recEndAbortBackColor.Freeze();
+                }
+                return recEndAbortBackColor;
+            }
+        }
+
         private SolidColorBrush epgTipsBackColor = null;
         public SolidColorBrush EpgTipsBackColor
         {

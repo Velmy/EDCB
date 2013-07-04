@@ -218,6 +218,10 @@ namespace EpgTimer
                     {
                         color = CommonManager.Instance.RecEndErrBackColor;
                     }
+                    if (Result.StartsWith("失敗"))
+                    {
+                        color = CommonManager.Instance.RecEndAbortBackColor;
+                    }
                 }
                 return color;
             }
