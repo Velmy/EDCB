@@ -550,7 +550,7 @@ BOOL CHTMLManager::GetIndexPage(HTTP_STREAM* sendParam)
 	html+="メニュー<BR><BR>";
 	html+="<A HREF=\"reserve.html\">予約一覧</A><BR>\r\n";
 	html+="<A HREF=\"recinfo.html\">録画結果一覧</A><BR>\r\n";
-	html+="<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A><BR>\r\n";
+	html+="<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A><BR>\r\n";
 	html+="<A HREF=\"epg.html\">番組表</A><BR>\r\n";
 	html+="<BR>\r\n";
 	html+="<A HREF=\"addprogres.html\">プログラム予約追加</A><BR>\r\n";
@@ -3486,7 +3486,7 @@ BOOL CHTMLManager::GetAutoAddEpgPage(vector<EPG_AUTO_ADD_DATA>* val, int pageInd
 
 
 	string html = HTML_TOP;
-	html+="自動予約登録　EPG予約一覧<BR><BR>\r\n";
+	html+="自動予約登録　キーワード予約一覧<BR><BR>\r\n";
 
 	if(val == NULL ){
 		html+="条件なし<BR>\r\n";
@@ -3643,7 +3643,7 @@ BOOL CHTMLManager::GetAddAutoEpgPage(EPG_AUTO_ADD_DATA* val, string param, vecto
 	string buff;
 	string html = HTML_TOP;
 
-	html+="<HR>EPG予約　新規条件追加<HR>\r\n";
+	html+="<HR>キーワード予約　新規条件追加<HR>\r\n";
 	//予約情報
 	html+="<HR>検索条件<HR>\r\n";
 	html+="<B>※検索条件を確定してから録画設定の変更と追加をしてください</B>\r\n";
@@ -4129,9 +4129,9 @@ BOOL CHTMLManager::GetAddAutoEpgPage(HTTP_STREAM* sendParam, BOOL err)
 	}
 	string html = HTML_TOP;
 	if( err == FALSE ){
-		html+="追加しました<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A>\r\n";
+		html+="追加しました<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A>\r\n";
 	}else{
-		html+="入力値不正<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A>\r\n";
+		html+="入力値不正<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A>\r\n";
 	}
 	html+=HTML_END;
 	sendParam->dataSize = (DWORD)html.size();
@@ -4152,9 +4152,9 @@ BOOL CHTMLManager::GetChgAutoEpgPage(HTTP_STREAM* sendParam, BOOL err)
 	}
 	string html = HTML_TOP;
 	if( err == FALSE ){
-		html+="変更しました<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A>\r\n";
+		html+="変更しました<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A>\r\n";
 	}else{
-		html+="入力値不正<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A>\r\n";
+		html+="入力値不正<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A>\r\n";
 	}
 	html+=HTML_END;
 	sendParam->dataSize = (DWORD)html.size();
@@ -4175,9 +4175,9 @@ BOOL CHTMLManager::GetDelAutoEpgPage(HTTP_STREAM* sendParam, BOOL err)
 	}
 	string html = HTML_TOP;
 	if( err == FALSE ){
-		html+="削除しました<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A>\r\n";
+		html+="削除しました<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A>\r\n";
 	}else{
-		html+="入力値不正<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 EPG予約一覧</A>\r\n";
+		html+="入力値不正<BR><BR>\r\n<A HREF=\"autoaddepg.html\">自動予約登録 キーワード予約一覧</A>\r\n";
 	}
 	html+=HTML_END;
 	sendParam->dataSize = (DWORD)html.size();
@@ -4227,7 +4227,7 @@ BOOL CHTMLManager::GetChgAutoEpgPage(EPG_AUTO_ADD_DATA* val, string param, vecto
 	string buff;
 	string html = HTML_TOP;
 
-	html+="<HR>EPG予約　条件変更<HR>\r\n";
+	html+="<HR>キーワード予約　条件変更<HR>\r\n";
 	//予約情報
 	html+="<HR>検索条件<HR>\r\n";
 	html+="<B>※検索条件を確定してから録画設定の変更をしてください</B>\r\n";

@@ -90,9 +90,6 @@
     <Compile Include="AddManualAutoAddWindow.xaml.cs">
       <DependentUpon>AddManualAutoAddWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AutoAddView.xaml.cs">
-      <DependentUpon>AutoAddView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BlackoutWindow.xaml.cs">
       <DependentUpon>BlackoutWindow.xaml</DependentUpon>
     </Compile>
@@ -256,10 +253,6 @@
     <Compile Include="DefineClass\TunerSelectInfo.cs" />
     <Compile Include="DefineClass\ViewMenuItem.cs" />
     <Page Include="AddManualAutoAddWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AutoAddView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

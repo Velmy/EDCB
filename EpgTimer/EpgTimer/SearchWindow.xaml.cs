@@ -110,7 +110,7 @@ namespace EpgTimer
                 button_add_epgAutoAdd.Visibility = System.Windows.Visibility.Visible;
                 button_chg_epgAutoAdd.Visibility = System.Windows.Visibility.Hidden;
 
-                Title = "EPG予約条件";
+                Title = "キーワード予約条件";
             }
             else if (mode == 2)
             {
@@ -118,7 +118,7 @@ namespace EpgTimer
                 button_add_epgAutoAdd.Visibility = System.Windows.Visibility.Visible;
                 button_chg_epgAutoAdd.Visibility = System.Windows.Visibility.Visible;
 
-                Title = "EPG予約条件";
+                Title = "キーワード予約条件";
             }
             else
             {

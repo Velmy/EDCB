@@ -5821,7 +5821,7 @@ void CReserveManager::ChgAutoAddNoRec(EPGDB_EVENT_INFO* info)
 			item.serviceID == info->service_id &&
 			item.eventID == info->event_id
 			){
-				if( item.comment.find(L"EPG自動予約") != string::npos ){
+				if( item.comment.find(L"キーワード予約") != string::npos ){
 					item.recSetting.recMode = RECMODE_NO;
 					_ChgReserveData(&item, FALSE);
 				}

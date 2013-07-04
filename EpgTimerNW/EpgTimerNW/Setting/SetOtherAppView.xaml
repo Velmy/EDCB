@@ -73,7 +73,7 @@
                             <TextBox Height="21" Margin="200,173,15,0" Name="textBox_tweet1" VerticalAlignment="Top" />
                             <CheckBox Content="録画中の変更検知" Height="16" HorizontalAlignment="Left" Margin="25,198,0,0" Name="checkBox_tweet2" VerticalAlignment="Top" />
                             <TextBox Height="21" Margin="200,195,15,0" Name="textBox_tweet2" VerticalAlignment="Top" />
-                            <CheckBox Content="EPG自動予約登録の検知" Height="16" HorizontalAlignment="Left" Margin="25,220,0,0" Name="checkBox_tweet3" VerticalAlignment="Top" />
+                            <CheckBox Content="キーワード予約登録の検知" Height="16" HorizontalAlignment="Left" Margin="25,220,0,0" Name="checkBox_tweet3" VerticalAlignment="Top" />
                             <TextBox Height="21" Margin="200,217,15,0" Name="textBox_tweet3" VerticalAlignment="Top" />
                             <CheckBox Content="録画開始" Height="16" HorizontalAlignment="Left" Margin="25,242,0,0" Name="checkBox_tweet4" VerticalAlignment="Top" />
                             <TextBox Height="21" Margin="200,239,15,0" Name="textBox_tweet4" VerticalAlignment="Top" />

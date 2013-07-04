@@ -33,9 +33,14 @@
                     <local:TunerReserveMainView x:Name="tunerReserveView" />
                 </Grid>
             </TabItem>
-            <TabItem Header="自動予約登録" Name="tabItem_epgAutoAdd">
+            <TabItem Header="キーワード予約" Name="tabItem_epg">
                 <Grid>
-                    <local:AutoAddView x:Name="autoAddView" />
+                    <local:EpgAutoAddView x:Name="epgAutoAddView" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="プログラム予約" Name="tabItem_manual">
+                <Grid>
+                    <local:ManualAutoAddView x:Name="manualAutoAddView" />
                 </Grid>
             </TabItem>
         </TabControl>

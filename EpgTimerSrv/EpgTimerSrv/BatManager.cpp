@@ -508,9 +508,9 @@ BOOL CBatManager::CreateBatFile(BAT_WORK_INFO* info, wstring batSrcFilePath, wst
 	CheckFileName(strTemp);
 	WtoA(strTemp, strTitleF);
 
-	if( info->reserveInfo.comment.find(L"EPG自動予約(") != string::npos ){
+	if( info->reserveInfo.comment.find(L"キーワード予約(") != string::npos ){
 		WtoA(info->reserveInfo.comment, strAddKey);
-		Replace(strAddKey, "EPG自動予約(", "");
+		Replace(strAddKey, "キーワード予約(", "");
 		strAddKey.erase(strAddKey.length()-1, 1);
 	}
 

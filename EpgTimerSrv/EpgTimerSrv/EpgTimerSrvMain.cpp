@@ -826,9 +826,9 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG()
 							}
 						}
 						if( resultList[i].findKey.size() > 0 ){
-							Format(addItem->comment, L"EPG自動予約(%s)", resultList[i].findKey.c_str());
+							Format(addItem->comment, L"キーワード予約(%s)", resultList[i].findKey.c_str());
 						}else{
-							addItem->comment = L"EPG自動予約";
+							addItem->comment = L"キーワード予約";
 						}
 
 						addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
@@ -983,9 +983,9 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 								}
 							}
 							if( resultList[i].findKey.size() > 0 ){
-								Format(addItem->comment, L"EPG自動予約(%s)", resultList[i].findKey.c_str());
+								Format(addItem->comment, L"キーワード予約(%s)", resultList[i].findKey.c_str());
 							}else{
-								addItem->comment = L"EPG自動予約";
+								addItem->comment = L"キーワード予約";
 							}
 
 							addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));

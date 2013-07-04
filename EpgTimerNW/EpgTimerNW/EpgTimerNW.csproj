@@ -154,11 +154,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\..\EpgTimer\EpgTimer\AutoAddView.xaml">
-      <Link>AutoAddView.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\..\EpgTimer\EpgTimer\BlackoutWindow.xaml">
       <Link>BlackoutWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -349,10 +344,6 @@
     <Compile Include="..\..\EpgTimer\EpgTimer\AddReserveEpgWindow.xaml.cs">
       <Link>AddReserveEpgWindow.xaml.cs</Link>
       <DependentUpon>AddReserveEpgWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\EpgTimer\EpgTimer\AutoAddView.xaml.cs">
-      <Link>AutoAddView.xaml.cs</Link>
-      <DependentUpon>AutoAddView.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\..\EpgTimer\EpgTimer\ChgReserveWindow.xaml.cs">
       <Link>ChgReserveWindow.xaml.cs</Link>

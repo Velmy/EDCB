@@ -27,7 +27,8 @@ namespace EpgTimer
         public void SaveSize()
         {
             reserveView.SaveSize();
-            autoAddView.SaveSize();
+            epgAutoAddView.SaveSize();
+            manualAutoAddView.SaveSize();
         }
 
         /// <summary>
@@ -40,7 +41,8 @@ namespace EpgTimer
         }
         public void UpdateAutoAddInfo()
         {
-            autoAddView.UpdateAutoAddInfo();
+            epgAutoAddView.UpdateInfo();
+            manualAutoAddView.UpdateInfo();
         }
     }
 }
