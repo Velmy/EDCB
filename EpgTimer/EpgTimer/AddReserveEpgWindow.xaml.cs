@@ -59,35 +59,31 @@ namespace EpgTimer
                 textBox_info.Text = CommonManager.Instance.ConvertProgramText(eventData, EventInfoTextMode.BasicOnly);
                 String text = CommonManager.Instance.ConvertProgramText(eventData, EventInfoTextMode.ExtOnly);
 
-                Regex regex = new Regex("((http://|https://|ｈｔｔｐ：／／|ｈｔｔｐｓ：／／).*\r\n)");
+                Regex regex = new Regex("(https?://[!#-'*-;=?-Z_a-z~]+)");      // URLに使用可能な文字から括弧を除外
                 if (regex.IsMatch(text) == true)
                 {
                     try
                     {
-                        //Regexのsplitでやるとhttp://だけのも取れたりするので、１つずつ行う
+                        string[] substrings = regex.Split(text);
                         FlowDocument flowDoc = new FlowDocument();
                         Paragraph para = new Paragraph();
 
-                        do
+                        for (int i = 0; i < substrings.Count(); i++)
                         {
-                            Match matchVal = regex.Match(text);
-                            int index = text.IndexOf(matchVal.Value);
-
-                            para.Inlines.Add(text.Substring(0, index));
-                            text = text.Remove(0, index);
-
-                            Hyperlink h = new Hyperlink(new Run(matchVal.Value.Replace("\r\n", "")));
-                            h.MouseLeftButtonDown += new MouseButtonEventHandler(h_MouseLeftButtonDown);
-                            h.Foreground = Brushes.Blue;
-                            h.Cursor = Cursors.Hand;
-                            String url = CommonManager.ReplaceUrl(matchVal.Value.Replace("\r\n", ""));
-                            h.NavigateUri = new Uri(url);
-                            para.Inlines.Add(h);
-                            para.Inlines.Add("\r\n");
-
-                            text = text.Remove(0, matchVal.Value.Length);
-                        } while (regex.IsMatch(text) == true);
-                        para.Inlines.Add(text);
+                            if (i % 2 == 0)
+                            {
+                                para.Inlines.Add(substrings[i]);
+                            }
+                            else
+                            {
+                                Hyperlink h = new Hyperlink(new Run(substrings[i]));
+                                h.MouseLeftButtonDown += new MouseButtonEventHandler(h_MouseLeftButtonDown);
+                                h.Foreground = Brushes.Blue;
+                                h.Cursor = Cursors.Hand;
+                                h.NavigateUri = new Uri(substrings[i]);
+                                para.Inlines.Add(h);
+                            }
+                        }
 
                         flowDoc.Blocks.Add(para);
                         richTextBox_descInfo.Document = flowDoc;
