@@ -175,30 +175,33 @@ namespace EpgTimer
                         return false;
                     }
                 }
-                ErrCode err = CommonManager.Instance.DB.ReloadReserveInfo();
-                if (err == ErrCode.CMD_ERR_CONNECT)
+                if (!isInDesignMode)
                 {
-                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    ErrCode err = CommonManager.Instance.DB.ReloadReserveInfo();
+                    if (err == ErrCode.CMD_ERR_CONNECT)
                     {
-                        MessageBox.Show("サーバー または EpgTimerSrv に接続できませんでした。");
-                    }), null);
-                    return false;
-                }
-                if (err == ErrCode.CMD_ERR_TIMEOUT)
-                {
-                    this.Dispatcher.BeginInvoke(new Action(() =>
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            MessageBox.Show("サーバー または EpgTimerSrv に接続できませんでした。");
+                        }), null);
+                        return false;
+                    }
+                    if (err == ErrCode.CMD_ERR_TIMEOUT)
                     {
-                        MessageBox.Show("EpgTimerSrvとの接続にタイムアウトしました。");
-                    }), null);
-                    return false;
-                }
-                if (err != ErrCode.CMD_SUCCESS)
-                {
-                    this.Dispatcher.BeginInvoke(new Action(() =>
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            MessageBox.Show("EpgTimerSrvとの接続にタイムアウトしました。");
+                        }), null);
+                        return false;
+                    }
+                    if (err != ErrCode.CMD_SUCCESS)
                     {
-                        MessageBox.Show("情報の取得でエラーが発生しました。");
-                    }), null);
-                    return false;
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            MessageBox.Show("情報の取得でエラーが発生しました。");
+                        }), null);
+                        return false;
+                    }
                 }
 
                 ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_reserve.DataContext);
@@ -935,6 +938,13 @@ namespace EpgTimer
             }
         }
 
+        public bool isInDesignMode
+        {
+            get
+            {
+                return (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv");
+            }
+        }
 
     }
 }
