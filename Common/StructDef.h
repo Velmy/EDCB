@@ -628,6 +628,8 @@ typedef struct _EPGDB_SEARCH_KEY_INFO{
 	//自動予約登録の条件専用
 	BYTE chkRecEnd;					//録画済かのチェックあり
 	WORD chkRecDay;					//録画済かのチェック対象期間
+	//最低番組長（分/0は無制限
+	WORD chkRecMin;
 	//=オペレーターの処理
 	_EPGDB_SEARCH_KEY_INFO(void){
 		andKey = L"";
@@ -639,7 +641,8 @@ typedef struct _EPGDB_SEARCH_KEY_INFO{
 		notDateFlag = 0;
 		freeCAFlag = 0;
 		chkRecEnd = 0;
-		chkRecDay = 6;
+		chkRecDay = 60;
+		chkRecMin = 0;
 	};
 	_EPGDB_SEARCH_KEY_INFO & operator= (const _EPGDB_SEARCH_KEY_INFO & o) {
 		andKey = o.andKey;
@@ -657,6 +660,7 @@ typedef struct _EPGDB_SEARCH_KEY_INFO{
 		freeCAFlag = o.freeCAFlag;
 		chkRecEnd = o.chkRecEnd;
 		chkRecDay = o.chkRecDay;
+		chkRecMin = o.chkRecMin;
 		return *this;
 	};
 }EPGDB_SEARCH_KEY_INFO;

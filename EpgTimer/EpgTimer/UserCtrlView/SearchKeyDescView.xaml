@@ -102,12 +102,14 @@
                     <RadioButton Content="無料、有料番組を対象とする" Height="16" HorizontalAlignment="Left" Margin="472,40,0,0" Name="radioButton_free_1" VerticalAlignment="Top" />
                     <RadioButton Content="無料番組のみ対象とする" Height="16" HorizontalAlignment="Left" Margin="472,62,0,0" Name="radioButton_free_2" VerticalAlignment="Top" />
                     <RadioButton Content="有料番組のみ対象とする" Height="16" HorizontalAlignment="Left" Margin="472,84,0,0" Name="radioButton_free_3" VerticalAlignment="Top" />
-                    <GroupBox Header="EPG 自動予約登録専用" Height="89" HorizontalAlignment="Left" Margin="444,114,0,0" Name="groupBox1" VerticalAlignment="Top" Width="290">
-                        <Grid>
-                            <CheckBox Content="同一番組名の録画結果があれば無効で登録する" Height="16" HorizontalAlignment="Left" Margin="6,6,0,0" Name="checkBox_chkRecEnd" VerticalAlignment="Top" />
-                            <Label Content="確認対象期間" Height="28" HorizontalAlignment="Left" Margin="22,24,0,0" Name="label9" VerticalAlignment="Top" />
-                            <TextBox Height="24" HorizontalAlignment="Left" Margin="110,26,0,0" Name="textBox_chkRecDay" VerticalAlignment="Top" Width="40" />
-                            <Label Content="日前まで" Height="28" HorizontalAlignment="Left" Margin="156,24,0,0" Name="label10" VerticalAlignment="Top" />
+                    <GroupBox Header="EPG 自動予約登録専用" Height="108" HorizontalAlignment="Left" Margin="444,114,0,0" Name="groupBox1" VerticalAlignment="Top" Width="290">
+                        <Grid Height="86">
+                            <Label Content="録画済み確認対象期間" Height="28" HorizontalAlignment="Left" Margin="22,8,0,0" Name="label9" VerticalAlignment="Top" />
+                            <TextBox Height="24" HorizontalAlignment="Left" Margin="160,10,0,0" Name="textBox_chkRecDay" VerticalAlignment="Top" Width="40" ToolTip="同一番組名の録画結果があれば無効で登録する時のチェックする期間" />
+                            <Label Content="日前まで" Height="28" HorizontalAlignment="Left" Margin="206,8,0,0" Name="label10" VerticalAlignment="Top" />
+                            <Label Content="最低番組長" Height="28" HorizontalAlignment="Left" Margin="22,48,0,0" Name="label11" VerticalAlignment="Top" />
+                            <TextBox Height="24" HorizontalAlignment="Left" Margin="160,50,0,0" Name="textBox_chkRecMin" VerticalAlignment="Top" Width="40" />
+                            <Label Content="分以上" Height="28" HorizontalAlignment="Left" Margin="206,48,0,0" Name="label12" VerticalAlignment="Top" />
                         </Grid>
                     </GroupBox>
                 </Grid>

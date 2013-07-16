@@ -2234,6 +2234,7 @@ DWORD GetVALUESize2(WORD ver, EPGDB_SEARCH_KEY_INFO* val )
 	}
 	size += GetVALUESize2(ver, val->chkRecEnd);
 	size += GetVALUESize2(ver, val->chkRecDay);
+	size += GetVALUESize2(ver, val->chkRecMin);
 	if( ver>=3 ){
 		goto CMD_END;
 	}
@@ -2316,6 +2317,10 @@ BOOL WriteVALUE2(WORD ver, EPGDB_SEARCH_KEY_INFO* val, BYTE* buff, DWORD buffSiz
 		}
 		pos += size;
 		if( WriteVALUE2(ver, val->chkRecDay, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
+		if( WriteVALUE2(ver, val->chkRecMin, buff + pos, buffSize - pos, &size ) == FALSE ){
 			return FALSE;
 		}
 		pos += size;
@@ -2409,6 +2414,10 @@ BOOL ReadVALUE2(WORD ver, EPGDB_SEARCH_KEY_INFO* val, BYTE* buff, DWORD buffSize
 		}
 		pos += size;
 		if( ReadVALUE2(ver, &val->chkRecDay, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
+		if( ReadVALUE2(ver, &val->chkRecMin, buff + pos, buffSize - pos, &size ) == FALSE ){
 			return FALSE;
 		}
 		pos += size;

@@ -403,7 +403,12 @@ BOOL CParseEpgAutoAddText::Parse1Line(string parseLine, EPG_AUTO_ADD_DATA* item 
 	
 	Separate( parseLine, "\t", strBuff, parseLine);
 
-	return TRUE;
+	//最低番組長
+	item->searchInfo.chkRecMin = (WORD)atoi(strBuff.c_str());
+	
+	Separate( parseLine, "\t", strBuff, parseLine);
+
+return TRUE;
 }
 
 DWORD CParseEpgAutoAddText::GetNextID()
@@ -615,6 +620,10 @@ BOOL CParseEpgAutoAddText::SaveText(LPCWSTR filePath)
 		strWrite+=strBuff +"\t";
 		//録画済かのチェック対象期間
 		Format(strBuff,"%d",itr->second->searchInfo.chkRecDay);
+		strWrite+=strBuff +"\t";
+
+		//最低番組長チェック
+		Format(strBuff,"%d",itr->second->searchInfo.chkRecMin);
 		strWrite+=strBuff +"\t";
 
 		strWrite+="\r\n";

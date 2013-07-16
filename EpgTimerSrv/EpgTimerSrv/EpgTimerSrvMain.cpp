@@ -749,6 +749,10 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG()
 				//対象期間外
 				continue;
 			}
+			if( (itrKey->second->searchInfo.chkRecMin>0) && ((WORD)result->durationSec < itrKey->second->searchInfo.chkRecMin * 60)) {
+				//最低番組長に足りない
+				continue;
+			}
 
 			itrKey->second->addCount++;
 
@@ -904,6 +908,10 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 				}
 				if( nowTime + ((LONGLONG)this->autoAddDays)*24*60*60*I64_1SEC + ((LONGLONG)this->autoAddHour)*60*60*I64_1SEC < ConvertI64Time(result->start_time)){
 					//対象期間外
+					continue;
+				}
+				if( (LONGLONG)itrKey->second->searchInfo.chkRecMin * 60 > result->durationSec){
+					//最低番組長より短い
 					continue;
 				}
 

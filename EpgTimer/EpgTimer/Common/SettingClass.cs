@@ -175,6 +175,7 @@ namespace EpgTimer
         private byte searchKeyFreeCA;
         private byte searchKeyChkRecEnd;
         private UInt16 searchKeyChkRecDay;
+        private UInt16 searchKeyChkRecMin;
         private List<RecPresetItem> recPresetList;
         private double recInfoColumnWidth0;
         private double recInfoColumnWidth1;
@@ -606,6 +607,11 @@ namespace EpgTimer
         {
             get { return searchKeyChkRecDay; }
             set { searchKeyChkRecDay = value; }
+        }
+        public UInt16 SearchKeyChkRecMin
+        {
+            get { return searchKeyChkRecMin; }
+            set { searchKeyChkRecMin = value; }
         }
         public List<RecPresetItem> RecPresetList
         {
@@ -1049,7 +1055,8 @@ namespace EpgTimer
             searchKeyNotDate = false;
             searchKeyFreeCA = 0;
             searchKeyChkRecEnd = 0;
-            searchKeyChkRecDay = 6;
+            searchKeyChkRecDay = 60;
+            searchKeyChkRecMin = 0;
             searchKeyContentList = new List<ContentKindInfo>();
             searchKeyDateItemList = new List<DateItem>();
             searchKeyServiceList = new List<Int64>();
@@ -1625,6 +1632,7 @@ namespace EpgTimer
             defKey.freeCAFlag = Settings.Instance.SearchKeyFreeCA;
             defKey.chkRecEnd = Settings.Instance.SearchKeyChkRecEnd;
             defKey.chkRecDay = Settings.Instance.SearchKeyChkRecDay;
+            defKey.chkRecMin = Settings.Instance.SearchKeyChkRecMin;
         }
     }
 }
