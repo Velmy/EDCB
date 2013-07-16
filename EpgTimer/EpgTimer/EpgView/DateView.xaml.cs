@@ -43,7 +43,19 @@ namespace EpgTimer.EpgView
                     return;
                 }
 
-                TimePosInfo startPos = timeList.GetByIndex(0) as TimePosInfo;
+                //DateTime nowTime = System.DateTime.Today.AddDays(-1);   //  当日じゃ嫌な人はこちらで日数調整を
+                DateTime nowTime = System.DateTime.Today;   //  当日を求める
+                
+                int startIdx = 0;
+                while ((timeList.GetByIndex(startIdx++) as TimePosInfo).Time < nowTime) //  当日まで進める
+                {
+                    if (startIdx >= timeList.Count)
+                    {
+                        return;     //  当日以降のデータが無い？
+                    }
+                }
+
+                TimePosInfo startPos = timeList.GetByIndex(startIdx) as TimePosInfo;
                 DateTime startTime = startPos.Time;
                 TimePosInfo endPos = timeList.GetByIndex(timeList.Count - 1) as TimePosInfo;
                 DateTime endTime = endPos.Time;
