@@ -29,7 +29,7 @@ namespace EpgTimer.EpgView
             stackPanel_time.Children.Clear();
         }
 
-        public void SetTime(System.Collections.SortedList timeList, bool NeedTimeOnly, bool weekMode)
+        public void SetTime(SortedList<DateTime, TimePosInfo> timeList, bool NeedTimeOnly, bool weekMode)
         {
             try
             {

@@ -11,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections;
 using System.Windows.Threading;
 
 using CtrlCmdCLI;
@@ -33,7 +32,7 @@ namespace EpgTimer
         private Dictionary<UInt16, UInt16> viewCustContentKindList = new Dictionary<UInt16, UInt16>();
         private bool viewCustNeedTimeOnly = false;
         private Dictionary<UInt64, EpgServiceItem> serviceList = new Dictionary<UInt64, EpgServiceItem>();
-        private SortedList timeList = new SortedList();
+        private SortedList<DateTime, TimePosInfo> timeList = new SortedList<DateTime, TimePosInfo>();
         private List<ProgramViewItem> programList = new List<ProgramViewItem>();
         private List<ReserveViewItem> reserveList = new List<ReserveViewItem>();
         private Point clickPos;
@@ -87,7 +86,7 @@ namespace EpgTimer
             reserveList.Clear();
 
             timeList = null;
-            timeList = new SortedList();
+            timeList = new SortedList<DateTime, TimePosInfo>();
             serviceList = null;
             serviceList = new Dictionary<ulong, EpgServiceItem>();
             programList = null;
@@ -117,7 +116,7 @@ namespace EpgTimer
             {
                 nowViewTimer.Stop();
                 DateTime nowTime = DateTime.Now;
-                TimePosInfo startTime = timeList.GetByIndex(0) as TimePosInfo;
+                TimePosInfo startTime = timeList.Values[0];
                 if (nowTime < startTime.Time)
                 {
                     epgProgramView.nowLine.Visibility = System.Windows.Visibility.Hidden;
@@ -242,7 +241,7 @@ namespace EpgTimer
                 if (timeList.Count > 0)
                 {
                     int timeIndex = (int)Math.Floor(cursorPos.Y / (60 * Settings.Instance.MinHeight));
-                    TimePosInfo time = timeList.GetByIndex(timeIndex) as TimePosInfo;
+                    TimePosInfo time = timeList.Values[timeIndex];
                     foreach (ReserveViewItem resInfo in time.ReserveList)
                     {
                         if (resInfo.LeftPos <= cursorPos.X && cursorPos.X < resInfo.LeftPos + resInfo.Width &&
@@ -274,7 +273,7 @@ namespace EpgTimer
                 if (timeList.Count > 0)
                 {
                     int timeIndex = (int)Math.Floor(cursorPos.Y / (60 * Settings.Instance.MinHeight));
-                    TimePosInfo time = timeList.GetByIndex(timeIndex) as TimePosInfo;
+                    TimePosInfo time = timeList.Values[timeIndex];
                     foreach (ProgramViewItem pgInfo in time.ProgramList)
                     {
                         if (pgInfo.LeftPos <= cursorPos.X && cursorPos.X < pgInfo.LeftPos + pgInfo.Width &&
@@ -1157,7 +1156,7 @@ namespace EpgTimer
             {
                 Button timeButton = sender as Button;
 
-                TimePosInfo startPos = timeList.GetByIndex(0) as TimePosInfo;
+                TimePosInfo startPos = timeList.Values[0];
                 DateTime startTime = startPos.Time;
 
                 DateTime time = (DateTime)timeButton.DataContext;
@@ -1169,7 +1168,7 @@ namespace EpgTimer
                 {
                     for (int i = 0; i < timeList.Count; i++)
                     {
-                        TimePosInfo info = timeList.GetByIndex(i) as TimePosInfo;
+                        TimePosInfo info = timeList.Values[i];
                         if (time <= info.Time)
                         {
                             epgProgramView.scrollViewer.ScrollToVerticalOffset(Math.Ceiling(i * 60 * Settings.Instance.MinHeight));
@@ -1231,7 +1230,7 @@ namespace EpgTimer
                 {
                     return;
                 }
-                TimePosInfo startPos = timeList.GetByIndex(0) as TimePosInfo;
+                TimePosInfo startPos = timeList.Values[0];
                 DateTime startTime = startPos.Time;
 
                 DateTime time = DateTime.Now;
@@ -1243,7 +1242,7 @@ namespace EpgTimer
                 {
                     for (int i = 0; i < timeList.Count; i++)
                     {
-                        TimePosInfo info = timeList.GetByIndex(i) as TimePosInfo;
+                        TimePosInfo info = timeList.Values[i];
                         if (time <= info.Time)
                         {
                             double pos = ((i - 1) * 60 * Settings.Instance.MinHeight) - 100;
@@ -1505,7 +1504,7 @@ namespace EpgTimer
                                 DateTime chkTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, startTime.Hour, 0, 0);
                                 if (timeList.ContainsKey(chkTime) == true)
                                 {
-                                    TimePosInfo time = timeList[chkTime] as TimePosInfo;
+                                    TimePosInfo time = timeList[chkTime];
                                     int index = timeList.IndexOfKey(chkTime);
                                     viewItem.TopPos = index * 60 * Settings.Instance.MinHeight;
                                     if (Settings.Instance.MinimumHeight > 0)
@@ -1546,7 +1545,7 @@ namespace EpgTimer
                                 {
                                     if (timeList.ContainsKey(chkStartTime) != false)
                                     {
-                                        TimePosInfo timeInfo = timeList[chkStartTime] as TimePosInfo;
+                                        TimePosInfo timeInfo = timeList[chkStartTime];
                                         timeInfo.ReserveList.Add(viewItem);
                                     }
                                     chkStartTime = chkStartTime.AddHours(1);
@@ -1589,7 +1588,7 @@ namespace EpgTimer
                 timeList.Clear();
                 programList.Clear();
                 timeList = null;
-                timeList = new SortedList();
+                timeList = new SortedList<DateTime, TimePosInfo>();
                 programList = null;
                 programList = new List<ProgramViewItem>();
                 nowViewTimer.Stop();
@@ -1752,7 +1751,7 @@ namespace EpgTimer
                             {
                                 timeList.Add(chkStartTime, new TimePosInfo(chkStartTime, 0));
                             }
-                            TimePosInfo timeInfo = timeList[chkStartTime] as TimePosInfo;
+                            TimePosInfo timeInfo = timeList[chkStartTime];
                             timeInfo.ProgramList.Add(viewItem);
                             chkStartTime = chkStartTime.AddHours(1);
                         }
@@ -2029,7 +2028,7 @@ namespace EpgTimer
                             {
                                 timeList.Add(chkStartTime, new TimePosInfo(chkStartTime, 0));
                             }
-                            TimePosInfo timeInfo = timeList[chkStartTime] as TimePosInfo;
+                            TimePosInfo timeInfo = timeList[chkStartTime];
                             timeInfo.ProgramList.Add(viewItem);
                             chkStartTime = chkStartTime.AddHours(1);
                         }

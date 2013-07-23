@@ -11,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections;
 using System.Windows.Threading;
 
 using CtrlCmdCLI;
@@ -25,7 +24,7 @@ namespace EpgTimer
     /// </summary>
     public partial class TunerReserveMainView : UserControl
     {
-        private SortedList timeList = new SortedList();
+        private SortedList<DateTime, TimePosInfo> timeList = new SortedList<DateTime, TimePosInfo>();
         private List<TunerNameViewItem> tunerList = new List<TunerNameViewItem>();
         private List<ReserveViewItem> reserveList = new List<ReserveViewItem>();
         private Point clickPos;
@@ -143,7 +142,7 @@ namespace EpgTimer
                 if (timeList.Count > 0)
                 {
                     int timeIndex = (int)Math.Floor(cursorPos.Y / (60 * Settings.Instance.MinHeight));
-                    TimePosInfo time = timeList.GetByIndex(timeIndex) as TimePosInfo;
+                    TimePosInfo time = timeList.Values[timeIndex];
                     foreach (ReserveViewItem resInfo in time.ReserveList)
                     {
                         if (resInfo.LeftPos <= cursorPos.X && cursorPos.X < resInfo.LeftPos + resInfo.Width &&
@@ -725,7 +724,7 @@ namespace EpgTimer
                             {
                                 timeList.Add(chkStartTime, new TimePosInfo(chkStartTime, 0));
                             }
-                            TimePosInfo timeInfo = timeList[chkStartTime] as TimePosInfo;
+                            TimePosInfo timeInfo = timeList[chkStartTime];
                             timeInfo.ReserveList.Add(viewItem);
                             chkStartTime = chkStartTime.AddHours(1);
                         }

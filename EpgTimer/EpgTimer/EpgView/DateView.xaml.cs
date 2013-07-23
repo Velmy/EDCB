@@ -32,7 +32,7 @@ namespace EpgTimer.EpgView
             stackPanel_day.Children.Clear();
         }
 
-        public void SetTime(System.Collections.SortedList timeList)
+        public void SetTime(SortedList<DateTime, TimePosInfo> timeList)
         {
             try
             {
@@ -45,19 +45,21 @@ namespace EpgTimer.EpgView
 
                 //DateTime nowTime = System.DateTime.Today.AddDays(-1);   //  当日じゃ嫌な人はこちらで日数調整を
                 DateTime nowTime = System.DateTime.Today;   //  当日を求める
-                
-                int startIdx = 0;
-                while ((timeList.GetByIndex(startIdx++) as TimePosInfo).Time < nowTime) //  当日まで進める
+
+                int startIdx=0;
+                while (timeList.Values[startIdx].Time < nowTime)
                 {
+                    startIdx++;
                     if (startIdx >= timeList.Count)
                     {
                         return;     //  当日以降のデータが無い？
                     }
                 }
 
-                TimePosInfo startPos = timeList.GetByIndex(startIdx) as TimePosInfo;
+                TimePosInfo startPos = timeList.Values[startIdx];
+
                 DateTime startTime = startPos.Time;
-                TimePosInfo endPos = timeList.GetByIndex(timeList.Count - 1) as TimePosInfo;
+                TimePosInfo endPos = timeList.Values[timeList.Count - 1];
                 DateTime endTime = endPos.Time;
                 DateTime itemTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 0, 0, 0);
                 while (itemTime < endTime)

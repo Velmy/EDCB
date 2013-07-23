@@ -8,7 +8,7 @@ using CtrlCmdCLI.Def;
 
 namespace EpgTimer
 {
-    class TimePosInfo
+    public class TimePosInfo
     {
         public TimePosInfo(DateTime time, double pos)
         {

@@ -30,7 +30,7 @@ namespace EpgTimer.EpgView
             stackPanel_day.Children.Clear();
         }
 
-        public void SetDay(System.Collections.SortedList dayList)
+        public void SetDay(SortedList<DateTime, DateTime> dayList)
         {
             try
             {

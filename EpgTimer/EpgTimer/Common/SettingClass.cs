@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using System.Collections;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.ComponentModel;

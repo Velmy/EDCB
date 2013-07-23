@@ -29,7 +29,7 @@ namespace EpgTimer.TunerReserveViewCtrl
             stackPanel_time.Children.Clear();
         }
 
-        public void SetTime(System.Collections.SortedList timeList, bool NeedTimeOnly)
+        public void SetTime(SortedList<DateTime, TimePosInfo> timeList, bool NeedTimeOnly)
         {
             try
             {
