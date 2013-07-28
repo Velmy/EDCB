@@ -152,7 +152,7 @@ BOOL CEpgDataCap_BonDlg::OnInitDialog()
 	// TODO: ‰Šú‰»‚ð‚±‚±‚É’Ç‰Á‚µ‚Ü‚·B
 	this->main.ReloadSetting();
 
-	for( int i=0; i<25; i++ ){
+	for( int i=0; i<24; i++ ){
 		CString buff;
 		buff.Format(L"%d",i);
 		int index = combRecH.AddString(buff);
@@ -160,7 +160,7 @@ BOOL CEpgDataCap_BonDlg::OnInitDialog()
 	}
 	combRecH.SetCurSel(0);
 
-	for( int i=0; i<59; i++ ){
+	for( int i=0; i<60; i++ ){
 		CString buff;
 		buff.Format(L"%d",i);
 		int index = combRecM.AddString(buff);
