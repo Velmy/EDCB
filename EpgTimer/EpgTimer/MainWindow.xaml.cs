@@ -1511,6 +1511,7 @@ namespace EpgTimer
             bool ReserveWarning = false;
             foreach (ReserveData info in CommonManager.Instance.DB.ReserveList.Values)
             {
+                if (info.RecSetting.RecMode == 5) continue;
                 if (info.OverlapMode == 1) ReserveWarning = true;
                 if (info.OverlapMode == 2) ReserveError = true;
             }
