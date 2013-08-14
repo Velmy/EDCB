@@ -19,6 +19,8 @@ namespace EpgTimer
         private EpgEventInfo eventInfo = null;
         private ReserveData reserveData = null;
 
+        public Boolean checkOnTime = false;
+
         public EpgEventInfo EventInfo
         {
             get { return eventInfo; }
@@ -124,6 +126,10 @@ namespace EpgTimer
             get
             {
                 SolidColorBrush color = Brushes.White;
+                if (checkOnTime)
+                {
+                    color = Brushes.Pink;
+                }
                 if (ReserveInfo != null)
                 {
                     if (ReserveInfo.RecSetting.RecMode == 5)

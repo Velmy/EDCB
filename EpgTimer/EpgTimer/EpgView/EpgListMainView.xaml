@@ -25,7 +25,7 @@
                 <RichTextBox Name="richTextBox_eventInfo" IsReadOnly="True" />
             </ScrollViewer>
             <GridSplitter Grid.RowSpan="1" Height="5" Name="gridSplitter2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
-            <ListView Grid.Row="1" Name="listView_event" SelectionMode="Single" ItemsSource="{Binding}" SelectionChanged="listView_event_SelectionChanged" ContextMenuOpening="listView_event_ContextMenuOpening" GridViewColumnHeader.Click="GridViewColumnHeader_Click" >
+            <ListView Grid.Row="1" Name="listView_event" SelectionMode="Single" ItemsSource="{Binding}" SelectionChanged="listView_event_SelectionChanged" ContextMenuOpening="listView_event_ContextMenuOpening" GridViewColumnHeader.Click="GridViewColumnHeader_Click">
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Background" Value="{Binding BackColor}" />
@@ -100,6 +100,7 @@
                         <MenuItem x:Name="cm_google" Header="番組名でググる (_G)" Click="cm_google_Click" />
                         <MenuItem x:Name="cm_Reverse" Header="予約←→無効 (_R)" Click="cm_reverse_Click" />
                         <MenuItem x:Name="cm_timeshift" Header="追っかけ再生 (_P)" Click="cm_timeShiftPlay_Click" />
+                        <MenuItem x:Name="cm_watch" Header="TvTestを開く" Click="cm_watch_Click" />
                         <Separator/>
                         <MenuItem x:Name="cm_view" Header="表示モード (_W)">
                             <MenuItem Header="表示設定" Click="cm_viewSet_Click" />

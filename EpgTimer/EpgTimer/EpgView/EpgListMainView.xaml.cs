@@ -542,6 +542,14 @@ namespace EpgTimer
                                         break;
                                     }
                                 }
+                                // 放送中なら色を変更する
+                                if (eventInfo.start_time <= System.DateTime.Now)
+                                {
+                                    if (eventInfo.start_time + TimeSpan.FromSeconds(eventInfo.durationSec) >= System.DateTime.Now)
+                                    {
+                                        item.checkOnTime = true;
+                                    }
+                                }
 
                                 programList.Add(item);
                             }
@@ -1119,6 +1127,25 @@ namespace EpgTimer
                     {
                         CommonManager.Instance.TVTestCtrl.StartTimeShift(item.ReserveInfo.ReserveID);
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
+
+        private void cm_watch_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (listView_event.SelectedItem != null)
+                {
+                    SearchItem item = listView_event.SelectedItem as SearchItem;
+                    CommonManager.Instance.TVTestCtrl.SetLiveCh(
+                        item.EventInfo.original_network_id,
+                        item.EventInfo.transport_stream_id,
+                        item.EventInfo.service_id);
                 }
             }
             catch (Exception ex)
