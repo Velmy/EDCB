@@ -36,36 +36,18 @@ namespace EpgTimer.TunerReserveViewCtrl
         private double lastDownVOffset;
         private bool isDrag = false;
 
-        private DispatcherTimer toolTipTimer;
-        private DispatcherTimer toolTipOffTimer;
-        private Popup toolTip = new Popup();
         private Point lastPopupPos;
-        private ReserveViewItem lastPopupInfo;
+        private ReserveViewItem lastPopupInfo = null;
 
         public TunerReserveView()
         {
             InitializeComponent();
-
-            toolTipTimer = new DispatcherTimer(DispatcherPriority.Normal);
-            toolTipTimer.Tick += new EventHandler(toolTipTimer_Tick);
-            toolTipTimer.Interval = TimeSpan.FromMilliseconds(1500);
-            toolTipOffTimer = new DispatcherTimer(DispatcherPriority.Normal);
-            toolTipOffTimer.Tick += new EventHandler(toolTipOffTimer_Tick);
-            toolTipOffTimer.Interval = TimeSpan.FromSeconds(15);
-
-            toolTip.Placement = PlacementMode.MousePoint;
-            toolTip.PopupAnimation = PopupAnimation.Fade;
-            toolTip.PlacementTarget = reserveViewPanel;
-            toolTip.AllowsTransparency = true;
-            toolTip.MouseLeftButtonDown += new MouseButtonEventHandler(toolTip_MouseLeftButtonDown);
-            toolTip.PreviewMouseWheel += new MouseWheelEventHandler(toolTip_PreviewMouseWheel);
         }
 
         public void ClearInfo()
         {
-            toolTipTimer.Stop();
-            toolTipOffTimer.Stop();
-            toolTip.IsOpen = false;
+            lastPopupInfo = null;
+            popupItem.Visibility = System.Windows.Visibility.Hidden;
 
             foreach (Rectangle info in reserveBorder)
             {
@@ -81,125 +63,6 @@ namespace EpgTimer.TunerReserveViewCtrl
             reserveViewPanel.Width = 0;
             canvas.Height = 0;
             canvas.Width = 0;
-        }
-
-        void toolTip_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            toolTipTimer.Stop();
-            toolTipOffTimer.Stop();
-            toolTip.IsOpen = false;
-
-            RaiseEvent(e);
-        }
-
-        void toolTip_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-            {
-                toolTipTimer.Stop();
-                toolTipOffTimer.Stop();
-                toolTip.IsOpen = false;
-
-                if (LeftDoubleClick != null)
-                {
-                    LeftDoubleClick(sender, lastPopupPos);
-                }
-            }
-        }
-
-        void toolTipOffTimer_Tick(object sender, EventArgs e)
-        {
-            toolTipOffTimer.Stop();
-            toolTip.IsOpen = false;
-        }
-
-        void toolTipTimer_Tick(object sender, EventArgs e)
-        {
-            toolTipTimer.Stop();
-            try
-            {
-                if (Settings.Instance.NoToolTip == true)
-                {
-                    return;
-                } 
-                if (reserveViewPanel.Items != null)
-                {
-                    if (MainWindow.GetWindow(this).IsActive == false)
-                    {
-                        return;
-                    }
-                    Point cursorPos2 = Mouse.GetPosition(scrollViewer);
-                    if (cursorPos2.X < 0 || cursorPos2.Y < 0 ||
-                        scrollViewer.ViewportWidth < cursorPos2.X || scrollViewer.ViewportHeight < cursorPos2.Y)
-                    {
-                        return;
-                    }
-                    Point cursorPos = Mouse.GetPosition(reserveViewPanel);
-                    foreach (ReserveViewItem info in reserveViewPanel.Items)
-                    {
-                        if (info.LeftPos <= cursorPos.X && cursorPos.X < info.LeftPos + info.Width)
-                        {
-                            if (info.TopPos <= cursorPos.Y && cursorPos.Y < info.TopPos + info.Height)
-                            {
-                                if (info.TitleDrawErr == true)
-                                {
-                                    String view = "";
-                                    view = info.ReserveInfo.StartTime.ToString("yyyy/MM/dd(ddd) HH:mm ～ ");
-                                    DateTime endTime = info.ReserveInfo.StartTime + TimeSpan.FromSeconds(info.ReserveInfo.DurationSecond);
-                                    view += endTime.ToString("yyyy/MM/dd(ddd) HH:mm") + "\r\n";
-                                    view += info.ReserveInfo.StationName;
-                                    if (0x7880 <= info.ReserveInfo.OriginalNetworkID && info.ReserveInfo.OriginalNetworkID <= 0x7FE8)
-                                    {
-                                        view += " (地デジ)";
-                                    }
-                                    else if (info.ReserveInfo.OriginalNetworkID == 0x0004)
-                                    {
-                                        view += " (BS)";
-                                    }
-                                    else if (info.ReserveInfo.OriginalNetworkID == 0x0006)
-                                    {
-                                        view += " (CS1)";
-                                    }
-                                    else if (info.ReserveInfo.OriginalNetworkID == 0x0007)
-                                    {
-                                        view += " (CS2)";
-                                    }
-                                    else
-                                    {
-                                        view += " (その他)";
-                                    }
-                                    view += "\r\n";
-
-                                    view += info.ReserveInfo.Title;
-
-                                    Border border = new Border();
-                                    border.Background = Brushes.DarkGray;
-
-                                    TextBlock block = new TextBlock();
-                                    block.Text = view;
-                                    block.MaxWidth = 400;
-                                    block.TextWrapping = TextWrapping.Wrap;
-                                    block.Margin = new Thickness(2);
-
-                                    block.Background = Brushes.LightGray;
-                                    block.Foreground = Brushes.Black;
-                                    border.Child = block;
-                                    toolTip.Child = border;
-                                    toolTip.IsOpen = true;
-                                    toolTipOffTimer.Start();
-
-                                    lastPopupInfo = info;
-                                    lastPopupPos = cursorPos;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
-            }
         }
 
         public void SetReserveList(List<ReserveViewItem> programList, double width, double height)
@@ -227,10 +90,6 @@ namespace EpgTimer.TunerReserveViewCtrl
                 {
                     if (e.LeftButton == MouseButtonState.Pressed && isDrag == true)
                     {
-                        toolTipTimer.Stop();
-                        toolTipOffTimer.Stop();
-                        toolTip.IsOpen = false;
-
                         Point CursorPos = Mouse.GetPosition(null);
                         double MoveX = lastDownMousePos.X - CursorPos.X;
                         double MoveY = lastDownMousePos.Y - CursorPos.Y;
@@ -258,23 +117,7 @@ namespace EpgTimer.TunerReserveViewCtrl
                         Point CursorPos = Mouse.GetPosition(reserveViewPanel);
                         if (lastPopupPos != CursorPos)
                         {
-                            toolTipTimer.Stop();
-                            toolTipOffTimer.Stop();
-                            if (toolTip.IsOpen == true)
-                            {
-                                toolTip.IsOpen = false;
-                                lastDownMousePos = Mouse.GetPosition(null);
-                                lastDownHOffset = scrollViewer.HorizontalOffset;
-                                lastDownVOffset = scrollViewer.VerticalOffset;
-                                if (e.LeftButton == MouseButtonState.Pressed)
-                                {
-                                    reserveViewPanel.CaptureMouse();
-                                    isDrag = true;
-                                }
-
-                            }
-
-                            toolTipTimer.Start();
+                            PopupItem();
                             lastPopupPos = CursorPos;
                         }
                     }
@@ -290,10 +133,6 @@ namespace EpgTimer.TunerReserveViewCtrl
         {
             try
             {
-                toolTipTimer.Stop();
-                toolTipOffTimer.Stop();
-                toolTip.IsOpen = false;
-
                 lastDownMousePos = Mouse.GetPosition(null);
                 lastDownHOffset = scrollViewer.HorizontalOffset;
                 lastDownVOffset = scrollViewer.VerticalOffset;
@@ -340,10 +179,6 @@ namespace EpgTimer.TunerReserveViewCtrl
 
         private void reserveViewPanel_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            toolTipTimer.Stop();
-            toolTipOffTimer.Stop();
-            toolTip.IsOpen = false;
-
             reserveViewPanel.ReleaseMouseCapture();
             isDrag = false;
             lastDownMousePos = Mouse.GetPosition(null);
@@ -359,6 +194,137 @@ namespace EpgTimer.TunerReserveViewCtrl
             }
         }
 
-    }
+        private void reserveViewPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            popupItem.Visibility = System.Windows.Visibility.Hidden;
+            lastPopupInfo = null;
+            lastPopupPos = new Point(-1, -1);
+        }
 
+        protected void PopupItem()
+        {
+            ReserveViewItem info = null;
+
+            if (reserveViewPanel.Items != null)
+            {
+                Point cursorPos2 = Mouse.GetPosition(scrollViewer);
+                if (cursorPos2.X < 0 || cursorPos2.Y < 0 ||
+                    scrollViewer.ViewportWidth < cursorPos2.X || scrollViewer.ViewportHeight < cursorPos2.Y)
+                {
+                    return;
+                }
+                Point cursorPos = Mouse.GetPosition(reserveViewPanel);
+                foreach (ReserveViewItem item in reserveViewPanel.Items)
+                {
+                    if (item.LeftPos <= cursorPos.X && cursorPos.X < item.LeftPos + item.Width)
+                    {
+                        if (item.TopPos <= cursorPos.Y && cursorPos.Y < item.TopPos + item.Height)
+                        {
+                            if (item == lastPopupInfo) return;
+
+                            info = item;
+                            lastPopupInfo = info;
+                            lastPopupPos = cursorPos;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (info == null || info.ReserveInfo == null)
+            {
+                popupItem.Visibility = System.Windows.Visibility.Hidden;
+                lastPopupInfo = null;
+                return;
+            }
+
+            double sizeNormal = Settings.Instance.FontSize;
+            double sizeTitle = Settings.Instance.FontSizeTitle;
+
+            FontFamily fontNormal = null;
+            FontFamily fontTitle = null;
+            try
+            {
+                if (Settings.Instance.FontName.Length > 0)
+                {
+                    fontNormal = new FontFamily(Settings.Instance.FontName);
+                }
+                if (Settings.Instance.FontNameTitle.Length > 0)
+                {
+                    fontTitle = new FontFamily(Settings.Instance.FontNameTitle);
+                }
+
+                if (fontNormal == null)
+                {
+                    fontNormal = new FontFamily("MS UI Gothic");
+                }
+                if (fontTitle == null)
+                {
+                    fontTitle = new FontFamily("MS UI Gothic");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+            }
+
+            ReserveItem reserveItem = new ReserveItem(info.ReserveInfo);
+            popupItem.Background = reserveItem.BackColor;
+
+            Canvas.SetTop(popupItem, info.TopPos);
+            popupItem.MinHeight = info.Height;
+            Canvas.SetLeft(popupItem, info.LeftPos);
+            popupItem.Width = info.Width;
+
+            if (info.ReserveInfo.OverlapMode == 2)
+            {
+                errText.Text = reserveItem.Comment;
+                errText.FontFamily = fontTitle;
+                errText.FontSize = sizeTitle;
+                errText.FontWeight = FontWeights.Bold;
+                errText.Foreground = CommonManager.Instance.CustTitle1Color;
+                errText.Margin = new Thickness(1, 1, 1, sizeTitle / 2);
+                errText.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                errText.Text = "";
+                errText.Height = 0;
+                errText.Margin = new Thickness();
+                errText.Visibility = System.Windows.Visibility.Hidden;
+            }
+
+            String text;
+            DateTime endTime = info.ReserveInfo.StartTime + TimeSpan.FromSeconds(info.ReserveInfo.DurationSecond);
+            text = info.ReserveInfo.StartTime.ToString("HH:mm ～ ");
+            text += endTime.ToString("HH:mm");
+            minText.Text = text;
+            minText.FontFamily = fontNormal;// fontTitle;
+            minText.FontSize = sizeNormal;
+            minText.FontWeight = FontWeights.Normal;
+            minText.Foreground = CommonManager.Instance.CustTitle1Color;
+            minText.Margin = new Thickness(1, 1, 1, 1);
+
+            //minGrid.Width = new GridLength(sizeNormal * 1.7 + 1);
+
+            double indent = Settings.Instance.EpgTitleIndent ? sizeNormal * 2 : 2;
+            text = reserveItem.ServiceName;
+            text += " (" + reserveItem.NetworkName + ")";
+            titleText.Text = text;
+            titleText.FontFamily = fontTitle;
+            titleText.FontSize = sizeTitle;
+            titleText.FontWeight = FontWeights.Bold;
+            titleText.Foreground = CommonManager.Instance.CustTitle1Color;
+            titleText.Margin = new Thickness(indent, 1, 1, sizeNormal / 2);
+
+            infoText.Text = reserveItem.EventName;
+            infoText.FontFamily = fontNormal;
+            infoText.FontSize = sizeNormal;
+            infoText.FontWeight = FontWeights.Normal;
+            infoText.Foreground = CommonManager.Instance.CustTitle2Color;
+            infoText.Margin = new Thickness(indent, 0, 9.5, sizeNormal / 2);
+
+            popupItem.Visibility = System.Windows.Visibility.Visible;
+        }
+    }
 }

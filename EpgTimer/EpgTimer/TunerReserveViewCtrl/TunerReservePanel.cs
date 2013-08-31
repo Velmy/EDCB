@@ -266,7 +266,7 @@ namespace EpgTimer.TunerReserveViewCtrl
                             // ビットマップフォントがかすれる問題
                             totalHeight += useHeight + Math.Floor(sizeNormal / 2);
                         }
-                        widthOffset = 2;
+                        widthOffset = Settings.Instance.EpgTitleIndent ? sizeNormal * 2 : 2;
                         //番組名
                         if (info.ReserveInfo.Title.Length > 0)
                         {
