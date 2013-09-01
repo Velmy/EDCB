@@ -60,8 +60,15 @@ namespace EpgTimer
             return (Color)colortype.GetProperty(name).GetValue(colortype, null);
         }
 
-        public static LinearGradientBrush GradientBrush(Color color, double luminance = 0.94, double saturation = 1.2)
+        public static Brush GradientBrush(Color color, double luminance = 0.94, double saturation = 1.2)
         {
+            if (Settings.Instance.EpgGradation == false)
+            {
+                SolidColorBrush brushSolid = new SolidColorBrush(color);
+                brushSolid.Freeze();
+                return brushSolid;
+            }
+
             // 彩度を上げる
             int[] numbers = {color.R, color.G, color.B};
             double n1 = numbers.Max();
