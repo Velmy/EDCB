@@ -40,7 +40,7 @@ namespace EpgTimer.EpgView
                     TextBlock item = new TextBlock();
 
                     item.Width = Settings.Instance.ServiceWidth - 2;
-                    item.Text = time.ToString("M月d日\r\n(ddd)\r\nH");
+                    item.Text = time.ToString("M月d日\r\n(ddd)");
 
 
                     if (time.DayOfWeek == DayOfWeek.Saturday)
