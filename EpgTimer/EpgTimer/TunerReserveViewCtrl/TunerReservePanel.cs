@@ -196,11 +196,13 @@ namespace EpgTimer.TunerReserveViewCtrl
                 double sizeTitle = Settings.Instance.FontSizeTitle;
                 foreach (ReserveViewItem info in Items)
                 {
+                    
                     // ビットマップフォントがかすれる問題
                     double dInfoTopPos = Math.Floor(info.TopPos);
                     double dInfoHeight = Math.Floor(info.Height);
 
-                    dc.DrawRectangle(Brushes.LightGray, null, new Rect(info.LeftPos, dInfoTopPos, info.Width, dInfoHeight));
+                    dc.DrawRectangle(Brushes.LightGray, null, new Rect(info.LeftPos, info.TopPos, info.Width, Math.Max(info.Height, Settings.Instance.MinHeight))); 
+
                     if (dInfoHeight > 2)
                     {
                         SolidColorBrush color = Brushes.White;

@@ -1455,7 +1455,7 @@ namespace EpgTimer
                         //viewItem.LeftPos = i * Settings.Instance.ServiceWidth;
 
                         viewItem.Height = Math.Floor((duration / 60) * Settings.Instance.MinHeight);
-                        if (viewItem.Height == 0)
+                        if (viewItem.Height < Settings.Instance.MinHeight)
                         {
                             viewItem.Height = Settings.Instance.MinHeight;
                         }
