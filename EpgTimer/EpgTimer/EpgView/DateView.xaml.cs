@@ -69,7 +69,7 @@ namespace EpgTimer.EpgView
                     {
                         day.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
-                    day.Width = 140;
+                    day.Width = 120;
                     day.Content = itemTime.ToString("M/d(ddd)");
                     if (itemTime.DayOfWeek == DayOfWeek.Saturday)
                     {
@@ -90,7 +90,7 @@ namespace EpgTimer.EpgView
                         hour0.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
                     hour0.Width = 30;
-                    hour0.Content = itemTime.ToString("0時");
+                    hour0.Content = "0";
                     hour0.DataContext = itemTime.AddHours(0);
                     hour0.Click += new RoutedEventHandler(button_time_Click);
                     stackPanel_time.Children.Add(hour0);
@@ -101,7 +101,7 @@ namespace EpgTimer.EpgView
                         hour6.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
                     hour6.Width = 30;
-                    hour6.Content = itemTime.ToString("6時");
+                    hour6.Content = "6";
                     hour6.DataContext = itemTime.AddHours(6);
                     hour6.Click += new RoutedEventHandler(button_time_Click);
                     stackPanel_time.Children.Add(hour6);
@@ -111,8 +111,8 @@ namespace EpgTimer.EpgView
                     {
                         hour12.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
-                    hour12.Width = 40;
-                    hour12.Content = itemTime.ToString("12時");
+                    hour12.Width = 30;
+                    hour12.Content = "12";
                     hour12.DataContext = itemTime.AddHours(12);
                     hour12.Click += new RoutedEventHandler(button_time_Click);
                     stackPanel_time.Children.Add(hour12);
@@ -122,8 +122,8 @@ namespace EpgTimer.EpgView
                     {
                         hour18.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
-                    hour18.Width = 40;
-                    hour18.Content = itemTime.ToString("18時");
+                    hour18.Width = 30;
+                    hour18.Content = "18";
                     hour18.DataContext = itemTime.AddHours(18);
                     hour18.Click += new RoutedEventHandler(button_time_Click);
                     stackPanel_time.Children.Add(hour18);
