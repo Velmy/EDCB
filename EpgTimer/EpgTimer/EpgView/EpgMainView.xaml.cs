@@ -1160,6 +1160,20 @@ namespace EpgTimer
                 DateTime startTime = startPos.Time;
 
                 DateTime time = (DateTime)timeButton.DataContext;
+                if (time.Minute == 30)  //  日付だけを変更する
+                {
+                    // フラグ用にずらしていた時間（30分）を戻す
+                    time = time.AddMinutes(-30);
+
+                    // 表示されている時間帯を取得する。
+                    int timeIndex = (int)Math.Floor(epgProgramView.scrollViewer.VerticalOffset / (60 * Settings.Instance.MinHeight));
+                    if ((timeIndex >= 0) && (timeIndex < timeList.Count))
+                    {
+                        DateTime nTime = timeList.Values[timeIndex].Time;
+                        // 現在表示している時間を足す
+                        time = time.AddHours(nTime.Hour);
+                    }
+                }
                 if (time < startTime)
                 {
                     epgProgramView.scrollViewer.ScrollToVerticalOffset(0);

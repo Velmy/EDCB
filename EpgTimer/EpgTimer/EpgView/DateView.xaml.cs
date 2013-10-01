@@ -69,7 +69,7 @@ namespace EpgTimer.EpgView
                     {
                         day.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
-                    day.Width = 120;
+                    day.Width = 140;
                     day.Content = itemTime.ToString("M/d(ddd)");
                     if (itemTime.DayOfWeek == DayOfWeek.Saturday)
                     {
@@ -79,17 +79,28 @@ namespace EpgTimer.EpgView
                     {
                         day.Foreground = Brushes.Red;
                     }
-                    day.DataContext = itemTime;
+                    day.DataContext = itemTime.AddMinutes(30);  //  30分なら日付だけ変更して時刻はそのままとする
                     day.Click += new RoutedEventHandler(button_time_Click);
 
                     stackPanel_day.Children.Add(day);
+
+                    Button hour0 = new Button();
+                    if (Settings.Instance.NoStyle == 0)
+                    {
+                        hour0.Style = (Style)App.Current.Resources["ButtonStyle1"];
+                    }
+                    hour0.Width = 30;
+                    hour0.Content = itemTime.ToString("0時");
+                    hour0.DataContext = itemTime.AddHours(0);
+                    hour0.Click += new RoutedEventHandler(button_time_Click);
+                    stackPanel_time.Children.Add(hour0);
 
                     Button hour6 = new Button();
                     if (Settings.Instance.NoStyle == 0)
                     {
                         hour6.Style = (Style)App.Current.Resources["ButtonStyle1"];
                     }
-                    hour6.Width = 40;
+                    hour6.Width = 30;
                     hour6.Content = itemTime.ToString("6時");
                     hour6.DataContext = itemTime.AddHours(6);
                     hour6.Click += new RoutedEventHandler(button_time_Click);
