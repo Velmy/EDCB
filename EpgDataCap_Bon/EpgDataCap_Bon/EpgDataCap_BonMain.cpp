@@ -1112,6 +1112,23 @@ int CALLBACK CEpgDataCap_BonMain::CtrlCmdCallback(void* param, CMD_STREAM* cmdPa
 					if((val[i].ONID==7) && (val[i].swBasic))	CS2Basic = TRUE;
 					chList.push_back(item);
 				}
+				wstring debug = L"";
+				if(BSBasic){
+					debug += L"BS Basic/";
+				} else {
+					debug += L"BS detail/";
+				}
+				if(CS1Basic){
+					debug += L"CS1 Basic/";
+				} else {
+					debug += L"CS1 detail/";
+				}
+				if(CS2Basic){
+					debug += L"CS2 Basic/";
+				} else {
+					debug += L"CS2 detail/";
+				}
+				OutputDebugString(debug.c_str());
 				if( sys->bonCtrl.StartEpgCap(&chList, BSBasic, CS1Basic, CS2Basic) == NO_ERR ){
 					PostMessage(sys->msgWnd, WM_RESERVE_EPGCAP_START, 0, 0);
 					

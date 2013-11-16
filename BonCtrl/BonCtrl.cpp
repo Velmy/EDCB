@@ -1474,6 +1474,7 @@ UINT WINAPI CBonCtrl::EpgCapThread(LPVOID param)
 	while(1){
 		if( ::WaitForSingleObject(sys->epgCapStopEvent, wait) != WAIT_TIMEOUT ){
 			//ƒLƒƒƒ“ƒZƒ‹‚³‚ê‚½
+			OutputDebugString(L"EpgCapThread::Canceled");
 			sys->epgSt_err = ST_CANCEL;
 			sys->tsOut.StopSaveEPG(FALSE);
 			break;
@@ -1491,11 +1492,18 @@ UINT WINAPI CBonCtrl::EpgCapThread(LPVOID param)
 			chkNext = FALSE;
 			startCap = FALSE;
 			wait = 1000;
+
+			TCHAR debug[MAX_PATH];
+			wsprintf(debug, _T("EpgCapThread::Check SID = %d"), sys->epgCapChList[chkCount].SID);
+			OutputDebugString(debug);
 			if( sys->epgCapChList[chkCount].ONID == 4 ){
+				OutputDebugString(L"EpgCapThread::BS Channel");
 				chkBS = TRUE;
 			}else if( sys->epgCapChList[chkCount].ONID == 6 ){
+				OutputDebugString(L"EpgCapThread::CS1 Channel");
 				chkCS1 = TRUE;
 			}else if( sys->epgCapChList[chkCount].ONID == 7 ){
+				OutputDebugString(L"EpgCapThread::CS2 Channel");
 				chkCS2 = TRUE;
 			}
 			sys->epgSt_ch = sys->epgCapChList[chkCount];
@@ -1504,11 +1512,13 @@ UINT WINAPI CBonCtrl::EpgCapThread(LPVOID param)
 			if( sys->tsOut.IsChChanging(&chChgErr) == TRUE ){
 				if( startTime + chkWait < GetTimeCount() ){
 					//ƒ`ƒƒƒ“ƒlƒ‹Ø‚è‘Ö‚¦‚É10•bˆÈã‚©‚©‚Á‚Ä‚é‚Ì‚Å–³M†‚Æ”»’f
+					OutputDebugString(L"EpgCapThread::No signal");
 					chkNext = TRUE;
 				}
 			}else{
 				if( (startTime + chkWait + timeOut*60 < GetTimeCount()) || chChgErr == TRUE){
 					//15•ªˆÈã‚©‚©‚Á‚Ä‚¢‚é‚È‚ç’âŽ~
+					OutputDebugString(L"EpgCapThread::Time out");
 					sys->tsOut.StopSaveEPG(saveTimeOut);
 					chkNext = TRUE;
 					wait = 0;
@@ -1567,6 +1577,7 @@ UINT WINAPI CBonCtrl::EpgCapThread(LPVOID param)
 				if( sys->epgCapChList[chkCount].ONID == 4 && sys->BSBasic == TRUE && chkBS == TRUE){
 					while(chkCount<(DWORD)sys->epgCapChList.size()){
 						if( sys->epgCapChList[chkCount].ONID != 4 ){
+							OutputDebugString(L"EpgCapThread::BS yet checked Basic");
 							break;
 						}
 						chkCount++;
@@ -1581,6 +1592,7 @@ UINT WINAPI CBonCtrl::EpgCapThread(LPVOID param)
 				if( sys->epgCapChList[chkCount].ONID == 6 && sys->CS1Basic == TRUE && chkCS1 == TRUE ){
 					while(chkCount<(DWORD)sys->epgCapChList.size()){
 						if( sys->epgCapChList[chkCount].ONID != 6 ){
+							OutputDebugString(L"EpgCapThread::CS1 yet checked Basic");
 							break;
 						}
 						chkCount++;
@@ -1595,6 +1607,7 @@ UINT WINAPI CBonCtrl::EpgCapThread(LPVOID param)
 				if( sys->epgCapChList[chkCount].ONID == 7 && sys->CS2Basic == TRUE && chkCS2 == TRUE ){
 					while(chkCount<(DWORD)sys->epgCapChList.size()){
 						if( sys->epgCapChList[chkCount].ONID != 7 ){
+							OutputDebugString(L"EpgCapThread::CS2 yet checked Basic");
 							break;
 						}
 						chkCount++;
