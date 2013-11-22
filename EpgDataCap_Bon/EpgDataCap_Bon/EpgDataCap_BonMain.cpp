@@ -1099,37 +1099,20 @@ int CALLBACK CEpgDataCap_BonMain::CtrlCmdCallback(void* param, CMD_STREAM* cmdPa
 			vector<SET_CH_INFO> val;
 			if( ReadVALUE(&val, cmdParam->data, cmdParam->dataSize, NULL ) == TRUE ){
 				vector<EPGCAP_SERVICE_INFO> chList;
-				BOOL BSBasic = FALSE;
-				BOOL CS1Basic = FALSE;
-				BOOL CS2Basic = FALSE;
+				BOOL wBSBasic = FALSE;
+				BOOL wCS1Basic = FALSE;
+				BOOL wCS2Basic = FALSE;
 				for( size_t i=0; i<val.size(); i++ ){
 					EPGCAP_SERVICE_INFO item;
 					item.ONID = val[i].ONID;
 					item.TSID = val[i].TSID;
 					item.SID = val[i].SID;
-					if((val[i].ONID==4) && (val[i].swBasic))	BSBasic = TRUE;
-					if((val[i].ONID==6) && (val[i].swBasic))	CS1Basic = TRUE;
-					if((val[i].ONID==7) && (val[i].swBasic))	CS2Basic = TRUE;
+					wBSBasic = val[i].swBSBasic;
+					wCS1Basic = val[i].swCS1Basic;
+					wCS2Basic = val[i].swCS2Basic;
 					chList.push_back(item);
 				}
-				wstring debug = L"";
-				if(BSBasic){
-					debug += L"BS Basic/";
-				} else {
-					debug += L"BS detail/";
-				}
-				if(CS1Basic){
-					debug += L"CS1 Basic/";
-				} else {
-					debug += L"CS1 detail/";
-				}
-				if(CS2Basic){
-					debug += L"CS2 Basic/";
-				} else {
-					debug += L"CS2 detail/";
-				}
-				OutputDebugString(debug.c_str());
-				if( sys->bonCtrl.StartEpgCap(&chList, BSBasic, CS1Basic, CS2Basic) == NO_ERR ){
+				if( sys->bonCtrl.StartEpgCap(&chList, wBSBasic, wCS1Basic, wCS2Basic) == NO_ERR ){
 					PostMessage(sys->msgWnd, WM_RESERVE_EPGCAP_START, 0, 0);
 					
 					resParam->param = CMD_SUCCESS;

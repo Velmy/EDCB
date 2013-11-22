@@ -4473,10 +4473,9 @@ BOOL CReserveManager::_StartEpgCap()
 					addItem.SID = itrAdd->second.serviceID;
 					addItem.useSID = TRUE;
 					addItem.useBonCh = FALSE;
-					addItem.swBasic = FALSE;
-					if((itrAdd->second.originalNetworkID == 4) && (this->BSOnly))	addItem.swBasic = TRUE;
-					if((itrAdd->second.originalNetworkID == 6) && (this->CS1Only))	addItem.swBasic = TRUE;
-					if((itrAdd->second.originalNetworkID == 7) && (this->CS2Only))	addItem.swBasic = TRUE;
+					addItem.swBSBasic = this->BSOnly;
+					addItem.swCS1Basic = this->CS1Only;
+					addItem.swCS2Basic = this->CS2Only;
 					itrCtrl->second->AddEpgCapItem(addItem);
 
 					add = TRUE;
