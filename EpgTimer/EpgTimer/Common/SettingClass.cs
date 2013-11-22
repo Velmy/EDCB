@@ -154,6 +154,7 @@ namespace EpgTimer
         private double mainWndHeight;
         private bool closeMin;
         private bool wakeMin;
+        private bool viewButtonShowAsTab;
         private List<string> viewButtonList;
         private List<string> taskMenuList;
         private string cust1BtnName;
@@ -507,6 +508,11 @@ namespace EpgTimer
         {
             get { return wakeMin; }
             set { wakeMin = value; }
+        }
+        public bool ViewButtonShowAsTab
+        {
+            get { return viewButtonShowAsTab; }
+            set { viewButtonShowAsTab = value; }
         }
         public List<string> ViewButtonList
         {
@@ -1044,6 +1050,7 @@ namespace EpgTimer
             mainWndHeight = -100;
             closeMin = false;
             wakeMin = false;
+            viewButtonShowAsTab = false;
             viewButtonList = new List<string>();
             taskMenuList = new List<string>();
             cust1BtnName = "";
