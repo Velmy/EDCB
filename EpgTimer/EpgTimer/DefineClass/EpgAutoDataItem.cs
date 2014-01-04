@@ -366,6 +366,26 @@ namespace EpgTimer
             }
         }
 
+        public String Disabled
+        {
+            get
+            {
+                String view = "";
+                if (EpgAutoAddInfo != null)
+                {
+                    if (EpgAutoAddInfo.DisableSw == 0)
+                    {
+                        view = "有効";
+                    }
+                    else if (EpgAutoAddInfo.DisableSw == 1)
+                    {
+                        view = "無効";
+                    }
+                }
+                return view;
+            }
+        }
+
         public TextBlock ToolTipView
         {
             get
@@ -609,6 +629,18 @@ namespace EpgTimer
                 }
 
                 return color1;
+            }
+        }
+        public SolidColorBrush BackColor
+        {
+            get
+            {
+                SolidColorBrush color = CommonManager.Instance.ResDefBackColor;
+                if (EpgAutoAddInfo.DisableSw == 1)
+                {
+                    color = CommonManager.Instance.ResNoBackColor;
+                }
+                return color;
             }
         }
 

@@ -98,5 +98,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <CheckBox Content="無効" Height="16" HorizontalAlignment="Left" Margin="652,0,0,8" Name="checkBox_Disable" VerticalAlignment="Bottom" Grid.Row="1" />
     </Grid>
 </Window>

@@ -732,6 +732,10 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG()
 	map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
 	for( itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++ ){
 		itrKey->second->addCount = 0;
+		if (itrKey->second->DisableSw == 1) {
+			//ñ≥å¯Ç»ÇÃÇ≈ëŒè€äO
+			continue;
+		}
 
 		vector<CEpgDBManager::SEARCH_RESULT_EVENT> resultList;
 		this->epgDB.SearchEpg(&itrKey->second->searchInfo, &resultList);
@@ -881,6 +885,9 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 	if( val != NULL ){
 		map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
 		for( itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++ ){
+			if (itrKey->second->DisableSw==1) {
+				continue;
+			}
 			BOOL findData = FALSE;
 			for( size_t i=0; i < val->size(); i++ ){
 				if( (*val)[i].dataID == itrKey->second->dataID ){

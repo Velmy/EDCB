@@ -907,6 +907,7 @@ void CtrlCmdUtil::CopyData(Def::EpgAutoAddData^ src, EPG_AUTO_ADD_DATA* dest)
 	CopyData(src->searchInfo, &dest->searchInfo);
 	CopyData(src->recSetting, &dest->recSetting);
 	dest->addCount = src->addCount;
+	dest->DisableSw = src->DisableSw;
 }
 
 void CtrlCmdUtil::CopyData(EPG_AUTO_ADD_DATA* src, Def::EpgAutoAddData^% dest)
@@ -915,7 +916,7 @@ void CtrlCmdUtil::CopyData(EPG_AUTO_ADD_DATA* src, Def::EpgAutoAddData^% dest)
 	CopyData(&src->searchInfo, dest->searchInfo);
 	CopyData(&src->recSetting, dest->recSetting);
 	dest->addCount = src->addCount;
-	
+	dest->DisableSw = src->DisableSw;
 }
 
 void CtrlCmdUtil::CopyData(Def::ManualAutoAddData^ src, MANUAL_AUTO_ADD_DATA* dest)

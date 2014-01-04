@@ -408,6 +408,15 @@ BOOL CParseEpgAutoAddText::Parse1Line(string parseLine, EPG_AUTO_ADD_DATA* item 
 	
 	Separate( parseLine, "\t", strBuff, parseLine);
 
+	//無効
+	if( (WORD)atoi(strBuff.c_str()) == 1 ){
+		item->DisableSw = true;
+	} else {
+		item->DisableSw = false;
+	}
+	
+	Separate( parseLine, "\t", strBuff, parseLine);
+
 return TRUE;
 }
 
@@ -624,6 +633,14 @@ BOOL CParseEpgAutoAddText::SaveText(LPCWSTR filePath)
 
 		//最低番組長チェック
 		Format(strBuff,"%d",itr->second->searchInfo.chkRecMin);
+		strWrite+=strBuff +"\t";
+
+		//無効スイッチ
+		if( itr->second->DisableSw == true ){
+			strBuff = "1";
+		} else {
+			strBuff = "0";
+		}
 		strWrite+=strBuff +"\t";
 
 		strWrite+="\r\n";

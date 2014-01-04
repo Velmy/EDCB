@@ -4780,6 +4780,7 @@ DWORD GetVALUESize( EPG_AUTO_ADD_DATA* val )
 	size += GetVALUESize(val->dataID);
 	size += GetVALUESize(&val->searchInfo);
 	size += GetVALUESize(&val->recSetting);
+	size += GetVALUESize(val->DisableSw);
 
 	return size;
 }
@@ -4808,6 +4809,10 @@ BOOL WriteVALUE( EPG_AUTO_ADD_DATA* val, BYTE* buff, DWORD buffSize, DWORD* writ
 		}
 		pos += size;
 		if( WriteVALUE( &val->recSetting, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
+		if( WriteVALUE( val->DisableSw, buff + pos, buffSize - pos, &size ) == FALSE ){
 			return FALSE;
 		}
 		pos += size;
@@ -4846,6 +4851,10 @@ BOOL ReadVALUE( EPG_AUTO_ADD_DATA* val, BYTE* buff, DWORD buffSize, DWORD* readS
 		}
 		pos += size;
 		if( ReadVALUE( &val->recSetting, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
+		if( ReadVALUE( &val->DisableSw, buff + pos, buffSize - pos, &size ) == FALSE ){
 			return FALSE;
 		}
 		pos += size;
@@ -7212,6 +7221,7 @@ void CopyOldNew(OLD_SEARCH_KEY* src, EPG_AUTO_ADD_DATA* dest)
 	dest->recSetting.continueRecFlag = 0;
 	dest->recSetting.partialRecFlag = 0;
 	dest->recSetting.tunerID = 0;
+	dest->DisableSw = false;
 	if( src->strRecFolder.size() > 0 ){
 		REC_FILE_SET_INFO folder;
 		folder.recFolder = src->strRecFolder;

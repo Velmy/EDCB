@@ -674,11 +674,14 @@ typedef struct _EPG_AUTO_ADD_DATA{
 	EPGDB_SEARCH_KEY_INFO searchInfo;	//åüçıÉLÅ[
 	REC_SETTING_DATA recSetting;	//ò^âÊê›íË
 	DWORD addCount;		//ó\ñÒìoò^êî
+	WORD DisableSw;		//ñ≥å¯
+
 	_EPG_AUTO_ADD_DATA & operator= (const _EPG_AUTO_ADD_DATA & o) {
 		dataID = o.dataID;
 		searchInfo = o.searchInfo;
 		recSetting = o.recSetting;
 		addCount = o.addCount;
+		DisableSw = o.DisableSw;
 		return *this;
 	};
 } EPG_AUTO_ADD_DATA;

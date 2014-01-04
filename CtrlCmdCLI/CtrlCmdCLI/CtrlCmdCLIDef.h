@@ -922,12 +922,17 @@ namespace Def {
 		/// 予約登録数
 		/// </summary>
 		property UInt32 addCount;
+		/// <summary>
+		/// 無効フラグ(0:有効 1:無効
+		/// </summary>
+		property WORD DisableSw;
 	public:
 		EpgAutoAddData(void){
 			dataID = 0;
 			searchInfo = gcnew EpgSearchKeyInfo();
 			recSetting = gcnew RecSettingData();
 			addCount = 0;
+			DisableSw = 0;
 		};
 	};
 
@@ -976,6 +981,10 @@ namespace Def {
 		/// 録画設定
 		/// </summary>
 		property RecSettingData^ recSetting;
+		/// <summary>
+		/// 無効フラグ(0:有効 1:無効
+		/// </summary>
+		property WORD DisableSw;
 	public:
 		ManualAutoAddData(void){
 			dataID = 0;
@@ -987,6 +996,7 @@ namespace Def {
 			originalNetworkID = 0;
 			transportStreamID = 0;
 			serviceID = 0;
+			DisableSw = 0;
 
 			recSetting = gcnew RecSettingData();
 		};

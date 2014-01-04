@@ -21,10 +21,12 @@
             <MenuItem Header="ジャンル" Name="JyanruKey" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="ネットワーク" Name="NetworkKey" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="サービス名" Name="ServiceKey" IsCheckable="True" Click="headerSelect_Click" />
+            <MenuItem Header="無効" Name="Disabled" IsCheckable="True" Click="headerSelect_Click" />
         </ContextMenu>
         <ContextMenu x:Key="itemMenu" x:Name="cmdMenu" >
             <MenuItem Header="削除 (_D)" Click="button_del_Click" InputGestureText="Delete" />
             <MenuItem Header="変更 (_C)" Click="button_change_Click"  InputGestureText="Enter "/>
+            <MenuItem Header="有効←→無効 (_R)" Click="button_disable_reverce_Click"  InputGestureText="Backspace "/>
             <MenuItem Header="自動登録詳細 (_V)" Click="MenuItem_Click_AutoAddContent" />
         </ContextMenu>
     </UserControl.Resources>
@@ -42,6 +44,7 @@
                         <Setter Property="ContextMenu" Value="{DynamicResource itemMenu}" />
                         <Setter Property="BorderThickness" Value="5,0,0,1" />
                         <Setter Property="BorderBrush" Value="{Binding BorderBrush}" />
+                        <Setter Property="Background" Value="{Binding BackColor}" />
                         <EventSetter Event="MouseDoubleClick" Handler="listView_key_MouseDoubleClick"/>
                         <EventSetter Event="PreviewMouseDown" Handler="listViewItem_PreviewMouseDown"/>
                         <EventSetter Event="MouseEnter" Handler="listViewItem_MouseEnter"/>
@@ -114,6 +117,11 @@
                                 <GridViewColumnHeader Content="サービス名" Tag="ServiceKey" HorizontalContentAlignment="Left" ToolTip="Ctrl + クリック（マルチ・ソート）"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Disabled}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="無効" Tag="Disabled" HorizontalContentAlignment="Left" ToolTip="Ctrl + クリック（マルチ・ソート）"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -121,6 +129,7 @@
                 <Button Content="追加" Height="23" Name="button_add" Margin="0,10,0,10" Click="button_add_Click" Style="{StaticResource ButtonStyle1}" />
                 <Button Content="削除" Height="23" Name="button_del" Margin="0,10,0,10" Click="button_del_Click" Style="{StaticResource ButtonStyle1}" />
                 <Button Content="変更" Height="23" Name="button_change" Margin="0,10,0,10" Click="button_change_Click" Style="{StaticResource ButtonStyle1}" />
+                <Button Content="無効" Height="23" Name="button_disable" Margin="0,10,0,10" Style="{StaticResource ButtonStyle1}" Click="button_disable_Click" />
                 <!--<Button Content="↑" Height="23" Name="button_up" Margin="0,20,0,5" Click="button_up_Click" Style="{StaticResource ButtonStyle1}" />-->
                 <!--<Button Content="↓" Height="23" Name="button_down" Margin="0,5,0,10" Click="button_down_Click" Style="{StaticResource ButtonStyle1}" />-->
                 <Button Content="↑" Height="23" Name="button_up" Margin="0,20,0,5" Click="button_up_Click2" Style="{StaticResource ButtonStyle1}" ToolTip="Ctrl + ↑" />

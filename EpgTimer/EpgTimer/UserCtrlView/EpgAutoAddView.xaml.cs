@@ -205,6 +205,11 @@ namespace EpgTimer
                     dlg.SetChgAutoAddID(info.EpgAutoAddInfo.dataID);
                     dlg.SetSearchDefKey(info.EpgAutoAddInfo.searchInfo);
                     dlg.SetRecInfoDef(info.EpgAutoAddInfo.recSetting);
+                    if (info.EpgAutoAddInfo.DisableSw == 0) {
+                        dlg.checkBox_Disable.IsChecked = false;
+                    } else {
+                        dlg.checkBox_Disable.IsChecked = true;
+                    }
                     dlg.ShowDialog();
                 }
             }
@@ -227,6 +232,14 @@ namespace EpgTimer
                     dlg.SetChgAutoAddID(info.EpgAutoAddInfo.dataID);
                     dlg.SetSearchDefKey(info.EpgAutoAddInfo.searchInfo);
                     dlg.SetRecInfoDef(info.EpgAutoAddInfo.recSetting);
+                    if (info.EpgAutoAddInfo.DisableSw == 0)
+                    {
+                        dlg.checkBox_Disable.IsChecked = false;
+                    }
+                    else
+                    {
+                        dlg.checkBox_Disable.IsChecked = true;
+                    }
                     dlg.ShowDialog();
                 }
             }
@@ -623,6 +636,73 @@ namespace EpgTimer
         private void myPopup_MouseLeave(object sender, MouseEventArgs e)
         {
             this.myPopup.IsOpen = false;
+        }
+
+        private void button_disable_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (listView_key.SelectedItems.Count > 0)
+                {
+                    List<EpgAutoAddData> addList = new List<EpgAutoAddData>();
+                    foreach (EpgAutoDataItem info in listView_key.SelectedItems)
+                    {
+                        info.EpgAutoAddInfo.DisableSw = 1;
+                        addList.Add(info.EpgAutoAddInfo);
+                    }
+                    if (cmd.SendChgEpgAutoAdd(addList) != 1)
+                    {
+                        MessageBox.Show("変更に失敗しました");
+                    }
+                    else
+                    {
+                        CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.ReserveInfo);
+                        CommonManager.Instance.DB.ReloadReserveInfo();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
+
+        private void button_disable_reverce_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (listView_key.SelectedItem != null)
+                {
+                    List<EpgAutoAddData> addList = new List<EpgAutoAddData>();
+
+                    foreach (EpgAutoDataItem info in listView_key.SelectedItems)
+                    {
+                        if (info.EpgAutoAddInfo.DisableSw == 0)
+                        {
+                            info.EpgAutoAddInfo.DisableSw = 1;
+                        }
+                        else
+                        {
+                            info.EpgAutoAddInfo.DisableSw = 0;
+                        }
+                        addList.Add(info.EpgAutoAddInfo);
+                    }
+
+                    if (cmd.SendChgEpgAutoAdd(addList) != 1)
+                    {
+                        MessageBox.Show("変更に失敗しました");
+                    }
+                    else
+                    {
+                        CommonManager.Instance.DB.SetUpdateNotify((UInt32)UpdateNotifyItem.ReserveInfo);
+                        CommonManager.Instance.DB.ReloadReserveInfo();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
 
     }

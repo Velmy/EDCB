@@ -318,6 +318,15 @@ namespace EpgTimer
                 addItem.searchInfo = searchKey;
                 addItem.recSetting = recSetKey;
 
+                if (checkBox_Disable.IsChecked == true)
+                {
+                    addItem.DisableSw = 1;
+                }
+                else
+                {
+                    addItem.DisableSw = 0;
+                }
+
                 List<EpgAutoAddData> addList = new List<EpgAutoAddData>();
                 addList.Add(addItem);
 
@@ -352,6 +361,15 @@ namespace EpgTimer
 
                 addItem.searchInfo = searchKey;
                 addItem.recSetting = recSetKey;
+
+                if (checkBox_Disable.IsChecked == true)
+                {
+                    addItem.DisableSw = 1;
+                }
+                else
+                {
+                    addItem.DisableSw = 0;
+                }
 
                 List<EpgAutoAddData> addList = new List<EpgAutoAddData>();
                 addList.Add(addItem);
