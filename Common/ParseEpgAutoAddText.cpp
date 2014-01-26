@@ -636,7 +636,7 @@ BOOL CParseEpgAutoAddText::SaveText(LPCWSTR filePath)
 		strWrite+=strBuff +"\t";
 
 		//無効スイッチ
-		if( itr->second->DisableSw == true ){
+		if( itr->second->DisableSw == 1 ){
 			strBuff = "1";
 		} else {
 			strBuff = "0";
