@@ -809,8 +809,16 @@ namespace EpgTimer
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                if (Settings.Instance.MinHide == true)
+                {
+                    this.Visibility = System.Windows.Visibility.Hidden;
+                }
+            }
             if (this.WindowState == WindowState.Normal || this.WindowState == WindowState.Maximized)
             {
+                this.Visibility = System.Windows.Visibility.Visible;
                 taskTray.LastViewState = this.WindowState;
                 Settings.Instance.LastWindowState = this.WindowState;
             }
