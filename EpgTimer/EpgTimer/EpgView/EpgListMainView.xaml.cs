@@ -1402,7 +1402,12 @@ namespace EpgTimer
                 foreach (SearchItem item in listView_event.SelectedItems)
                 {
                     ReserveData reserve = item.ReserveInfo;
-                    if (reserve.RecSetting.RecMode == 5)
+                    if (reserve == null)
+                    {
+                        cm_new_Click(sender, e);
+                        return;
+                    }
+                    else if (reserve.RecSetting.RecMode == 5)
                     {
                         // 無効 => 予約
                         RecSettingData defSet = new RecSettingData();
