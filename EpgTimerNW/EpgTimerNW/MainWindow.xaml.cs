@@ -377,7 +377,7 @@ namespace EpgTimer
 
                 //タスクトレイの表示
                 taskTray = new TaskTrayClass(this);
-                taskTray.Icon = Properties.Resources.TaskIconBlue;
+                taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconBlue;
                 taskTray.Visible = true;
                 taskTray.ContextMenuClick += new EventHandler(taskTray_ContextMenuClick);
 
@@ -1305,15 +1305,15 @@ namespace EpgTimer
                         {
                             if (status == 1)
                             {
-                                taskTray.Icon = Properties.Resources.TaskIconRed;
+                                taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconRed;
                             }
                             else if (status == 2)
                             {
-                                taskTray.Icon = Properties.Resources.TaskIconGreen;
+                                taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconGreen;
                             }
                             else
                             {
-                                taskTray.Icon = Properties.Resources.TaskIconBlue;
+                                taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconBlue;
                             }
                         }
                         else
@@ -1322,15 +1322,15 @@ namespace EpgTimer
                             {
                                 if (status == 1)
                                 {
-                                    taskTray.Icon = Properties.Resources.TaskIconRed;
+                                    taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconRed;
                                 }
                                 else if (status == 2)
                                 {
-                                    taskTray.Icon = Properties.Resources.TaskIconGreen;
+                                    taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconGreen;
                                 }
                                 else
                                 {
-                                    taskTray.Icon = Properties.Resources.TaskIconBlue;
+                                    taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconBlue;
                                 }
                             }));
                         }
@@ -1478,15 +1478,15 @@ namespace EpgTimer
                     {
                         if (status.param1 == 1)
                         {
-                            taskTray.Icon = Properties.Resources.TaskIconRed;
+                            taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconRed;
                         }
                         else if (status.param1 == 2)
                         {
-                            taskTray.Icon = Properties.Resources.TaskIconGreen;
+                            taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconGreen;
                         }
                         else
                         {
-                            taskTray.Icon = Properties.Resources.TaskIconBlue;
+                            taskTray.Icon = EpgTimerNW.Properties.Resources.TaskIconBlue;
                         }
                     }
                     break;

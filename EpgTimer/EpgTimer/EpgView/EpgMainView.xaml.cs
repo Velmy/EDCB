@@ -1538,13 +1538,13 @@ namespace EpgTimer
                                             }
                                         }
                                     }
-                                    viewItem.TopPos += Math.Floor((startTime - chkTime).TotalMinutes * Settings.Instance.MinHeight);
+                                    //viewItem.TopPos += Math.Floor((startTime - chkTime).TotalMinutes * Settings.Instance.MinHeight);
                                     foreach (ProgramViewItem pgInfo in time.ProgramList)
                                     {
                                         if (pgInfo.LeftPos == viewItem.LeftPos && pgInfo.TopPos <= viewItem.TopPos && viewItem.TopPos < pgInfo.TopPos + pgInfo.Height)
                                         {
                                             viewItem.Width = pgInfo.Width;
-                                            break;
+                                            //break;
                                         }
                                     }
                                 }
