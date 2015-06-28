@@ -406,16 +406,66 @@ BOOL CParseEpgAutoAddText::Parse1Line(string parseLine, EPG_AUTO_ADD_DATA* item 
 	//Å’á”Ô‘g’·
 	item->searchInfo.chkRecMin = (WORD)atoi(strBuff.c_str());
 	
-	Separate( parseLine, "\t", strBuff, parseLine);
+	item->DisableSw = false;
+	GetLocalTime(&item->addDatetime);
 
-	//–³Œø
-	if( (WORD)atoi(strBuff.c_str()) == 1 ){
-		item->DisableSw = true;
-	} else {
-		item->DisableSw = false;
+	if (Separate(parseLine, "\t", strBuff, parseLine))
+	{
+		//–³Œø
+		if ((WORD)atoi(strBuff.c_str()) == 1){
+			item->DisableSw = true;
+		}
+		else {
+			item->DisableSw = false;
+		}
+
+		if (Separate(parseLine, "\t", strBuff, parseLine))
+		{
+			//—\–ñ’Ç‰Á“ú
+
+			//“ú•t•ª‰ğ
+			string strY;
+			string strM;
+
+			Separate(strBuff, "/", strY, strBuff);
+			if (strY.empty() == false){
+				Separate(strBuff, "/", strM, strBuff);
+				if (strM.empty() == false){
+					item->addDatetime.wYear = atoi(strY.c_str());
+					item->addDatetime.wMonth = atoi(strM.c_str());
+					item->addDatetime.wDay = atoi(strBuff.c_str());
+				}
+				else{
+					return FALSE;
+				}
+			}
+			else{
+				return FALSE;
+			}
+
+			Separate(parseLine, "\t", strBuff, parseLine);
+
+			//ŠÔ•ª‰ğ
+			string strHour;
+			string strMinute;
+
+			Separate(strBuff, ":", strHour, strBuff);
+			if (strHour.empty() == true){
+				return FALSE;
+			}
+			Separate(strBuff, ":", strMinute, strBuff);
+			if (strHour.empty() == true){
+				return FALSE;
+			}
+
+			item->addDatetime.wHour = atoi(strHour.c_str());
+			item->addDatetime.wMinute = atoi(strMinute.c_str());
+			item->addDatetime.wSecond = atoi(strBuff.c_str());
+			item->addDatetime.wMilliseconds = 0;
+		}
 	}
-	
-	Separate( parseLine, "\t", strBuff, parseLine);
+
+	Separate(parseLine, "\t", strBuff, parseLine);
 
 return TRUE;
 }
@@ -643,6 +693,14 @@ BOOL CParseEpgAutoAddText::SaveText(LPCWSTR filePath)
 		}
 		strWrite+=strBuff +"\t";
 
+		//—\–ñ’Ç‰Á“ú
+		//“ú•t
+		Format(strBuff, "%04d/%02d/%02d", itr->second->addDatetime.wYear, itr->second->addDatetime.wMonth, itr->second->addDatetime.wDay);
+		strWrite += strBuff + "\t";
+		//ŠÔ
+		Format(strBuff, "%02d:%02d:%02d", itr->second->addDatetime.wHour, itr->second->addDatetime.wMinute, itr->second->addDatetime.wSecond);
+		strWrite += strBuff + "\t";
+
 		strWrite+="\r\n";
 		WriteFile(hFile, strWrite.c_str(), (DWORD)strWrite.length(), &dwWrite, NULL);
 	}
@@ -661,6 +719,7 @@ BOOL CParseEpgAutoAddText::AddData(EPG_AUTO_ADD_DATA* item)
 	item->dataID = GetNextID();
 	EPG_AUTO_ADD_DATA* setItem = new EPG_AUTO_ADD_DATA;
 	*setItem = *item;
+	GetLocalTime(&setItem->addDatetime);
 
 	this->dataIDMap.insert( pair<DWORD, EPG_AUTO_ADD_DATA*>(setItem->dataID, setItem) );
 
@@ -679,7 +738,7 @@ BOOL CParseEpgAutoAddText::ChgData(EPG_AUTO_ADD_DATA* item)
 		return FALSE;
 	}
 	*(itr->second) = *item;
-
+	GetLocalTime(&item->addDatetime);
 
 	return TRUE;
 }

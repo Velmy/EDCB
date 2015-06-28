@@ -675,6 +675,7 @@ typedef struct _EPG_AUTO_ADD_DATA{
 	REC_SETTING_DATA recSetting;	//˜^‰æİ’è
 	DWORD addCount;		//—\–ñ“o˜^”
 	WORD DisableSw;		//–³Œø
+	SYSTEMTIME addDatetime;		//	—\–ñ’Ç‰Á“ú
 
 	_EPG_AUTO_ADD_DATA & operator= (const _EPG_AUTO_ADD_DATA & o) {
 		dataID = o.dataID;
@@ -682,6 +683,7 @@ typedef struct _EPG_AUTO_ADD_DATA{
 		recSetting = o.recSetting;
 		addCount = o.addCount;
 		DisableSw = o.DisableSw;
+		addDatetime = o.addDatetime;
 		return *this;
 	};
 } EPG_AUTO_ADD_DATA;

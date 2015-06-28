@@ -2445,7 +2445,8 @@ DWORD GetVALUESize2(WORD ver, EPG_AUTO_ADD_DATA* val )
 	size += GetVALUESize2(ver,val->dataID);
 	size += GetVALUESize2(ver,&val->searchInfo);
 	size += GetVALUESize2(ver,&val->recSetting);
-	size += GetVALUESize2(ver,val->DisableSw);
+	size += GetVALUESize2(ver, val->DisableSw);
+	size += GetVALUESize2(ver, &val->addDatetime);
 
 	if( ver<=4 ){
 		goto CMD_END;
@@ -2489,6 +2490,10 @@ BOOL WriteVALUE2(WORD ver, EPG_AUTO_ADD_DATA* val, BYTE* buff, DWORD buffSize, D
 		}
 		pos += size;
 		if( WriteVALUE2(ver, val->DisableSw, buff + pos, buffSize - pos, &size ) == FALSE ){
+			return FALSE;
+		}
+		pos += size;
+		if (WriteVALUE2(ver, &val->addDatetime, buff + pos, buffSize - pos, &size) == FALSE){
 			return FALSE;
 		}
 		pos += size;
@@ -2544,7 +2549,11 @@ BOOL ReadVALUE2(WORD ver, EPG_AUTO_ADD_DATA* val, BYTE* buff, DWORD buffSize, DW
 			return FALSE;
 		}
 		pos += size;
-		if( ReadVALUE2(ver, &val->DisableSw, buff + pos, buffSize - pos, &size ) == FALSE ){
+		if (ReadVALUE2(ver, &val->DisableSw, buff + pos, buffSize - pos, &size) == FALSE){
+			return FALSE;
+		}
+		pos += size;
+		if (ReadVALUE2(ver, &val->addDatetime, buff + pos, buffSize - pos, &size) == FALSE){
 			return FALSE;
 		}
 		pos += size;

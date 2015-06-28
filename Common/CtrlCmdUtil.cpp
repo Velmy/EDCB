@@ -4781,6 +4781,7 @@ DWORD GetVALUESize( EPG_AUTO_ADD_DATA* val )
 	size += GetVALUESize(&val->searchInfo);
 	size += GetVALUESize(&val->recSetting);
 	size += GetVALUESize(val->DisableSw);
+	size += GetVALUESize(&val->addDatetime);
 
 	return size;
 }
@@ -4812,7 +4813,11 @@ BOOL WriteVALUE( EPG_AUTO_ADD_DATA* val, BYTE* buff, DWORD buffSize, DWORD* writ
 			return FALSE;
 		}
 		pos += size;
-		if( WriteVALUE( val->DisableSw, buff + pos, buffSize - pos, &size ) == FALSE ){
+		if (WriteVALUE(val->DisableSw, buff + pos, buffSize - pos, &size) == FALSE){
+			return FALSE;
+		}
+		pos += size;
+		if (WriteVALUE(&val->addDatetime, buff + pos, buffSize - pos, &size) == FALSE){
 			return FALSE;
 		}
 		pos += size;
@@ -4854,7 +4859,11 @@ BOOL ReadVALUE( EPG_AUTO_ADD_DATA* val, BYTE* buff, DWORD buffSize, DWORD* readS
 			return FALSE;
 		}
 		pos += size;
-		if( ReadVALUE( &val->DisableSw, buff + pos, buffSize - pos, &size ) == FALSE ){
+		if (ReadVALUE(&val->DisableSw, buff + pos, buffSize - pos, &size) == FALSE){
+			return FALSE;
+		}
+		pos += size;
+		if (ReadVALUE(&val->addDatetime, buff + pos, buffSize - pos, &size) == FALSE){
 			return FALSE;
 		}
 		pos += size;
@@ -7222,7 +7231,9 @@ void CopyOldNew(OLD_SEARCH_KEY* src, EPG_AUTO_ADD_DATA* dest)
 	dest->recSetting.partialRecFlag = 0;
 	dest->recSetting.tunerID = 0;
 	dest->DisableSw = false;
-	if( src->strRecFolder.size() > 0 ){
+	GetLocalTime(&dest->addDatetime);
+
+	if (src->strRecFolder.size() > 0){
 		REC_FILE_SET_INFO folder;
 		folder.recFolder = src->strRecFolder;
 		folder.writePlugIn = L"Write_Default.dll";

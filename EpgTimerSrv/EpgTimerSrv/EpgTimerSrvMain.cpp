@@ -16,6 +16,7 @@
 #include "SyoboiCalUtil.h"
 
 #include <process.h>
+#include <atltime.h>
 
 CEpgTimerSrvMain::CEpgTimerSrvMain(void)
 {
@@ -840,7 +841,12 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG()
 						}
 
 						addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
-					}else{
+
+						//	追加したので更新
+						SetLocalTime(&itrKey->second->addDatetime);
+						this->epgAutoAdd.ChgData(itrKey->second);
+					}
+					else{
 						//無効ならそれを優先
 						if( itrKey->second->recSetting.recMode == RECMODE_NO ){
 							itrAdd->second->recSetting.recMode = RECMODE_NO;
@@ -863,6 +869,23 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG()
 	if( setList.size() > 0 ){
 		this->reserveManager.AddReserveData(&setList, TRUE);
 		setList.clear();
+
+		CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
+		DisableDate -= CTimeSpan(60, 0, 0, 0);			//	60日前にする
+
+		for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
+			if (CTime(itrKey->second->addDatetime) < DisableDate){
+				itrKey->second->DisableSw = 1;
+			}
+		}
+
+		wstring savePath = L"";
+		GetSettingPath(savePath);
+		savePath += L"\\";
+		savePath += EPG_AUTO_ADD_TEXT_NAME;
+
+		this->epgAutoAdd.SaveText(savePath.c_str());
+		
 	}else if(chgRecEnd == TRUE){
 		this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_RESERVE_INFO);
 	}
@@ -886,6 +909,7 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 		map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
 		for( itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++ ){
 			if (itrKey->second->DisableSw==1) {
+				// 無効データ
 				continue;
 			}
 			BOOL findData = FALSE;
@@ -1004,6 +1028,11 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 							}
 
 							addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
+
+							//	追加したので更新
+							SetLocalTime(&itrKey->second->addDatetime);
+							this->epgAutoAdd.ChgData(itrKey->second);
+
 						}else{
 							//無効ならそれを優先
 							if( itrKey->second->recSetting.recMode == RECMODE_NO ){
@@ -1028,7 +1057,25 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 	if( setList.size() > 0 ){
 		this->reserveManager.AddReserveData(&setList, TRUE);
 		setList.clear();
-	}else if(chgRecEnd == TRUE){
+
+		CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
+		DisableDate -= CTimeSpan(60, 0, 0, 0);			//	60日前にする
+
+		map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
+		for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
+			if (CTime(itrKey->second->addDatetime) < DisableDate){
+				itrKey->second->DisableSw = 1;
+			}
+		}
+
+		wstring savePath = L"";
+		GetSettingPath(savePath);
+		savePath += L"\\";
+		savePath += EPG_AUTO_ADD_TEXT_NAME;
+
+		this->epgAutoAdd.SaveText(savePath.c_str());
+	}
+	else if (chgRecEnd == TRUE){
 		this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_RESERVE_INFO);
 	}
 	this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_AUTOADD_EPG);
