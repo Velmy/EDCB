@@ -723,176 +723,16 @@ BOOL CEpgTimerSrvMain::IsUserWorking()
 
 BOOL CEpgTimerSrvMain::AutoAddReserveEPG()
 {
-	BOOL ret = TRUE;
 
-	map<ULONGLONG, RESERVE_DATA*> addMap;
-	map<ULONGLONG, RESERVE_DATA*>::iterator itrAdd;
+	vector<EPG_AUTO_ADD_DATA> vList;
 
-	LONGLONG nowTime = GetNowI64Time();
-	BOOL chgRecEnd = FALSE;
 	map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
-	for( itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++ ){
-		itrKey->second->addCount = 0;
-		if (itrKey->second->DisableSw == 1) {
-			//無効なので対象外
-			continue;
-		}
-
-		vector<CEpgDBManager::SEARCH_RESULT_EVENT> resultList;
-		this->epgDB.SearchEpg(&itrKey->second->searchInfo, &resultList);
-		for( size_t i=0; i<resultList.size(); i++ ){
-			EPGDB_EVENT_INFO* result = resultList[i].info;
-			if( result->StartTimeFlag == 0 || result->DurationFlag == 0 ){
-				//時間未定なので対象外
-				continue;
-			}
-			if( ConvertI64Time(result->start_time) < nowTime ){
-				//開始時間過ぎているので対象外
-				continue;
-			}
-			if( nowTime + ((LONGLONG)this->autoAddDays)*24*60*60*I64_1SEC + ((LONGLONG)this->autoAddHour)*60*60*I64_1SEC < ConvertI64Time(result->start_time)){
-				//対象期間外
-				continue;
-			}
-			if( (itrKey->second->searchInfo.chkRecMin>0) && ((WORD)result->durationSec < itrKey->second->searchInfo.chkRecMin * 60)) {
-				//最低番組長に足りない
-				continue;
-			}
-
-			itrKey->second->addCount++;
-
-			if(this->reserveManager.IsFindReserve(
-				result->original_network_id,
-				result->transport_stream_id,
-				result->service_id,
-				result->event_id
-				) == FALSE ){
-					ULONGLONG eventKey = _Create64Key2(
-						result->original_network_id,
-						result->transport_stream_id,
-						result->service_id,
-						result->event_id
-						);
-
-					itrAdd = addMap.find(eventKey);
-					if( itrAdd == addMap.end() ){
-						//まだ存在しないので追加対象
-						if(result->eventGroupInfo != NULL && this->chkGroupEvent == TRUE){
-							//イベントグループのチェックをする
-							BOOL findGroup = FALSE;
-							for(size_t j=0; j<result->eventGroupInfo->eventDataList.size(); j++ ){
-								EPGDB_EVENT_DATA groupData = result->eventGroupInfo->eventDataList[j];
-								if(this->reserveManager.IsFindReserve(
-									groupData.original_network_id,
-									groupData.transport_stream_id,
-									groupData.service_id,
-									groupData.event_id
-									) == TRUE ){
-										findGroup = TRUE;
-										break;
-								}
-					
-								ULONGLONG eventKey = _Create64Key2(
-									groupData.original_network_id,
-									groupData.transport_stream_id,
-									groupData.service_id,
-									groupData.event_id
-									);
-
-								itrAdd = addMap.find(eventKey);
-								if( itrAdd != addMap.end() ){
-									findGroup = TRUE;
-									break;
-								}
-							}
-							if( findGroup == TRUE ){
-								continue;
-							}
-						}
-						//まだ存在しないので追加対象
-						RESERVE_DATA* addItem = new RESERVE_DATA;
-						if( result->shortInfo != NULL ){
-							addItem->title = result->shortInfo->event_name;
-						}
-						addItem->startTime = result->start_time;
-						addItem->startTimeEpg = result->start_time;
-						addItem->durationSecond = result->durationSec;
-						this->epgDB.SearchServiceName(
-							result->original_network_id,
-							result->transport_stream_id,
-							result->service_id,
-							addItem->stationName
-							);
-						addItem->originalNetworkID = result->original_network_id;
-						addItem->transportStreamID = result->transport_stream_id;
-						addItem->serviceID = result->service_id;
-						addItem->eventID = result->event_id;
-
-						addItem->recSetting = itrKey->second->recSetting;
-						if( itrKey->second->searchInfo.chkRecEnd == 1 ){
-							if( this->reserveManager.IsFindRecEventInfo(result, itrKey->second->searchInfo.chkRecDay) == TRUE ){
-								addItem->recSetting.recMode = RECMODE_NO;
-							}
-						}
-						if( resultList[i].findKey.size() > 0 ){
-							Format(addItem->comment, L"キーワード予約(%s)", resultList[i].findKey.c_str());
-						}else{
-							addItem->comment = L"キーワード予約";
-						}
-
-						addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
-
-						//	追加したので更新
-						SetLocalTime(&itrKey->second->addDatetime);
-						this->epgAutoAdd.ChgData(itrKey->second);
-					}
-					else{
-						//無効ならそれを優先
-						if( itrKey->second->recSetting.recMode == RECMODE_NO ){
-							itrAdd->second->recSetting.recMode = RECMODE_NO;
-						}
-					}
-			}else if( itrKey->second->searchInfo.chkRecEnd == 1 ){
-				if( this->reserveManager.IsFindRecEventInfo(result, itrKey->second->searchInfo.chkRecDay) == TRUE ){
-					this->reserveManager.ChgAutoAddNoRec(result);
-					chgRecEnd = TRUE;
-				}
-			}
-		}
+	for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
+		vList.push_back(*(itrKey->second));
 	}
-	vector<RESERVE_DATA> setList;
-	for( itrAdd = addMap.begin(); itrAdd != addMap.end(); itrAdd++ ){
-		setList.push_back(*(itrAdd->second));
-		SAFE_DELETE(itrAdd->second);
-	}
-	addMap.clear();
-	if( setList.size() > 0 ){
-		this->reserveManager.AddReserveData(&setList, TRUE);
-		setList.clear();
 
-		CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
-		DisableDate -= CTimeSpan(60, 0, 0, 0);			//	60日前にする
+	return AutoAddReserveEPG(&vList);
 
-		for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
-			if (CTime(itrKey->second->addDatetime) < DisableDate){
-				itrKey->second->DisableSw = 1;
-			}
-		}
-
-		wstring savePath = L"";
-		GetSettingPath(savePath);
-		savePath += L"\\";
-		savePath += EPG_AUTO_ADD_TEXT_NAME;
-
-		this->epgAutoAdd.SaveText(savePath.c_str());
-		
-	}else if(chgRecEnd == TRUE){
-		this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_RESERVE_INFO);
-	}
-	this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_AUTOADD_EPG);
-
-
-	return ret;
 }
 
 BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
@@ -1030,7 +870,7 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 							addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
 
 							//	追加したので更新
-							SetLocalTime(&itrKey->second->addDatetime);
+							GetLocalTime(&itrKey->second->addDatetime);
 							this->epgAutoAdd.ChgData(itrKey->second);
 
 						}else{
