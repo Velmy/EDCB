@@ -386,6 +386,19 @@ namespace EpgTimer
             }
         }
 
+        public String addReserveDatetime
+        {
+            get
+            {
+                String view = "";
+                if (EpgAutoAddInfo != null)
+                {
+                    view = EpgAutoAddInfo.addReserveDatetime.ToString("yyyy/MM/dd(ddd) HH:mm");
+                }
+                return view;
+            }
+        }
+
         public TextBlock ToolTipView
         {
             get

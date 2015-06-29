@@ -22,6 +22,7 @@
             <MenuItem Header="ネットワーク" Name="NetworkKey" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="サービス名" Name="ServiceKey" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="無効" Name="Disabled" IsCheckable="True" Click="headerSelect_Click" />
+            <MenuItem Header="登録日時" Name="addReserveDatetime" IsCheckable="True" Click="headerSelect_Click" />
         </ContextMenu>
         <ContextMenu x:Key="itemMenu" x:Name="cmdMenu" >
             <MenuItem Header="削除 (_D)" Click="button_del_Click" InputGestureText="Delete" />
@@ -122,6 +123,12 @@
                                 <GridViewColumnHeader Content="無効" Tag="Disabled" HorizontalContentAlignment="Left" ToolTip="Ctrl + クリック（マルチ・ソート）"/>
                             </GridViewColumn.Header>
                         </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=addReserveDatetime}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="登録日時" Tag="addReserveDatetime" HorizontalContentAlignment="Left" ToolTip="Ctrl + クリック（マルチ・ソート）"/>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -908,6 +908,7 @@ void CtrlCmdUtil::CopyData(Def::EpgAutoAddData^ src, EPG_AUTO_ADD_DATA* dest)
 	CopyData(src->recSetting, &dest->recSetting);
 	dest->addCount = src->addCount;
 	dest->DisableSw = src->DisableSw;
+	CopyData(src->addReserveDatetime, &dest->addDatetime);
 }
 
 void CtrlCmdUtil::CopyData(EPG_AUTO_ADD_DATA* src, Def::EpgAutoAddData^% dest)
@@ -917,6 +918,7 @@ void CtrlCmdUtil::CopyData(EPG_AUTO_ADD_DATA* src, Def::EpgAutoAddData^% dest)
 	CopyData(&src->recSetting, dest->recSetting);
 	dest->addCount = src->addCount;
 	dest->DisableSw = src->DisableSw;
+	dest->addReserveDatetime = ConvertTime( &src->addDatetime );
 }
 
 void CtrlCmdUtil::CopyData(Def::ManualAutoAddData^ src, MANUAL_AUTO_ADD_DATA* dest)

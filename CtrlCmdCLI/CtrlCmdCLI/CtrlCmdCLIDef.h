@@ -926,6 +926,10 @@ namespace Def {
 		/// –³Œøƒtƒ‰ƒO(0:—LŒø 1:–³Œø
 		/// </summary>
 		property WORD DisableSw;
+		/// <summary>
+		/// —\–ñ“o˜^“úŽž
+		/// </summary>
+		property DateTime addReserveDatetime;
 	public:
 		EpgAutoAddData(void){
 			dataID = 0;
@@ -933,6 +937,7 @@ namespace Def {
 			recSetting = gcnew RecSettingData();
 			addCount = 0;
 			DisableSw = 0;
+			addReserveDatetime = DateTime::Now;
 		};
 	};
 
@@ -985,6 +990,10 @@ namespace Def {
 		/// –³Œøƒtƒ‰ƒO(0:—LŒø 1:–³Œø
 		/// </summary>
 		property WORD DisableSw;
+		/// <summary>
+		/// —\–ñ“o˜^“úŽž
+		/// </summary>
+		property DateTime addReserveDatetime;
 	public:
 		ManualAutoAddData(void){
 			dataID = 0;
@@ -997,6 +1006,7 @@ namespace Def {
 			transportStreamID = 0;
 			serviceID = 0;
 			DisableSw = 0;
+			addReserveDatetime = DateTime::Now;
 
 			recSetting = gcnew RecSettingData();
 		};
