@@ -5,7 +5,9 @@ EpgDataCap_Bon
 Documents are stored in the 'Document' directory.  
 Configuration files are stored in the 'ini' directory.
 
-**����Fork�ɂ���**
+**このForkについて**
 
-�����Ŏg�����߂Ɏ��R�ɉ������Ă��܂��B
-�v�����N�G�X�g�͂��Ȃ��̂ŁA�K�v�Ȃ�܂ݐH�����Ă��������B
+自分で使うために自由に改造しています。
+プルリクエストはしないので、必要ならつまみ食いしてください。
+
+ただいま、とある機能をテスト中・・・
