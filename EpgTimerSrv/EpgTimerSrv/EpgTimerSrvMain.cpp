@@ -870,7 +870,6 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 							addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
 
 							//	追加したので更新
-							GetLocalTime(&itrKey->second->addDatetime);
 							this->epgAutoAdd.ChgData(itrKey->second);
 
 						}else{
@@ -898,28 +897,40 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 		this->reserveManager.AddReserveData(&setList, TRUE);
 		setList.clear();
 
-		CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
-		DisableDate -= CTimeSpan(60, 0, 0, 0);			//	60日前にする
+		if (this->Lock() == TRUE){
 
-		map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
-		for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
-			if (CTime(itrKey->second->addDatetime) < DisableDate){
-				itrKey->second->DisableSw = 1;
+			// iniから設定を取得
+			wstring iniAppPath = L"";
+			GetModuleIniPath(iniAppPath);
+			int EPGAutoReserveDays = GetPrivateProfileInt(L"SET", L"EPGAutoReserveDays", 0, iniAppPath.c_str());
+
+			if (EPGAutoReserveDays > 0){
+				CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
+				DisableDate -= CTimeSpan(EPGAutoReserveDays, 0, 0, 0);			//	指定日数前にする
+
+				map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
+				for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
+					if (CTime(itrKey->second->addDatetime) < DisableDate){
+						itrKey->second->DisableSw = 1;
+						this->epgAutoAdd.ChgData(itrKey->second);
+					}
+				}
 			}
+
+			wstring savePath = L"";
+			GetSettingPath(savePath);
+			savePath += L"\\";
+			savePath += EPG_AUTO_ADD_TEXT_NAME;
+
+			this->epgAutoAdd.SaveText(savePath.c_str());
+			this->UnLock();
 		}
-
-		wstring savePath = L"";
-		GetSettingPath(savePath);
-		savePath += L"\\";
-		savePath += EPG_AUTO_ADD_TEXT_NAME;
-
-		this->epgAutoAdd.SaveText(savePath.c_str());
 	}
 	else if (chgRecEnd == TRUE){
 		this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_RESERVE_INFO);
 	}
-	this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_AUTOADD_EPG);
 
+	this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_AUTOADD_EPG);
 
 	return ret;
 }
