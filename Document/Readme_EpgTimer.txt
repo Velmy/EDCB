@@ -1758,3 +1758,18 @@ EpgTimerを起動すると、[設定]->[動作設定]->[録画動作]->[抑止条件]に、
 ここを0にした場合は常に使用中であるとみなします(スリープしなくなります） 
 【注意事項】
 ・Vista以降のOSでEDCBをサービスとして動作させている場合うまく機能しないようです(たぶんセッション0分離の影響)
+
+
+■キーワード予約の自動無効機能を使用するには■
+　EPGTimerSrv.iniの[SET]にEPGAutoReserveDaysを追加することで機能します。
+　EPGAutoReserveDays: 0:機能を無効、数値:日数（デフォルト 0）
+　登録日時は以下の条件で更新されます。
+　・新しくキーワード予約を登録した。
+　・キーワード予約で新しく番組予約が登録された。
+　・キーワード予約が無効から有効になった。
+
+
+■EPGTimer/NW にキーワード予約の無効/登録日時を表示するには■
+　EpgTimer.exe.xml/EpgTimerNW.exe.xmlのAutoAddEpgColumnにDisabled/addReserveDatetimeを追加する。
+
+
