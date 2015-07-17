@@ -9,5 +9,3 @@ Configuration files are stored in the 'ini' directory.
 
 自分で使うために自由に改造しています。
 プルリクエストはしないので、必要ならつまみ食いしてください。
-
-ただいま、とある機能をテスト中・・・
