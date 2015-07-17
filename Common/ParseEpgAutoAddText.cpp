@@ -737,8 +737,11 @@ BOOL CParseEpgAutoAddText::ChgData(EPG_AUTO_ADD_DATA* item)
 	if( itr == this->dataIDMap.end() ){
 		return FALSE;
 	}
+	if (((*(itr->second)).DisableSw == 1) && ((*item).DisableSw == 0)){
+		// 無効 → 有効の場合のみ変更時の日時にリセットする
+		GetLocalTime(&(*item).addDatetime);
+	}
 	*(itr->second) = *item;
-	GetLocalTime(&item->addDatetime);
 
 	return TRUE;
 }

@@ -113,6 +113,11 @@ protected:
 	BOOL AutoAddReserveEPG(EPG_AUTO_ADD_DATA* item);
 	BOOL AutoAddReserveProgram();
 
+#ifdef _DEBUG
+	void narrow(const std::wstring &src, std::string &dest);
+	void LogText(wstring msg);
+#endif
+
 	void StartSleep(BYTE rebootFlag, BYTE suspendMode);
 	void StartReboot();
 	static UINT WINAPI SleepThread(void* param);

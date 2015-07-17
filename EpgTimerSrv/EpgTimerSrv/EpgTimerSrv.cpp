@@ -40,6 +40,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		}
 	}
 
+#ifdef _DEBUG
+	// ロケールの指定
+	setlocale(LC_CTYPE, "");
+#endif
 
 	if( IsInstallService(SERVICE_NAME) == FALSE ){
 		//普通にexeとして起動を行う

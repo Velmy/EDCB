@@ -870,6 +870,7 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 							addMap.insert(pair<ULONGLONG, RESERVE_DATA*>(eventKey, addItem));
 
 							//	追加したので更新
+							GetLocalTime(&itrKey->second->addDatetime);
 							this->epgAutoAdd.ChgData(itrKey->second);
 
 						}else{
@@ -878,6 +879,7 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 								itrAdd->second->recSetting.recMode = RECMODE_NO;
 							}
 						}
+
 				}else if( itrKey->second->searchInfo.chkRecEnd == 1 ){
 					if( this->reserveManager.IsFindRecEventInfo(result, itrKey->second->searchInfo.chkRecDay) == TRUE ){
 						this->reserveManager.ChgAutoAddNoRec(result);
@@ -896,44 +898,95 @@ BOOL CEpgTimerSrvMain::AutoAddReserveEPG(vector<EPG_AUTO_ADD_DATA>* val)
 	if( setList.size() > 0 ){
 		this->reserveManager.AddReserveData(&setList, TRUE);
 		setList.clear();
-
-		if (this->Lock() == TRUE){
-
-			// iniから設定を取得
-			wstring iniAppPath = L"";
-			GetModuleIniPath(iniAppPath);
-			int EPGAutoReserveDays = GetPrivateProfileInt(L"SET", L"EPGAutoReserveDays", 0, iniAppPath.c_str());
-
-			if (EPGAutoReserveDays > 0){
-				CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
-				DisableDate -= CTimeSpan(EPGAutoReserveDays, 0, 0, 0);			//	指定日数前にする
-
-				map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
-				for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
-					if (CTime(itrKey->second->addDatetime) < DisableDate){
-						itrKey->second->DisableSw = 1;
-						this->epgAutoAdd.ChgData(itrKey->second);
-					}
-				}
-			}
-
-			wstring savePath = L"";
-			GetSettingPath(savePath);
-			savePath += L"\\";
-			savePath += EPG_AUTO_ADD_TEXT_NAME;
-
-			this->epgAutoAdd.SaveText(savePath.c_str());
-			this->UnLock();
-		}
 	}
 	else if (chgRecEnd == TRUE){
 		this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_RESERVE_INFO);
 	}
 
+	int EPGAutoReserveDays;
+
+	// iniから設定を取得
+	wstring iniAppPath = L"";
+	GetModuleIniPath(iniAppPath);
+	//int EPGAutoReserveDays = GetPrivateProfileInt(L"SET", L"EPGAutoReserveDays", 0, iniAppPath.c_str());
+	EPGAutoReserveDays = GetPrivateProfileInt(L"SET", L"EPGAutoReserveDays", 0, iniAppPath.c_str());
+
+	if (EPGAutoReserveDays > 0){
+
+		CTime	DisableDate = CTime::GetCurrentTime();	//	現在日付を取得
+		DisableDate -= CTimeSpan(EPGAutoReserveDays, 0, 0, 0);			//	指定日数前にする
+
+#ifdef _DEBUG
+		wstring strBuff;
+		Format(strBuff, L"設定は%d日", EPGAutoReserveDays);
+		LogText(strBuff);
+
+		Format(strBuff, L"期限は%s日", DisableDate.Format(_T("%Y/%m/%d")));
+		LogText(strBuff);
+#endif
+
+		map<DWORD, EPG_AUTO_ADD_DATA*>::iterator itrKey;
+		for (itrKey = this->epgAutoAdd.dataIDMap.begin(); itrKey != this->epgAutoAdd.dataIDMap.end(); itrKey++){
+			if (CTime(itrKey->second->addDatetime) < DisableDate){
+				if (itrKey->second->DisableSw == 0){
+#ifdef _DEBUG
+					LogText(itrKey->second->searchInfo.andKey);
+					Format(strBuff, L"最終更新日は%s日", CTime(itrKey->second->addDatetime).Format(_T("%Y/%m/%d")));
+					LogText(strBuff);
+#endif
+					itrKey->second->DisableSw = 1;
+					this->epgAutoAdd.ChgData(itrKey->second);
+				}
+			}
+		}
+	}
+
+	wstring savePath = L"";
+	GetSettingPath(savePath);
+	savePath += L"\\";
+	savePath += EPG_AUTO_ADD_TEXT_NAME;
+
+	this->epgAutoAdd.SaveText(savePath.c_str());
+
 	this->reserveManager.SendNotifyUpdate(NOTIFY_UPDATE_AUTOADD_EPG);
 
 	return ret;
 }
+
+#ifdef _DEBUG
+void CEpgTimerSrvMain::narrow(const std::wstring &src, std::string &dest)
+{
+	char *mbs = new char[src.length() * MB_CUR_MAX + 1];
+	wcstombs(mbs, src.c_str(), src.length() * MB_CUR_MAX + 1);
+	dest = mbs;
+	delete[] mbs;
+}
+
+void CEpgTimerSrvMain::LogText(wstring msg)
+{
+	CTime	Now = CTime::GetCurrentTime();	//	現在日付を取得
+	wstring savePath = L"";
+
+	GetSettingPath(savePath);
+	savePath += L"\\..\\Log\\";
+	savePath += wstring(Now.Format(L"%Y%m%d"));
+	savePath += L"_log.txt";
+
+	HANDLE hFile = _CreateFile2(savePath.c_str(), GENERIC_WRITE, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	DWORD dwWrite;
+
+	// ファイルの末尾に移動.
+	DWORD   filepointer = SetFilePointer(hFile, 0, NULL, FILE_END);
+
+	wstring wstrWrite = wstring(Now.Format(_T("%H:%M:%S"))) + _T(" > ") + msg + _T("\n");
+	string strWrite = "";
+	narrow(wstrWrite, strWrite);
+
+	WriteFile(hFile, strWrite.c_str(), (DWORD)strWrite.length(), &dwWrite, NULL);
+
+	CloseHandle(hFile);
+}
+#endif
 
 BOOL CEpgTimerSrvMain::AutoAddReserveEPG(EPG_AUTO_ADD_DATA* item)
 {
