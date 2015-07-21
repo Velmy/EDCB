@@ -1773,3 +1773,6 @@ EpgTimerを起動すると、[設定]->[動作設定]->[録画動作]->[抑止条件]に、
 　EpgTimer.exe.xml/EpgTimerNW.exe.xmlのAutoAddEpgColumnにDisabled/addReserveDatetimeを追加する。
 
 
+■予約一覧の無効トグルを表示するには■
+　EpgTimer.exe.xml/EpgTimerNW.exe.xmlのReserveListColumnにIsDisabledを追加する。
+
