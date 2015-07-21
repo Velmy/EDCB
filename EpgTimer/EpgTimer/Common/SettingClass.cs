@@ -1304,6 +1304,7 @@ namespace EpgTimer
                     Instance.reserveListColumn.Add(new ListColumnInfo("NetworkName", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("ServiceName", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("EventName", double.NaN));
+                    Instance.reserveListColumn.Add(new ListColumnInfo("IsDisable", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("RecMode", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("Priority", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("Tuijyu", double.NaN));
@@ -1455,6 +1456,7 @@ namespace EpgTimer
                     Instance.reserveListColumn.Add(new ListColumnInfo("NetworkName", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("ServiceName", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("EventName", double.NaN));
+                    Instance.reserveListColumn.Add(new ListColumnInfo("IsDisable", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("RecMode", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("Priority", double.NaN));
                     Instance.reserveListColumn.Add(new ListColumnInfo("Tuijyu", double.NaN));

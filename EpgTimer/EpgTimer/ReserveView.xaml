@@ -9,11 +9,37 @@
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="InputMethod.PreferredImeState" Value="Off" />
         </Style>
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <BulletDecorator>
+                            <BulletDecorator.Bullet>
+                                <!--オフ状態のイメージ-->
+                                <Image Name="TickImage" Source="/Resources/no_checked.png" Grid.Column="0" Stretch="None" />
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter VerticalAlignment="Center" Grid.Column="1"/>
+                        </BulletDecorator>
+                        <ControlTemplate.Triggers>
+                            <!--オン状態のイメージ-->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="TickImage" Property="Source" Value="/Resources/checked.png" />
+                            </Trigger>
+                            <!--未確定状態のイメージ-->
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter TargetName="TickImage" Property="Source" Value="/Resources/checked.png" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <ContextMenu x:Key="itemHeader" x:Name="HeaderSelect" x:Shared="True" >
             <MenuItem Header="日時" Name="StartTime" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="ネットワーク" Name="NetworkName" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="サービス名" Name="ServiceName" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="番組名" Name="EventName" IsCheckable="True" Click="headerSelect_Click" />
+            <MenuItem Header="無効" Name="DisableToggle" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="録画モード" Name="RecMode" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="優先度" Name="Priority" IsCheckable="True" Click="headerSelect_Click" />
             <MenuItem Header="追従" Name="Tuijyu" IsCheckable="True" Click="headerSelect_Click" />
@@ -71,6 +97,16 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView x:Name="gridView_reserve">
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="無効" Tag="IsDisable" HorizontalContentAlignment="Left" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsDisable}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=StartTime}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Content="日時" Tag="StartTime" HorizontalContentAlignment="Left" />

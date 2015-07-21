@@ -98,6 +98,39 @@ namespace EpgTimer
                 return view;
             }
         }
+        public bool IsDisable
+        {
+            set
+            {
+                if (ReserveInfo != null)
+                {
+                    if (value)
+                    {
+                        ReserveInfo.RecSetting.RecMode = 5;
+                    }
+                    else
+                    {
+                        ReserveInfo.RecSetting.RecMode = 1;
+                    }
+                    List<ReserveData> list = new List<ReserveData>();
+                    list.Add(ReserveInfo);
+                    CtrlCmdUtil cmd = CommonManager.Instance.CtrlCmd;
+                    cmd.SendChgReserve(list);
+                }
+            }
+            get
+            {
+                bool chk = false;
+                if (ReserveInfo != null)
+                {
+                    if (ReserveInfo.RecSetting.RecMode == 5)
+                    {
+                        chk = true;
+                    }
+                }
+                return chk;
+            }
+        }
         public String RecMode
         {
             get
